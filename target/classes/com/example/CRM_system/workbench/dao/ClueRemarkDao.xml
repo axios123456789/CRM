@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.CRM_system.workbench.dao.ClueRemarkDao">
+<!--    添加备注信息-->
+    <insert id="addClueRemarkById">
+        insert into c_clue_remark(
+                 id,
+                 noteContent,
+                 createBy,
+                 createTime,
+                 editFlag,
+                 clueId
+        )
+        values (#{id},
+                #{noteContent},
+                #{createBy},
+                #{createTime},
+                #{editFlag},
+                #{clueId})
+    </insert>
+
+    <!--    通过id修改备注信息-->
+    <update id="editClueRemarkById">
+        update c_clue_remark
+
+        set
+
+        noteContent = #{noteContent},
+        editBy = #{editBy},
+        editTime = #{editTime},
+        editFlag = #{editFlag}
+
+        where id = #{id}
+    </update>
+
+    <!--    批量删除线索-->
+    <delete id="deleteClueRemarkByClueIds">
+        delete from c_clue_remark
+
+        where clueId in
+
+        <foreach collection="array" item="clueId" open="(" close=")" separator=",">
+            #{clueId}
+        </foreach>
+    </delete>
+
+<!--    根据id删除对应的线索备注信息记录-->
+    <delete id="deleteClueRemarkById">
+        delete from c_clue_remark
+
+        where id = #{id}
+    </delete>
+
+    <!--    获取线索备注的数量-->
+    <select id="getClueRemarkCountByClueIds" resultType="java.lang.Integer">
+        select count(*) from c_clue_remark
+
+        where clueId in
+
+        <foreach collection="array" item="clueId" open="(" close=")" separator=",">
+            #{clueId}
+        </foreach>
+    </select>
+
+<!--    根据线索id查询所有线索备注的记录-->
+    <select id="getClueRemarkByClueId" resultType="com.example.CRM_system.workbench.pojo.ClueRemark">
+        select * from c_clue_remark
+
+        where clueId = #{id}
+
+        order by createTime desc
+    </select>
+
+<!-- 根据id查询备注数   -->
+    <select id="getClueRemarkCountById" resultType="java.lang.Integer">
+        select count(*) from c_clue_remark
+
+        where id = #{id}
+    </select>
+
+<!--    根据id查备注信息-->
+    <select id="getClueRemarkById" resultType="com.example.CRM_system.workbench.pojo.ClueRemark">
+        select * from c_clue_remark
+
+        where id = #{id}
+    </select>
+</mapper>

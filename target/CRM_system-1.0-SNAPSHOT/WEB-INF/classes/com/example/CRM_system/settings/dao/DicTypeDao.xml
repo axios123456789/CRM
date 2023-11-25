@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.CRM_system.settings.dao.DicTypeDao">
+    <insert id="addType">
+        insert into c_dic_type(
+            code,
+            name,
+            description
+        )
+        values (
+            #{code},
+            #{name},
+            #{description}
+        )
+    </insert>
+
+    <update id="UpDataType">
+        update c_dic_type
+
+        set
+
+        name = #{name},
+        description = #{description}
+
+        where code = #{code}
+    </update>
+
+    <delete id="deleteTypeByIds">
+        delete from c_dic_type
+
+        where code in
+
+        <foreach collection="array" item="code" open="(" close=")" separator=",">
+            #{code}
+        </foreach>
+    </delete>
+
+    <select id="getTypeList" resultType="com.example.CRM_system.settings.pojo.DicType">
+        select * from c_dic_type
+    </select>
+
+    <select id="getTypeCountByCode" resultType="java.lang.Integer">
+        select count(*) from c_dic_type
+
+        where code = #{code}
+    </select>
+
+    <select id="getTypeByCode" resultType="com.example.CRM_system.settings.pojo.DicType">
+        select * from c_dic_type
+
+        where code = #{code}
+    </select>
+</mapper>

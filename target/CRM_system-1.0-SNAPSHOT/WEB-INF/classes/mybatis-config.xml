@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--1. 标准日志（可更换其它日志）-->
+    <settings>
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
+    </settings>
+    <!--2. 设置别名：扫描包的方式-->
+    <typeAliases>
+        <!--实体类的包名称-->
+        <package name="com.example.CRM_system.settings.pojo"/>
+        <package name="com.example.CRM_system.workbench.pojo"/>
+    </typeAliases>
+    <!--3. 注册 Mapper.xml-->
+    <mappers>
+        <!--1. 接口类方式（对应dao层的接口类）-->
+
+        <!--2. 资源文件方式-->
+        <!--<mapper resource="com/study/dao/BookMapper.xml"/>-->
+        <!--3. 扫描包方式-->
+        <package name="com.example.CRM_system.settings.dao"/>
+        <package name="com.example.CRM_system.workbench.dao"/>
+    </mappers>
+</configuration>
+
+     <!--<?xml version="1.0" encoding="utf-8"?>
+
+     <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+
+             "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+     <configuration>&lt;!&ndash; 配置 &ndash;&gt;
+
+         <properties resource="db.properties" />
+
+         <environments default="development">&lt;!&ndash; 配置环境 &ndash;&gt;
+
+             <environment id="development">&lt;!&ndash; 环境变量 &ndash;&gt;
+
+                 <transactionManager type="JDBC"/>&lt;!&ndash; 事务管理器 &ndash;&gt;
+
+                 <dataSource type="POOLED">&lt;!&ndash; 数据源 &ndash;&gt;
+
+                     <property name="driver" value="${mysql.driver}"/>
+
+                     <property name="url" value="${mysql.url}"/>
+
+                     <property name="username" value="${mysql.username}"/>
+
+                     <property name="password" value="${mysql.password}"/>
+
+                 </dataSource>
+
+             </environment>
+
+         </environments>
+
+         <mappers >&lt;!&ndash; 映射器 &ndash;&gt;
+
+     &lt;!&ndash;        <mapper resource="com.example.mapper.UserMapper" />&ndash;&gt;
+             <package name=""/>
+
+         </mappers>
+
+     </configuration>-->
+

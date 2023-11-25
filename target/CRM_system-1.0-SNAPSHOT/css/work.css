@@ -1,0 +1,97 @@
+html,body{
+	margin: 0;
+	padding: 0;
+	min-width: 1000px;
+}
+header{
+	float: left;
+	/* border: 1px solid red; */
+	width: 100%;
+	height: 60px;
+	/* background-color: #333333; */
+	background-color: #CCCCCC;
+}
+h1{
+	width: 100px;
+	/* height: 60px; */
+	float: left;
+	color: seagreen;
+	/* text-align:left; */
+	line-height:20px;
+}
+nav{
+	/* border: 1px solid red; */
+	min-width: 100%;
+	min-height: 800px;
+	float: left;
+}
+#menu{
+	float:left;
+	width: 200px;
+	/* min-height:600px; */
+	/* background-color: #00EE00; */
+}
+#menu>ul{
+	margin: 0;
+	padding: 0;
+	/* background-color: #AAAAAA; */
+}
+#menu>ul>li{
+	width: 190px;
+	height:40px;
+	float: left;
+	list-style-type: none;
+	padding-left: 10px;
+	/* background-color: #AAAAAA; */
+}
+
+#statistics>span{
+	width: 190px;
+	height:40px;
+	float: left;
+	line-height: 40px;
+	padding-left: 10px;
+}
+
+#statistics>div{
+	width: 182px;
+	height:40px;
+	float: left;
+	line-height: 40px;
+	padding-left: 18px;
+}
+
+#statistics>div>a{
+	color: black;
+	text-decoration: none;
+	line-height: 40px;
+}
+#statistics>div>a:hover{
+	text-shadow: 1px 1px 1px;
+}
+
+#menu>ul>li>a {
+	color: black;
+	text-decoration: none;
+	line-height: 40px;
+}
+
+#menu>ul>li>a:hover{
+	text-shadow: 1px 1px 1px;
+}
+
+#workplace{
+	float:left;
+	min-width: 1299px;
+	/* min-height:585px; */
+	padding: 5px;
+	margin:5px;
+	/*background-color: #698CBA;*/
+}
+footer{
+	float: left;
+	margin-top: 2px;
+	width: 100%;
+	height: 50px;
+	background-color: red;
+}

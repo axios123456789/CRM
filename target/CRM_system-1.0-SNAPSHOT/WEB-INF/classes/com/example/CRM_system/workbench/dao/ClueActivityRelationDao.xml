@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.CRM_system.workbench.dao.ClueActivityRelationDao">
+
+    <insert id="addClueAndActivityRelation">
+        insert into c_clue_activity_relation(
+            id,
+            clueId,
+            activityId
+        )
+        values
+        <!--<foreach collection="list" item="clueActivityRelation" open="(" close=")" separator=",">
+            #{clueActivityRelation.id},#{clueActivityRelation.clueId},#{clueActivityRelation.activityId}
+        </foreach>-->
+        <foreach collection="list" item="item" separator=",">
+            (#{item.id},#{item.clueId},#{item.activityId})
+        </foreach>
+    </insert>
+
+<!--    根据市场活动id和线索id从线索和市场活动关联关系表中删除记录-->
+    <delete id="deleteClueAndActivityRelationByClueIdAndActivityId">
+        delete from c_clue_activity_relation
+
+        where clueId = #{param1} and activityId = #{param2}
+    </delete>
+
+<!--    根据市场活动id删除记录-->
+    <delete id="deleteClueAndActivityRelationByActivityIds">
+        delete from c_clue_activity_relation
+
+        where activityId in
+
+        <foreach collection="array" item="activityId" open="(" close=")" separator=",">
+            #{activityId}
+        </foreach>
+    </delete>
+
+<!--    根据线索id删除相关记录-->
+    <delete id="deleteClueAndActivityRelationByClueId">
+        delete from c_clue_activity_relation
+
+        where clueId in
+
+        <foreach collection="array" item="clueId" open="(" close=")" separator=",">
+            #{clueId}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.CRM_system.settings.dao.DicValueDao">
+    <insert id="addValue">
+        insert into c_dic_value(
+            id,
+            `value`,
+            text,
+            orderNo,
+            typeCode
+
+        )
+        values (
+            #{id},
+            #{value},
+            #{text},
+            #{orderNo},
+            #{typeCode}
+        )
+    </insert>
+
+    <update id="upDataValue">
+        update c_dic_value
+
+        set
+
+        `value` = #{value},
+        text = #{text},
+        orderNo = #{orderNo},
+        typeCode = #{typeCode}
+
+        where id = #{id}
+    </update>
+
+    <delete id="deleteValueByIds">
+        delete from c_dic_value
+
+        where id in
+
+        <foreach collection="array" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="getListByCode" resultType="com.example.CRM_system.settings.pojo.DicValue">
+        select * from c_dic_value
+
+        where typeCode = #{code}
+
+        order by orderNo asc
+    </select>
+
+    <select id="getValueByCondition" resultType="com.example.CRM_system.settings.pojo.DicValue">
+        select * from c_dic_value
+
+        <where>
+            <if test="code != null and code != ''">
+                and typeCode = #{code}
+            </if>
+        </where>
+
+        order by orderNo asc
+    </select>
+
+    <select id="getValueById" resultType="com.example.CRM_system.settings.pojo.DicValue">
+        select * from c_dic_value
+
+        where id = #{id}
+    </select>
+</mapper>

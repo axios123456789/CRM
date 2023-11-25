@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.CRM_system.workbench.dao.ClueDao">
+
+    <select id="getClueList" resultType="com.example.CRM_system.workbench.pojo.Clue">
+        select
+        cl.id,
+        cl.name,
+        u.name as owner,
+        cl.salutation,
+        cl.company,
+        cl.position,
+        cl.email,
+        cl.companyExtension,
+        cl.companyWebsite,
+        cl.phone,
+        cl.clueStatus,
+        cl.clueSource,
+        cl.description,
+        cl.contactMinute,
+        cl.nextContactTime,
+        cl.detailAddress
+
+
+        from c_clue cl
+        join c_user u
+        on cl.owner = u.id
+
+        <where>
+            <if test="name != null and name != ''">
+                and cl.name like concat('%', #{name}, '%')
+            </if>
+
+            <if test="owner != null and owner != ''">
+                and u.name like concat('%', #{owner} ,'%')
+            </if>
+
+            <if test="company != null and company != ''">
+                and cl.company like concat('%', #{company} ,'%')
+            </if>
+
+            <if test="companyExtension != null and companyExtension != ''">
+                and cl.companyExtension like concat('%', #{companyExtension} ,'%')
+            </if>
+
+            <if test="phone != null and phone != ''">
+                and cl.phone like concat('%', #{phone} ,'%')
+            </if>
+
+            <if test="clueSource != null and clueSource != ''">
+                and cl.clueSource like concat('%', #{clueSource} ,'%')
+            </if>
+
+            <if test="clueStatus != null and clueStatus != ''">
+                and cl.clueStatus like concat('%', #{clueStatus} ,'%')
+            </if>
+
+            <if test="position != null and position != ''">
+                and cl.position like concat('%', #{position} ,'%')
+            </if>
+
+            <if test="email != null and email != ''">
+                and cl.email like concat('%', #{email} ,'%')
+            </if>
+
+            <if test="companyWebsite != null and companyWebsite != ''">
+                and cl.companyWebsite like concat('%', #{companyWebsite} ,'%')
+            </if>
+        </where>
+    </select>
+</mapper>

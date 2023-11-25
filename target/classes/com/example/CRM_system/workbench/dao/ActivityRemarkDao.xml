@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.CRM_system.workbench.dao.ActivityRemarkDao">
+    <!--  添加市场活动备注  -->
+    <insert id="addRemark">
+        insert into c_activity_remark(
+            id,
+            noteContent,
+            createTime,
+            createBy,
+            editFlag,
+            activityId
+            )
+
+        values (
+            #{id},
+            #{noteContent},
+            #{createTime},
+            #{createBy},
+            #{editFlag},
+            #{activityId}
+        )
+    </insert>
+
+    <!-- 修改市场活动备注表   -->
+    <update id="updateRemark">
+        update c_activity_remark
+
+        set
+         noteContent = #{noteContent},
+         editTime = #{editTime},
+         editBy = #{editBy},
+         editFlag = #{editFlag}
+
+        where id = #{id}
+    </update>
+    <!--  根基外键id（aid）删除市场活动详情列表的数据 返回被删除的记录数 -->
+    <delete id="deleteCountByAids">
+        delete from c_activity_remark
+
+        where activityId in
+
+        <foreach collection="array" item="aid" open="(" close=")" separator=",">
+            #{aid}
+        </foreach>
+    </delete>
+
+    <!--  根据id删除备注信息  -->
+    <delete id="deleteRemark">
+        delete from c_activity_remark
+
+        where id = #{id}
+    </delete>
+
+    <!--  根基外键id查询市场活动详情列表的数据 返回查到的记录数  -->
+    <select id="getCountByAids" resultType="java.lang.Integer">
+        select count(*) from c_activity_remark
+
+        where activityId in
+
+        <foreach collection="array" item="aid" open="(" close=")" separator=",">
+            #{aid}
+        </foreach>
+    </select>
+
+   <!--  通过外键id查询市场活动备注信息  -->
+    <select id="getRemarkByAid" resultType="com.example.CRM_system.workbench.pojo.ActivityRemark">
+        select * from c_activity_remark
+
+        where activityId = #{id}
+
+        order by createTime desc
+    </select>
+
+    <!--  根据id查询该id的备注信息 返回查询到的记录数 -->
+    <select id="getRemarkById" resultType="java.lang.Integer">
+        select count(*)
+
+        from c_activity_remark
+
+        where id = #{id}
+    </select>
+
+    <!--  根据id查询该id的备注信息  -->
+    <select id="getRemarkObjById" resultType="com.example.CRM_system.workbench.pojo.ActivityRemark">
+        select * from c_activity_remark
+
+        where id = #{id}
+    </select>
+</mapper>

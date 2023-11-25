@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       https://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/aop
+       https://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+       http://www.springframework.org/schema/tx
+       https://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+    <!-- 扫描service相关的bean -->
+    <context:component-scan base-package="com.example.CRM_system.settings.service" />
+    <context:component-scan base-package="com.example.CRM_system.workbench.service"/>
+
+    <!--BookServiceImpl注入到IOC容器中-->
+    <!--<bean id="BookServiceImpl" class="com.service.BookServiceImpl">
+        <property name="bookMapper" ref="bookMapper"/>
+    </bean>-->
+    <!-- 配置事务管理器 -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <!-- 注入数据库连接池 -->
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+
+    <!--配置事务-->
+    <aop:config>
+        <aop:pointcut id="allMethodPointcut" expression="execution(* com.example.CRM_system.*.*service.*.*(..))"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="allMethodPointcut"/>
+    </aop:config>
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="add*" propagation="REQUIRED" rollback-for="Exception"/>
+            <tx:method name="save*" propagation="REQUIRED" rollback-for="Exception"/>
+            <tx:method name="edit*" propagation="REQUIRED" rollback-for="Exception"/>
+            <tx:method name="update*" propagation="REQUIRED" rollback-for="Exception"/>
+            <tx:method name="delete*" propagation="REQUIRED" rollback-for="Exception"/>
+            <tx:method name="do*" propagation="REQUIRED" rollback-for="Exception"/>
+            <tx:method name="*" propagation="REQUIRED" read-only="true"/>
+        </tx:attributes>
+    </tx:advice>
+</beans>

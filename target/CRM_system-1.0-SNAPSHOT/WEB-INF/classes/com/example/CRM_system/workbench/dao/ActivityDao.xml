@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.CRM_system.workbench.dao.ActivityDao">
+    <!-- 添加一条记录到市场活动列表中 -->
+    <insert id="save">
+        insert into c_activity(
+            id,
+            owner,
+            `name`,
+            startDate,
+            endDate,
+            cost,
+            description,
+            createTime,
+            createBy
+        )
+        values(
+            #{id},
+            #{owner},
+            #{name},
+            #{startDate},
+            #{endDate},
+            #{cost},
+            #{description},
+            #{createTime},
+            #{createBy}
+        )
+    </insert>
+
+    <!--  根据id修改市场活动的一条记录  -->
+    <update id="upData">
+        update c_activity
+
+        set
+
+        owner = #{owner},
+        name = #{name},
+        startDate = #{startDate},
+        endDate = #{endDate},
+        cost = #{cost},
+        description = #{description},
+        editTime = #{editTime},
+        editBy = #{editBy}
+
+        where id = #{id}
+    </update>
+
+    <!--  根据id删除一条或多条市场活动列表的数据-->
+    <delete id="deleteActivityByIds">
+        delete from c_activity
+
+        where id in
+
+        <foreach collection="array" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!--  条件查询市场活动列表的记录数  -->
+    <select id="getTotalByCondition" resultType="java.lang.Integer">
+        select count(*)
+
+        from c_activity a
+        join c_user u
+        on a.owner = u.id
+
+        <where>
+            <if test="name != null and name != ''">
+                and a.name like concat('%', #{name}, '%')
+            </if>
+
+            <if test="owner != null and owner != ''">
+                and u.name like concat('%', #{owner} ,'%')
+            </if>
+
+            <if test="startDate != null and startDate != ''">
+                and a.startDate &gt; #{startDate}
+            </if>
+
+            <if test="endDate != null and endDate != ''">
+                and a.endDate &lt; #{endDate}
+            </if>
+        </where>
+    </select>
+
+    <!--  条件查询市场活动列表 返回list集合  -->
+    <select id="getActivityListByCondition" resultType="com.example.CRM_system.workbench.pojo.Activity">
+        select
+        a.id,
+        a.name,
+        u.name as owner,
+        a.startDate,
+        a.endDate
+
+        from c_activity a
+        join c_user u
+        on a.owner = u.id
+
+        <where>
+            <if test="name != null and name != ''">
+                and a.name like concat('%', #{name}, '%')
+            </if>
+
+            <if test="owner != null and owner != ''">
+                and u.name like concat('%', #{owner} ,'%')
+            </if>
+
+            <if test="startDate != null and startDate != ''">
+                and a.startDate &gt; #{startDate}
+            </if>
+
+            <if test="endDate != null and endDate != ''">
+                and a.endDate &lt; #{endDate}
+            </if>
+        </where>
+
+        order by a.createTime desc
+
+        limit #{skipCount}, #{pageSize}
+    </select>
+
+    <!--  根据id查询市场活动的一条记录  -->
+    <select id="getActivityById" resultType="com.example.CRM_system.workbench.pojo.Activity">
+        select * from c_activity
+
+        where id = #{id}
+    </select>
+
+    <!--  根据id查询市场活动的记录数  -->
+    <select id="selectById" resultType="java.lang.Integer">
+        select count(*) from c_activity
+
+        where id = #{id}
+    </select>
+
+    <!--  根据id查询市场活动数据 要求将owner渲染成名字 所以不能复用activityDao.getActivityById(String id)  -->
+    <select id="detail" resultType="com.example.CRM_system.workbench.pojo.Activity">
+        select
+
+        a.id,
+        u.name as owner,
+        a.name,
+        a.startDate,
+        a.endDate,
+        a.cost,
+        a.description,
+        a.createTime,
+        a.createBy,
+        a.editTime,
+        a.editBy
+
+        from c_activity a
+        join c_user u
+        on a.owner = u.id
+
+        where a.id = #{id}
+    </select>
+
+<!--    根据线索id查询市场活动信息-->
+    <select id="getActivityListByClueId" resultType="com.example.CRM_system.workbench.pojo.Activity">
+        select
+
+        a.id,
+        a.name,
+        a.startDate,
+        a.endDate,
+        u.name as owner
+
+        from c_activity a
+        join c_user u on a.owner = u.id
+        join c_clue_activity_relation car on a.id = car.activityId
+        join c_clue c on car.clueId = c.id
+
+        where c.id = #{clueId}
+    </select>
+
+<!--    根据线索id查询没有被关联的市场活动信息-->
+    <select id="getNotBeRelationActivityByClueId" resultType="com.example.CRM_system.workbench.pojo.Activity">
+        select
+
+        a.id,
+        a.name,
+        a.startDate,
+        a.endDate,
+        u.name as owner
+
+        from c_activity a
+        join c_user u on a.owner = u.id
+
+        where a.id not in (
+            select a.id
+            from c_activity a
+            join c_clue_activity_relation car on a.id = car.activityId
+            join c_clue c on car.clueId = c.id
+            where c.id = #{clueId}
+        )
+
+    </select>
+
+<!--    根据市场活动名字模糊查询市场活动信息记录-->
+    <select id="getActivityListByName" resultType="com.example.CRM_system.workbench.pojo.Activity">
+        select
+
+        a.id,
+        a.name,
+        a.startDate,
+        a.endDate,
+        u.name as owner
+
+        from c_activity a
+        join c_user u on a.owner = u.id
+
+        where a.name like concat('%', #{name}, '%')
+    </select>
+
+</mapper>
