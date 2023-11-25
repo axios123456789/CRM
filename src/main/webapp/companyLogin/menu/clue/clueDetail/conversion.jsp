@@ -315,7 +315,7 @@
                 var html = "";
 
                 $.each(data.data, function (i, n){
-                    html += "<tr><th><input type='radio' name='activity' value="+n.id+"></th><th>"+n.name+"</th><th>"+n.startDate+"</th><th>"+n.endDate+"</th><th>"+n.owner+"</th></tr>";
+                    html += "<tr><th><input type='radio' name='activity' value="+n.id+" activityName="+n.name+"></th><th>"+n.name+"</th><th>"+n.startDate+"</th><th>"+n.endDate+"</th><th>"+n.owner+"</th></tr>";
                 });
 
                 $("#activityTable tbody").html(html);
@@ -341,12 +341,33 @@
                 var html = "";
 
                 $.each(data.data, function (i,n){
-                    html += "<tr><td><input type='radio' name='activity' value="+n.id+" /></td><td>"+n.name+"</td><td>"+n.startDate+"</td><td>"+n.endDate+"</td><td>"+n.owner+"</td></tr>"
+                    html += "<tr><td><input type='radio' name='activity' value="+n.id+" activityName="+n.name+"></td><td>"+n.name+"</td><td>"+n.startDate+"</td><td>"+n.endDate+"</td><td>"+n.owner+"</td></tr>"
                 });
 
                 $("#activityTable tbody").html(html);
             }
         })
+    })
+
+    //点击转换按钮后触发该事件
+    $("#convertBtn").click(function (){
+        alert("转换")
+    })
+
+    //点击取消按钮后触发该事件
+    $("#operation input:eq(1)").click(function (){
+        window.history.back();
+    })
+
+    //给模态窗口中的单选框绑定单击事件
+    $("#activityTable tbody").on("click","input[name='activity']",function (){
+        var activityId = this.value;
+        var activityName = $(this).attr("activityName");
+
+        //console.log("id",activityId,"name",activityName);
+        $("#activityId").val(activityId);
+        $("#activity").val(activityName);
+        $("#activity-source").modal("hide");
     })
 
 </script>
