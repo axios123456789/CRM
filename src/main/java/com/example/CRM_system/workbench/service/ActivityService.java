@@ -22,5 +22,7 @@ public interface ActivityService {
 
     Activity detail(String id);
 
-    List<Activity> getActivityListByName(String name);  //根据市场活动名字模糊查询市场活动信息
+    List<Activity> getNotBeRelationActivityListByName(String name, String clueId);  //根据市场活动名字模糊查询市场活动信息在没有被关联的市场活动列表中
+
+    List<Activity> getBeRelationActivityListByName(String name, String clueId); //根据名字模糊查询被关联的市场活动列表
 }

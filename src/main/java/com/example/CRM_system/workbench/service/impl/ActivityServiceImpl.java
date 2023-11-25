@@ -1,13 +1,10 @@
 package com.example.CRM_system.workbench.service.impl;
 
-import com.example.CRM_system.settings.pojo.User;
-import com.example.CRM_system.commons.utils.SqlSessionUtil;
 import com.example.CRM_system.vo.PaginationVO;
 import com.example.CRM_system.workbench.dao.ActivityDao;
 import com.example.CRM_system.workbench.dao.ActivityRemarkDao;
 import com.example.CRM_system.workbench.dao.ClueActivityRelationDao;
 import com.example.CRM_system.workbench.pojo.Activity;
-import com.example.CRM_system.workbench.service.ActivityRemarkService;
 import com.example.CRM_system.workbench.service.ActivityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -147,9 +144,27 @@ public class ActivityServiceImpl implements ActivityService {
         return activity;
     }
 
+    /**
+     * 根据名字模糊查询市场活动信息在没有被关联的市场活动列表中
+     * @param name
+     * @return
+     */
     @Override
-    public List<Activity> getActivityListByName(String name) {
-        List<Activity> activities = activityDao.getActivityListByName(name);
+    public List<Activity> getNotBeRelationActivityListByName(String name, String clueId) {
+        List<Activity> activities = activityDao.getNotBeRelationActivityListByName(name, clueId);
+
+        return activities;
+    }
+
+    /**
+     * 根据名字模糊查询被关联的市场活动列表
+     * @param name
+     * @param clueId
+     * @return
+     */
+    @Override
+    public List<Activity> getBeRelationActivityListByName(String name, String clueId) {
+        List<Activity> activities = activityDao.getBeRelationActivityListByName(name, clueId);
 
         return activities;
     }

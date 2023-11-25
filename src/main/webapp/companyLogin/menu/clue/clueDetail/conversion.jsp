@@ -180,7 +180,7 @@
                     </div>
                     <div class="form-group" style="width: 400px;position: relative; left: 20px;">
                         <label for="activity">市场活动源&nbsp;&nbsp;<a href="javascript:void(0);" data-toggle="modal"
-                                                                  data-target="#searchActivityModal"
+                                                                  data-target="#searchActivityModal" onclick="searchActivity()"
                                                                   style="text-decoration: none;"><span
                                 class="glyphicon glyphicon-search"></span></a></label>
                         <input type="hidden" id="activityId">
@@ -199,6 +199,58 @@
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <input class="btn btn-default" type="button" value="取消">
             </div>
+
+            <%-- 市场活动源的模态窗口          --%>
+            <div class="modal fade" tabindex="-1" role="dialog" id="activity-source">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content" style="width: 800px;">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">搜索市场活动</h4>
+                        </div>
+
+                        <div class="modal-body">
+                            <div class="btn-group" style="position: relative; top: 18%; left: 8px;">
+                                <div class="form-group has-feedback">
+                                    <input type="text" class="form-control" style="width: 300px;"
+                                           placeholder="请输入市场活动名称，支持模糊查询"
+                                           v-model="name">
+                                    <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                                </div>
+                            </div>
+
+                            <table id="activityTable" class="table table-hover" style="width: 900px; position: relative;top: 10px;">
+                                <thead>
+                                <tr style="color: #B3B3B3;">
+                                    <%--<td><input type="radio"/></td>--%>
+                                    <td></td>
+                                    <td>名称</td>
+                                    <td>开始日期</td>
+                                    <td>结束日期</td>
+                                    <td>所有者</td>
+                                    <td></td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <%--<tr v-for="activity in activityList" :key="activity.id">
+                                    <td><input type="checkbox" v-model="checks" :value="activity.id"/></td>
+                                    <td>{{activity.name}}</td>
+                                    <td>{{activity.startDate}}</td>
+                                    <td>{{activity.endDate}}</td>
+                                    <td>{{activity.owner}}</td>
+                                </tr>--%>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <%--<div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-primary" onclick="relation()">关联</button>
+                        </div>--%>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+
         </div>
     </div>
 </nav>
@@ -249,6 +301,53 @@
         })
     })
 
+    //点击交易中的市场活动源旁的搜索图像后触发
+    function searchActivity(){
+        //发送Ajax请求，根据线索id查询市场活动相关信息
+        $.ajax({
+            url: "workbench/clueRemark/getActivityListByClueId.do",
+            data: {
+                clueId: "${clue.id}"
+            },
+            type: "get",
+            dataType: "json",
+            success: function (data){
+                var html = "";
+
+                $.each(data.data, function (i, n){
+                    html += "<tr><th><input type='radio' name='activity' value="+n.id+"></th><th>"+n.name+"</th><th>"+n.startDate+"</th><th>"+n.endDate+"</th><th>"+n.owner+"</th></tr>";
+                });
+
+                $("#activityTable tbody").html(html);
+
+                $("#activity-source").modal("show")
+            }
+        })
+    }
+
+    //添加键盘弹起事件
+    $(".btn-group input").keyup(function (){
+        //console.log($(".btn-group input").val())
+        //每次敲击键盘，就发送Ajax请求，对文本框中的内容进行模糊查询
+        $.ajax({
+            url: "workbench/activity/getBeRelationActivityListByName.do",
+            data: {
+                name: $.trim($(".btn-group input").val()),
+                clueId: "${clue.id}"
+            },
+            type: "get",
+            dataType: "json",
+            success: function (data){
+                var html = "";
+
+                $.each(data.data, function (i,n){
+                    html += "<tr><td><input type='radio' name='activity' value="+n.id+" /></td><td>"+n.name+"</td><td>"+n.startDate+"</td><td>"+n.endDate+"</td><td>"+n.owner+"</td></tr>"
+                });
+
+                $("#activityTable tbody").html(html);
+            }
+        })
+    })
 
 </script>
 </html>

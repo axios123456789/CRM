@@ -144,13 +144,24 @@ public class ActivityController{
         //req.getRequestDispatcher("/menu/activity/detail.jsp").forward(req, resp);
     }
 
-    //根据市场活动名字模糊查询市场活动信息
-    @GetMapping("/workbench/activity/getActivityListByName.do")
+    //根据市场活动名字模糊查询市场活动信息在没有被关联的市场活动中
+    @GetMapping("/workbench/activity/getNotBeRelationActivityListByName.do")
     @ResponseBody
-    public Result getActivityListByName(String name){
-        System.out.println("进入根据市场活动名字模糊查询操作");
+    public Result getActivityListByName(String name, String clueId){
+        System.out.println("进入根据市场活动名字模糊查询没有被关联的市场活动列表操作");
 
-        List<Activity> activities = activityService.getActivityListByName(name);
+        List<Activity> activities = activityService.getNotBeRelationActivityListByName(name, clueId);
+
+        return Result.success(activities);
+    }
+
+    //根据市场活动名字模糊查询市场活动信息在被关联的市场活动中
+    @GetMapping("/workbench/activity/getBeRelationActivityListByName.do")
+    @ResponseBody
+    public Result getBeRelationActivityListByName(String name, String clueId){
+        System.out.println("根据名字模糊查询被关联的市场活动列表操作");
+
+        List<Activity> activities = activityService.getBeRelationActivityListByName(name, clueId);
 
         return Result.success(activities);
     }

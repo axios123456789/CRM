@@ -597,9 +597,10 @@
         //console.log($(".btn-group input").val())
         //每次敲击键盘，就发送Ajax请求，对文本框中的内容进行模糊查询
         $.ajax({
-            url: "workbench/activity/getActivityListByName.do",
+            url: "workbench/activity/getNotBeRelationActivityListByName.do",
             data: {
-                name: $.trim($(".btn-group input").val())
+                name: $.trim($(".btn-group input").val()),
+                clueId: "${clue.id}"
             },
             type: "get",
             dataType: "json",

@@ -36,6 +36,9 @@ public interface ActivityDao {
     //跟据线索id查询没有被关联的市场活动信息
     List<Activity> getNotBeRelationActivityByClueId(String clueId);
 
-    //根据市场活动名字模糊查询市场活动信息的记录
-    List<Activity> getActivityListByName(String name);
+    //根据市场活动名字模糊查询市场活动信息的记录在没有被关联的市场活动列表中
+    List<Activity> getNotBeRelationActivityListByName(String name, String clueId);
+
+    //根据市场活动名字模糊查询被关联的市场活动列表
+    List<Activity> getBeRelationActivityListByName(String name, String clueId);
 }
