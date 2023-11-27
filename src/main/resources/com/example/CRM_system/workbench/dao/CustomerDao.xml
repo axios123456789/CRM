@@ -3,7 +3,54 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.CRM_system.workbench.dao.CustomerDao">
-<!--条件查询客户列表-->
+<!--    添加客户记录-->
+    <insert id="addCustomer">
+        insert into c_customer(
+            id,
+            owner,
+            name,
+            companyWebsite,
+            companyExtension,
+            createBy,
+            createTime,
+            contactMinute,
+            nextContactTime,
+            description
+        )
+        values (
+            #{id},
+            #{owner},
+            #{name},
+            #{companyWebsite},
+            #{companyExtension},
+            #{createBy},
+            #{createTime},
+            #{contactMinute},
+            #{nextContactTime},
+            #{description}
+        )
+    </insert>
+
+<!--    修改客户信息-->
+    <update id="editCustomer">
+        update c_customer
+
+        set
+
+        owner = #{owner},
+        name = #{name},
+        companyWebsite = #{companyWebsite},
+        companyExtension = #{companyExtension},
+        editBy = #{editBy},
+        editTime = #{editTime},
+        contactMinute = #{contactMinute},
+        nextContactTime = #{nextContactTime},
+        description = #{description},
+        detailAddress = #{detailAddress}
+
+        where id = #{id}
+    </update>
+    <!--条件查询客户列表-->
     <select id="getCustomerListByCondition" resultType="com.example.CRM_system.workbench.pojo.Customer">
        select
 
@@ -57,5 +104,12 @@
                 and c.companyWebsite like concat('%', #{companyWebsite}, '%')
             </if>
         </where>
+    </select>
+
+<!--    根据id查询客户列表数据-->
+    <select id="getCustomerById" resultType="com.example.CRM_system.workbench.pojo.Customer">
+        select * from c_customer
+
+        where id = #{id}
     </select>
 </mapper>

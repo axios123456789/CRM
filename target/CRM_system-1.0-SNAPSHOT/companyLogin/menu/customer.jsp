@@ -171,10 +171,10 @@
             </form>
 
             <%--   条件查询时隐藏域中的值             --%>
-            <input type="hidden" id="hidden-name" />
-            <input type="hidden" id="hidden-owner" />
-            <input type="hidden" id="hidden-companyExtension" />
-            <input type="hidden" id="hidden-companyWebsite" />
+            <input type="hidden" id="hidden-name"/>
+            <input type="hidden" id="hidden-owner"/>
+            <input type="hidden" id="hidden-companyExtension"/>
+            <input type="hidden" id="hidden-companyWebsite"/>
 
             <br/><br/>
 
@@ -211,6 +211,79 @@
             <%--       分页         --%>
             <div id="pagination"></div>
 
+            <%--       添加或修改客户时打开该模态窗口         --%>
+            <div class="modal fade" id="save-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content" style="width: 800px;">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">创建</h1>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                        </div>
+                        <div class="modal-body" style="height: 550px">
+                            <form id="save-u">
+                                <%--      隐藏域， 修改时获取修改的id                          --%>
+                                <input type="hidden" id="hidden-id">
+
+                                <div style="width: 400px; float: left">
+                                    <label style="width: 100px; line-height: 40px; float: left">所有者<span
+                                            style="color: red">*</span></label>
+                                    <select class="form-control" id="save-owner" style="width: 200px; float: left">
+
+                                    </select>
+                                </div>
+
+                                <div style="width: 350px; float: left;">
+                                    <label style="width: 80px; line-height: 40px; float: left">名称<span
+                                            style="color: red">*</span></label>
+                                    <input type="text" class="form-control" id="save-name"
+                                           style="width: 200px; float: left"/>
+                                </div>
+
+                                <div style="width: 400px; float: left; margin-top: 20px">
+                                    <label style="width: 100px; line-height: 30px; float: left">公司座机</label>
+                                    <input type="text" class="form-control" id="save-companyExtension"
+                                           style="width: 200px; float: left" />
+                                </div>
+
+                                <div style="width: 350px; float: left; margin-top: 20px;">
+                                    <label style="width: 80px; line-height: 30px; float: left">公司网站</label>
+                                    <input type="text" class="form-control" id="save-companyWebsite"
+                                           style="width: 200px; float: left" />
+                                </div>
+
+                                <div style="width: 750px; float: left; margin-top: 20px">
+                                    <label style="width: 100px; line-height: 40px; float: left">下次联系时间</label>
+                                    <input type="text" class="form-control" id="save-nextContactTime"
+                                           style="width: 200px; float: left" readonly/>
+                                </div>
+
+                                <div style="width: 750px; height: 120px; float: left; margin-top: 20px">
+                                    <label style="width: 100px;  float: left">描述</label>
+                                    <textarea class="form-control" rows="3" id="save-description"
+                                              style="width: 650px; float: left"></textarea>
+                                </div>
+
+                                <div style="width: 750px; height: 120px; float: left;">
+                                    <label style="width: 100px;  float: left">联系纪要</label>
+                                    <textarea class="form-control" rows="3" id="save-contactMinute"
+                                              style="width: 650px; float: left"></textarea>
+                                </div>
+
+                                <div style="width: 750px; height: 120px; float: left;">
+                                    <label style="width: 100px;  float: left">详细地址</label>
+                                    <textarea class="form-control" rows="3" id="save-detailAddress"
+                                              style="width: 650px; float: left"></textarea>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-primary" onclick="save()">确定</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
         </div>
     </div>
@@ -218,6 +291,11 @@
 <footer></footer>
 </body>
 <script>
+    //时间选择器
+    laydate.render({
+        elem: "#save-nextContactTime"
+    })
+
     $(document).ready(function () {
         //统计图表部分下拉列表的显示与隐藏
         var count = true;
@@ -249,7 +327,7 @@
         getCustomerList(1, 3);
 
         //点击市场活动列表头部的复选框 头部以下的复选框都默认选中
-        $("#customer-list thead input[type='checkbox']").click(function (){
+        $("#customer-list thead input[type='checkbox']").click(function () {
             /*if (this.checked) {
                 $("#customer-list tbody input[type='checkbox']").prop('checked', true);
                 //$("#customer-list tbody input[type='checkbox']").prop('disabled', false);
@@ -265,14 +343,14 @@
             语法：
                 $(需要绑定元素的有效的外层元素).on(绑定事件的方式，需要绑定的元素的jQuery对象，回调函数)
         */
-        $("#customer-list tbody").on("click", $("#customer-list tbody input[type='checkbox']"), function (){
+        $("#customer-list tbody").on("click", $("#customer-list tbody input[type='checkbox']"), function () {
             $("#customer-list thead input[type='checkbox']").prop("checked", $("#customer-list tbody input[type='checkbox']").length == $("#customer-list tbody input[type='checkbox']:checked").length);
         })
 
     })
 
     //条件查询
-    function search(){
+    function search() {
         $("#hidden-name").val($.trim($("#search-name").val()));
         $("#hidden-owner").val($.trim($("#search-owner").val()));
         $("#hidden-companyExtension").val($.trim($("#search-companyExtension").val()));
@@ -281,7 +359,7 @@
     }
 
     //查询客户列表
-    function getCustomerList(pageNo, pageSize){
+    function getCustomerList(pageNo, pageSize) {
         //初始化工作
         $("#customer-list thead input[type='checkbox']").prop('checked', false);
         $("#search-name").val($.trim($("#hidden-name").val()));
@@ -291,7 +369,7 @@
 
         //发送Ajax请求，向后端拿到客户列表的数据
         $.ajax({
-            url: "workbench/customer/getCustomerListByCondition",
+            url: "workbench/customer/getCustomerListByCondition.do",
             data: {
                 pageNoStr: pageNo,
                 pageSizeStr: pageSize,
@@ -302,11 +380,11 @@
             },
             type: "get",
             dataType: "json",
-            success: function (data){
+            success: function (data) {
                 var html = "";
 
-                $.each(data.data.dataList, function (i, n){
-                    html += "<tr> <td> <input type='checkbox' value='"+n.id+"'/> </td> <td><a style='text-decoration: none; cursor: pointer' onclick='window.location.href=\"workbench/customer/detail.do?id="+n.id+"\";'>"+n.name+"</a></td> <td>"+n.owner+"</td> <td>"+n.companyExtension+"</td> <td>"+n.companyWebsite+"</td> </tr>";
+                $.each(data.data.dataList, function (i, n) {
+                    html += "<tr> <td> <input type='checkbox' value='" + n.id + "'/> </td> <td><a style='text-decoration: none; cursor: pointer' onclick='window.location.href=\"workbench/customer/detail.do?id=" + n.id + "\";'>" + n.name + "</a></td> <td>" + n.owner + "</td> <td>" + n.companyExtension + "</td> <td>" + n.companyWebsite + "</td> </tr>";
                 });
 
                 //显示客户列表
@@ -340,6 +418,153 @@
         })
     }
 
+    //拿到用户的名字作为模态窗口中所有者的下拉列表值
+    function getUser(){
+        //初始化工作
+        //$("#save-owner").html("");
+        $("#save-u")[0].reset();
 
+        //发送Ajax请求，拿到user列表的数据
+        $.ajax({
+            url: "workbench/activity/getUserList.do",
+            data: {
+
+            },
+            type: "get",
+            dataType: "json",
+            async: false,
+            success: function (data){
+                let html = "";
+
+                //n用来遍历data的， i是接收data的
+                $.each(data.data, function (i, n){
+                    html += "<option value='"+n.id+"'>"+n.name+"</option>";
+                })
+
+                $("#save-owner").html(html);
+            }
+        })
+    }
+
+    //点击创建按钮后触发
+    function add(){
+        //初始化工作
+        $("#exampleModalLabel").text("添加");
+        getUser();
+
+        //所有者默认为当前登录者
+        var id = "${user.id}"
+        $("#save-owner").val(id);
+
+        //打开模态窗口
+        $("#save-modal").modal("show");
+    }
+
+    //点击修改后触发
+    function upData(){
+        var $checkedAll = $("#customer-list tbody input[type='checkbox']:checked");
+
+        if ($checkedAll.length == 0){
+            alert("请选择要修改的记录");
+        }else if ($checkedAll.length > 1){
+            alert("每次只能修改一条记录");
+        }else {
+            //将模态窗口标题改为修改
+            $("#exampleModalLabel").text("修改");
+
+            getUser();
+
+            var id = $checkedAll.val();
+
+            //发送ajax请求， 根据客户id拿到客户数据
+            $.ajax({
+                url: "workbench/customer/getCustomerById.do",
+                data: {
+                    id: id
+                },
+                type: "get",
+                dataType: "json",
+                success: function (data){
+                    //将拿到的数据填充到模态窗口对应的文本框中
+                    $("#hidden-id").val(data.data.id);
+                    $("#save-owner").val(data.data.owner);
+                    $("#save-name").val(data.data.name);
+                    $("#save-companyExtension").val(data.data.companyExtension);
+                    $("#save-companyWebsite").val(data.data.companyWebsite);
+                    $("#save-nextContactTime").val(data.data.nextContactTime);
+                    $("#save-description").val(data.data.description);
+                    $("#save-contactMinute").val(data.data.contactMinute);
+                    $("#save-detailAddress").val(data.data.detailAddress);
+
+                    //打开模态窗口
+                    $("#save-modal").modal("show");
+                }
+            })
+        }
+    }
+
+    //点击模态窗口中的确认按钮后触发
+    function save(){
+        //发送Ajax请求，向后端保存数据
+        $.ajax({
+            url: "workbench/customer/saveCustomer.do",
+            data: {
+                id :$.trim($("#hidden-id").val()),
+                owner :$.trim($("#save-owner").val()),
+                name :$.trim($("#save-name").val()),
+                companyExtension :$.trim($("#save-companyExtension").val()),
+                companyWebsite :$.trim($("#save-companyWebsite").val()),
+                nextContactTime :$.trim($("#save-nextContactTime").val()),
+                description :$.trim($("#save-description").val()),
+                contactMinute :$.trim($("#save-contactMinute").val()),
+                detailAddress :$.trim($("#save-detailAddress").val())
+            },
+            type: "post",
+            dataType: "json",
+            success: function (data){
+                if (data.code == "200"){
+                    var id = $.trim($("#hidden-id").val());
+
+                    //添加或修改
+                    if (id == null || id == ""){//此时为添加操作
+                        getCustomerList(1, $("#pagination").bs_pagination('getOption', 'rowsPerPage'));
+                    }else{//此时为修改操作
+                        getCustomerList($("#pagination").bs_pagination('getOption', 'currentPage'), $("#pagination").bs_pagination('getOption', 'rowsPerPage'));
+
+                        //清空隐藏域
+                        $("#hidden-id").val("");
+                    }
+
+                    //关闭模态窗口
+                    $("#save-modal").modal("hide");
+                }else {
+                    alert(data.message)
+                }
+            }
+        })
+    }
+
+    //点击删除按钮时触发该事件
+    function del(){
+        var  $checked = $("#customer-list tbody input[type='checkbox']:checked");
+
+        if ($checked.length == 0){
+            alert("请选择要删除的记录");
+        }else {
+            if (confirm("确定要删除选择的记录吗")){
+                var ids = "";
+
+                for (let i = 0; i < $checked.length; i++) {
+                    ids += $($checked[i]).val();
+
+                    if (i < $checked.length - 1){
+                        ids += ",";
+                    }
+                }
+
+                alert(ids)
+            }
+        }
+    }
 </script>
 </html>
