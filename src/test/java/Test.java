@@ -25,7 +25,7 @@ public class Test {
         System.out.println("密码"+md5);*/
 
         //测试将数据处理成List<Map>类型
-        String clueId = "1";
+        /*String clueId = "1";
         String[] activityId = {"1","2","34","5","67","4"};
 
         List<Map> clueActivityRelation = new ArrayList<>();
@@ -43,7 +43,7 @@ public class Test {
             Object clueId1 = clueActivityRelation.get(i).get("clueId");
             Object activityId1 = clueActivityRelation.get(i).get("activityId");
             System.out.println("["+id+","+clueId1+","+activityId1+"]");
-        }
+        }*/
 
        /* //使用stream()
         List<String> questionId = new ArrayList<>();
@@ -63,5 +63,7 @@ public class Test {
         }).collect(Collectors.toList());
 
         System.out.println(collect);*/
+
+        System.out.println(Integer.valueOf("29"));
     }
 }
