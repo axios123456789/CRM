@@ -524,10 +524,10 @@
                     $("#create-endDate").val(data.data.endDate);
                     $("#create-cost").val(data.data.cost);
                     $("#create-description").val(data.data.description);
+
+                    $('#myModal').modal('show');
                }
             })
-
-        $('#myModal').modal('show')
     }
 }
 
