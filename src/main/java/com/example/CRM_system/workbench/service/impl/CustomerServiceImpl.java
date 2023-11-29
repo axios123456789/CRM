@@ -49,6 +49,18 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     /**
+     * 根据id查询客户列表并保证拿到的owner是中文
+     * @param id
+     * @return
+     */
+    @Override
+    public Customer getCustomerMakeChineseOwnerById(String id) {
+        Customer customer = customerDao.getCustomerMakeChineseOwnerById(id);
+
+        return customer;
+    }
+
+    /**
      * 添加或修改客户信息
      * @param customer
      * @return

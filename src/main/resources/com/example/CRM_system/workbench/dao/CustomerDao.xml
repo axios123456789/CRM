@@ -123,4 +123,26 @@
 
         where id = #{id}
     </select>
+    <select id="getCustomerMakeChineseOwnerById" resultType="com.example.CRM_system.workbench.pojo.Customer">
+        select
+
+        c.id,
+        u.name as owner,
+        c.name,
+        c.companyWebsite,
+        c.companyExtension,
+        c.createBy,
+        c.createTime,
+        c.editBy,
+        c.editTime,
+        c.contactMinute,
+        c.nextContactTime,
+        c.description,
+        c.detailAddress
+
+        from c_customer c
+        join c_user u on c.owner = u.id
+
+        where c.id = #{id}
+    </select>
 </mapper>

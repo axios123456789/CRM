@@ -12,4 +12,6 @@ public interface CustomerService {
     boolean saveCustomer(Customer customer);    //添加或修改客户信息
 
     boolean deleteCustomerByIds(String[] ids);    //根据ids删除客户
+
+    Customer getCustomerMakeChineseOwnerById(String id); //根据id查询客户并保证拿到的客户所有者为中文
 }

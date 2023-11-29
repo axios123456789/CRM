@@ -564,7 +564,7 @@
 
                 //发送Ajax请求，根据id组删除客户
                 $.ajax({
-                    url: "workbench/customer/deleteCustomerByIds",
+                    url: "workbench/customer/deleteCustomerByIds.do",
                     data: {
                         ids: ids
                     },

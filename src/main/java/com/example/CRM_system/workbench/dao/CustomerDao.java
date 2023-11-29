@@ -23,4 +23,7 @@ public interface CustomerDao {
 
     //根据客户id删除客户相关信息
     void deleteCustomerByIds(String[] ids);
+
+    //根据id查询客户列表并保证拿到的owner为中文
+    Customer getCustomerMakeChineseOwnerById(String id);
 }
