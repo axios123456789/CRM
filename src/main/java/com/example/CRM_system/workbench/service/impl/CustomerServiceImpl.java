@@ -79,4 +79,24 @@ public class CustomerServiceImpl implements CustomerService {
 
         return flag;
     }
+
+    /**
+     * 根据id组删除客户
+     * @param ids
+     * @return
+     */
+    @Override
+    public boolean deleteCustomerByIds(String[] ids) {
+        boolean flag = true;
+
+        try {
+            //根据客户ids删除客户信息
+            customerDao.deleteCustomerByIds(ids);
+        } catch (Exception e) {
+            e.printStackTrace();
+            flag = false;
+        }
+
+        return flag;
+    }
 }

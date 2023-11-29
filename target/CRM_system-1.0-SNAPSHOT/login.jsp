@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
   String path = request.getContextPath();
   String basePath = request.getScheme() + "://"
@@ -98,9 +99,20 @@
 <div id="loginDiv">
   <form action="" id="form" method="post">
     <h1 style="text-align: center;color: aliceblue;">立即登录</h1>
-    <p>用户名:<input id="loginAct" type="text"></p>
+    <p>用户名:<input id="loginAct" type="text" value="${cookie.loginAct.value}"></p>
 
-    <p>密&nbsp;&nbsp;&nbsp;码:<input id="password" type="password" placeholder=""></p>
+    <p>密&nbsp;&nbsp;&nbsp;码:<input id="password" type="password" value="${cookie.loginPwd.value}" placeholder=""></p>
+
+    <label>
+      <c:if test="${not empty cookie.loginAct and not empty cookie.loginPwd}">
+        <input type="checkbox" id="isRemPwd" style="width: 20px;height: 20px ;margin-top: 20px;margin-left: 90px" checked>
+      </c:if>
+      <c:if test="${empty cookie.loginAct or empty cookie.loginPwd}">
+        <input type="checkbox" id="isRemPwd" style="width: 20px;height: 20px ;margin-top: 20px;margin-left: 90px">
+      </c:if>
+      十天内免登录
+    </label>
+
     <!--<p style="text-align: center;color: darkgray;"><a href="#">忘记密码?</a></p>-->
     <p id="msg"></p>
     <div style="text-align: center;margin-top: 30px;">
@@ -147,12 +159,24 @@
         return false;
       }
 
+      //确认是否十天内免登录
+      var isRemPwd = "";
+      var $checked = $("#isRemPwd:checked");
+      if ($checked.length == 1){
+        isRemPwd = "true";
+      }else {
+        isRemPwd = "false";
+      }
+
+      //console.log("status",isRemPwd);
+
       //去后台验证相关登录操作
       $.ajax({
         url: "settings/user/login.do",
         data: {
           "loginAct" : loginAct,
-          "loginPwd" : password
+          "loginPassword" : password,
+          "isRemPwd" : isRemPwd
         },
         type: "post",
         dataType: "json",

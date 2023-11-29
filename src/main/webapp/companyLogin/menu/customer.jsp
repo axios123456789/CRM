@@ -562,7 +562,22 @@
                     }
                 }
 
-                alert(ids)
+                //发送Ajax请求，根据id组删除客户
+                $.ajax({
+                    url: "workbench/customer/deleteCustomerByIds",
+                    data: {
+                        ids: ids
+                    },
+                    type: "post",
+                    dataType: "json",
+                    success: function (data){
+                        if (data.code == "200"){
+                            getCustomerList(1, $("#pagination").bs_pagination('getOption', 'rowsPerPage'));
+                        }else {
+                            alert(data.message);
+                        }
+                    }
+                })
             }
         }
     }

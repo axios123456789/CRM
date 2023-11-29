@@ -50,6 +50,17 @@
 
         where id = #{id}
     </update>
+
+<!--    根据客户ids删除相关记录-->
+    <delete id="deleteCustomerByIds">
+        delete from c_customer
+
+        where id in
+
+        <foreach collection="array" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
     <!--条件查询客户列表-->
     <select id="getCustomerListByCondition" resultType="com.example.CRM_system.workbench.pojo.Customer">
        select

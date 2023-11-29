@@ -79,4 +79,18 @@ public class CustomerController {
             return Result.error("500", "添加或修改失败，请联系工作人员");
         }
     }
+
+    //根据id组删除客户信息
+    @PostMapping("/deleteCustomerByIds")
+    public Result deleteCustomerByIds(String[] ids){
+        System.out.println("进入根据id组删除客户操作");
+
+        boolean flag = customerService.deleteCustomerByIds(ids);
+
+        if (flag){
+            return Result.success();
+        }else {
+            return Result.error("500", "删除失败，请联系工作人员");
+        }
+    }
 }

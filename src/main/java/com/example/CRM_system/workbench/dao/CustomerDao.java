@@ -20,4 +20,7 @@ public interface CustomerDao {
 
     //修改客户信息
     void editCustomer(Customer customer);
+
+    //根据客户id删除客户相关信息
+    void deleteCustomerByIds(String[] ids);
 }

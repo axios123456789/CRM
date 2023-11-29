@@ -10,4 +10,6 @@ public interface CustomerService {
     Customer getCustomerById(String id);  //根据id查询客户列表
 
     boolean saveCustomer(Customer customer);    //添加或修改客户信息
+
+    boolean deleteCustomerByIds(String[] ids);    //根据ids删除客户
 }
