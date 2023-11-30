@@ -3,6 +3,7 @@ package com.example.CRM_system.workbench.service.impl;
 import com.example.CRM_system.vo.PaginationVO;
 import com.example.CRM_system.vo.req.CustomerReq;
 import com.example.CRM_system.workbench.dao.CustomerDao;
+import com.example.CRM_system.workbench.dao.CustomerRemarkDao;
 import com.example.CRM_system.workbench.pojo.Customer;
 import com.example.CRM_system.workbench.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,9 @@ import java.util.List;
 public class CustomerServiceImpl implements CustomerService {
     @Autowired
     private CustomerDao customerDao;
+
+    @Autowired
+    private CustomerRemarkDao customerRemarkDao;
 
     /**
      * 条件查询客户列表数据
@@ -94,6 +98,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     /**
      * 根据id组删除客户
+     * 以及客户对应的所有备注信息
      * @param ids
      * @return
      */
@@ -102,6 +107,9 @@ public class CustomerServiceImpl implements CustomerService {
         boolean flag = true;
 
         try {
+            //根据ids删除所有对应的客户备注信息
+            customerRemarkDao.deleteCustomerRemarkByCustomerIds(ids);
+
             //根据客户ids删除客户信息
             customerDao.deleteCustomerByIds(ids);
         } catch (Exception e) {

@@ -420,10 +420,10 @@
         if (noteContent != null && noteContent != ""){
             //发送ajax请求 执行添加操作
             $.ajax({
-                url: "",
+                url: "workbench/customerRemark/saveCustomerRemark",
                 data: {
                     "noteContent": noteContent,
-                    "activityId": "${customer.id}"
+                    "customerId": "${customer.id}"
                 },
                 type: "post",
                 dataType: "json",
@@ -452,7 +452,7 @@
 
         //发送ajax请求 拿到要修改的备注的原来备注信息
         $.ajax({
-            url: "",
+            url: "workbench/customerRemark/getCustomerRemarkById",
             data: {
                 "id": id
             },
@@ -473,7 +473,7 @@
         if (confirm("确定删除这条备注吗？")){
             //发送ajax请求执行删除备注操作
             $.ajax({
-                url: "",
+                url: "workbench/customerRemark/deleteCustomerRemark",
                 data: {
                     "id": id
                 },
@@ -495,7 +495,7 @@
     function remark_save(){
         //发送ajax请求 保存修改内容
         $.ajax({
-            url: "",
+            url: "workbench/customerRemark/saveCustomerRemark",
             data: {
                 "id": $.trim($("#hidden-remark-id").val()),
                 "noteContent": $.trim($("#edit-noteContent textarea").val())

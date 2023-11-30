@@ -1,13 +1,18 @@
 package com.example.CRM_system.workbench.web.controller;
 
 import com.example.CRM_system.commons.pojo.Result;
+import com.example.CRM_system.commons.utils.DateTimeUtil;
+import com.example.CRM_system.commons.utils.UUIDUtil;
+import com.example.CRM_system.settings.pojo.User;
 import com.example.CRM_system.workbench.pojo.CustomerRemark;
 import com.example.CRM_system.workbench.service.CustomerRemarkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @RestController
@@ -26,5 +31,57 @@ public class CustomerRemarkController {
         return Result.success(customerRemarks);
     }
 
+    //根据客户备注id查询客户备注信息
+    @GetMapping("/getCustomerRemarkById")
+    public Result getCustomerRemarkById(String id){
+        System.out.println("进入根据客户备注id查询客户备注信息操作");
 
+        CustomerRemark customerRemark = customerRemarkService.getCustomerRemarkById(id);
+
+        return Result.success(customerRemark);
+    }
+
+    //添加或修改备注信息
+    @PostMapping("/saveCustomerRemark")
+    public Result saveCustomerRemark(CustomerRemark customerRemark, HttpSession session){
+        System.out.println("进入添加或修改客户备注信息操作");
+
+        //判断添加还是修改
+        if (customerRemark.getId() == null || customerRemark.getId() == ""){//添加
+            String createBy = ((User) session.getAttribute("user")).getName();
+            String createTime = DateTimeUtil.getSysTime();
+            customerRemark.setId(UUIDUtil.getUUID());
+            customerRemark.setCreateBy(createBy);
+            customerRemark.setCreateTime(createTime);
+            customerRemark.setEditFlag("0");
+        }else {//修改
+            String editBy = ((User) session.getAttribute("user")).getName();
+            String editTime = DateTimeUtil.getSysTime();
+            customerRemark.setEditBy(editBy);
+            customerRemark.setEditTime(editTime);
+            customerRemark.setEditFlag("1");
+        }
+
+        boolean flag = customerRemarkService.saveCustomerRemark(customerRemark);
+
+        if (flag){
+            return Result.success();
+        }else {
+            return Result.error("500", "添加或修改失败，请联系工作人员");
+        }
+    }
+
+    //根据客户备注id删除客户备注信息
+    @PostMapping("deleteCustomerRemark")
+    public Result deleteCustomerRemark(String id){
+        System.out.println("进入到根据客户备注id删除客户备注操作");
+
+        boolean flag = customerRemarkService.deleteCustomerRemark(id);
+
+        if (flag){
+            return Result.success();
+        }else {
+            return Result.error("500", "删除备注失败，请联系工作人员");
+        }
+    }
 }
