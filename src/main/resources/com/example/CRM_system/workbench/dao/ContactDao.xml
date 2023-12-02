@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.CRM_system.workbench.dao.ContactDao">
+    <resultMap id="contactMap" type="com.example.CRM_system.workbench.pojo.Contact">
+        <id column="id" property="id"></id>
+        <result column="owner" property="owner"></result>
+        <result column="source" property="source"></result>
+        <result column="name" property="name"></result>
+        <result column="salutation" property="salutation"></result>
+        <result column="email" property="email"></result>
+        <result column="phone" property="phone"></result>
+        <result column="position" property="position"></result>
+        <result column="birthday" property="birthday"></result>
+        <result column="createBy" property="createBy"></result>
+        <result column="createTime" property="createTime"></result>
+        <result column="editBy" property="editBy"></result>
+        <result column="editTime" property="editTime"></result>
+        <result column="description" property="description"></result>
+        <result column="contactMinute" property="contactMinute"></result>
+        <result column="nextContactTime" property="nextContactTime"></result>
+        <result column="detailAddress" property="detailAddress"></result>
+        <result column="customerId" property="customerId"></result>
+
+        <!--   一对一查询     -->
+        <association property="customer" javaType="com.example.CRM_system.workbench.pojo.Customer">
+            <id column="csId" property="id"></id>
+            <result column="csOwner" property="owner"></result>
+            <result column="csName" property="name"></result>
+            <result column="companyWebsite" property="companyWebsite"></result>
+            <result column="companyExtension" property="companyExtension"></result>
+            <result column="csCreateBy" property="createBy"></result>
+            <result column="csCreateTime" property="createTime"></result>
+            <result column="csEditBy" property="editBy"></result>
+            <result column="csEditTime" property="editTime"></result>
+            <result column="csContactMinute" property="contactMinute"></result>
+            <result column="csNextContactTime" property="nextContactTime"></result>
+            <result column="csDescription" property="description"></result>
+            <result column="csDetailAddress" property="detailAddress"></result>
+        </association>
+    </resultMap>
+    
+<!--条件查询联系人总记录数-->
+    <select id="getContactTotalByCondition" resultType="java.lang.Integer">
+        select count(*)
+
+        from c_contact ct
+        left join c_customer cs on ct.customerId = cs.id
+        join c_user u on ct.owner = u.id
+
+        <where>
+            <if test="name != null and name != ''">
+                and ct.name like concat('%', #{name} ,'%')
+            </if>
+            <if test="owner != null and owner != ''">
+                and u.name like concat('%', #{owner} ,'%')
+            </if>
+            <if test="source != null and source != ''">
+                and ct.source like concat('%', #{source} ,'%')
+            </if>
+            <if test="company != null and company != ''">
+                and cs.name like concat('%', #{company} ,'%')
+            </if>
+            <if test="birthday != null and birthday != ''">
+                ct.birthday = #{birthday}
+            </if>
+        </where>
+    </select>
+
+<!--    条件查询所有联系人-->
+    <select id="getContactListByCondition" resultMap="contactMap">
+        select
+
+        ct.id,
+        ct.name,
+        ct.salutation,
+        u.name as owner,
+        ct.source,
+        ct.birthday,
+        cs.name as csName
+
+        from c_contact ct
+        left join c_customer cs on ct.customerId = cs.id
+        join c_user u on ct.owner = u.id
+
+        <where>
+            <if test="name != null and name != ''">
+                and ct.name like concat('%', #{name} ,'%')
+            </if>
+            <if test="owner != null and owner != ''">
+                and u.name like concat('%', #{owner} ,'%')
+            </if>
+            <if test="source != null and source != ''">
+                and ct.source like concat('%', #{source} ,'%')
+            </if>
+            <if test="company != null and company != ''">
+                and cs.name like concat('%', #{company} ,'%')
+            </if>
+            <if test="birthday != null and birthday != ''">
+                ct.birthday = #{birthday}
+            </if>
+        </where>
+    </select>
+</mapper>

@@ -326,7 +326,7 @@
         //显示客户列表
         getCustomerList(1, 3);
 
-        //点击市场活动列表头部的复选框 头部以下的复选框都默认选中
+        //点击客户列表头部的复选框 头部以下的复选框都默认选中
         $("#customer-list thead input[type='checkbox']").click(function () {
             /*if (this.checked) {
                 $("#customer-list tbody input[type='checkbox']").prop('checked', true);
