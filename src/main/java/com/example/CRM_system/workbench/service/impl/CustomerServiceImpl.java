@@ -65,6 +65,18 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     /**
+     * 根据名字查询客户信息
+     * @param name
+     * @return
+     */
+    @Override
+    public Customer getCustomerByName(String name) {
+        Customer customer = customerDao.getCustomerByName(name);
+
+        return customer;
+    }
+
+    /**
      * 添加或修改客户信息
      * @param customer
      * @return

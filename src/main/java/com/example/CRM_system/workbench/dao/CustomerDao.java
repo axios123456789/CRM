@@ -26,4 +26,7 @@ public interface CustomerDao {
 
     //根据id查询客户列表并保证拿到的owner为中文
     Customer getCustomerMakeChineseOwnerById(String id);
+
+    //根据名字查询客户信息
+    Customer getCustomerByName(String name);
 }

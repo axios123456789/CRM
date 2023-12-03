@@ -224,6 +224,118 @@
             <%--       分页         --%>
             <div id="pagination"></div>
 
+            <%--       添加或修改联系人时打开该模态窗口         --%>
+            <div class="modal fade" id="save-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content" style="width: 800px;">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">创建</h1>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                        </div>
+                        <div class="modal-body" style="height: 670px">
+                            <form id="save-u">
+                                <%--      隐藏域， 修改时获取修改的id                          --%>
+                                <input type="hidden" id="hidden-id">
+
+                                <div style="width: 400px; float: left">
+                                    <label style="width: 100px; line-height: 40px; float: left">所有者<span
+                                            style="color: red">*</span></label>
+                                    <select class="form-control" id="save-owner" style="width: 250px; float: left">
+
+                                    </select>
+                                </div>
+
+                                <div style="width: 350px; float: left;">
+                                    <label style="width: 80px; line-height: 40px; float: left">名称<span
+                                            style="color: red">*</span></label>
+                                    <input type="text" class="form-control" id="save-name"
+                                           style="width: 250px; float: left"/>
+                                </div>
+
+                                <div style="width: 400px; float: left; margin-top: 20px">
+                                    <label style="width: 100px; line-height: 30px; float: left">来源</label>
+                                    <select class="form-control" id="save-source" style="width: 250px; float: left">
+                                        <option></option>
+                                        <c:forEach items="${sourceList}" var="source">
+                                            <option value="${source.value}">${source.text}</option>
+                                        </c:forEach>
+                                    </select>
+                                </div>
+
+                                <div style="width: 350px; float: left; margin-top: 20px;">
+                                    <label style="width: 80px; line-height: 30px; float: left">称呼</label>
+                                    <select class="form-control" id="save-salutation" style="width: 250px; float: left">
+                                        <option></option>
+                                        <c:forEach items="${appellationList}" var="appellation">
+                                            <option value="${appellation.value}">${appellation.text}</option>
+                                        </c:forEach>
+                                    </select>
+                                </div>
+
+                                <div style="width: 400px; float: left; margin-top: 20px;">
+                                    <label style="width: 100px; line-height: 40px; float: left">邮箱</label>
+                                    <input type="text" class="form-control" id="save-email"
+                                           style="width: 250px; float: left"/>
+                                </div>
+
+                                <div style="width: 350px; float: left; margin-top: 20px;">
+                                    <label style="width: 80px; line-height: 40px; float: left">手机</label>
+                                    <input type="text" class="form-control" id="save-phone"
+                                           style="width: 250px; float: left"/>
+                                </div>
+
+                                <div style="width: 400px; float: left; margin-top: 20px;">
+                                    <label style="width: 100px; line-height: 40px; float: left">职位</label>
+                                    <input type="text" class="form-control" id="save-position"
+                                           style="width: 250px; float: left"/>
+                                </div>
+
+                                <div style="width: 350px; float: left; margin-top: 20px;">
+                                    <label style="width: 80px; line-height: 40px; float: left">生日</label>
+                                    <input type="text" class="form-control" id="save-birthday"
+                                           style="width: 250px; float: left" readonly />
+                                </div>
+
+                                <div style="width: 400px; float: left; margin-top: 20px">
+                                    <label style="width: 100px; line-height: 40px; float: left">下次联系时间</label>
+                                    <input type="text" class="form-control" id="save-nextContactTime"
+                                           style="width: 250px; float: left" readonly/>
+                                </div>
+
+                                <div style="width: 350px; float: left; margin-top: 20px;">
+                                    <label style="width: 80px; line-height: 40px; float: left">客户名称</label>
+                                    <input type="text" class="form-control" id="save-customerName"
+                                           style="width: 250px; float: left" placeholder="支持自动补全，客户不存在则新建" />
+                                </div>
+
+                                <div style="width: 750px; height: 120px; float: left; margin-top: 20px">
+                                    <label style="width: 100px;  float: left">描述</label>
+                                    <textarea class="form-control" rows="3" id="save-description"
+                                              style="width: 650px; float: left"></textarea>
+                                </div>
+
+                                <div style="width: 750px; height: 120px; float: left;">
+                                    <label style="width: 100px;  float: left">联系纪要</label>
+                                    <textarea class="form-control" rows="3" id="save-contactMinute"
+                                              style="width: 650px; float: left"></textarea>
+                                </div>
+
+                                <div style="width: 750px; height: 120px; float: left;">
+                                    <label style="width: 100px;  float: left">详细地址</label>
+                                    <textarea class="form-control" rows="3" id="save-detailAddress"
+                                              style="width: 650px; float: left"></textarea>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-primary" onclick="save()">确定</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </nav>
@@ -233,6 +345,12 @@
     //时间选择器
     laydate.render({
         elem: "#search-birthday"
+    })
+    laydate.render({
+        elem: "#save-birthday"
+    })
+    laydate.render({
+        elem: "#save-nextContactTime"
     })
 
     $(document).ready(function () {
@@ -288,7 +406,7 @@
     })
 
     //点击查询时进行条件查询
-    function search(){
+    function search() {
         $("#hidden-owner").val($.trim($("#search-owner").val()));
         $("#hidden-name").val($.trim($("#search-name").val()));
         $("#hidden-company").val($.trim($("#search-company").val()));
@@ -300,7 +418,7 @@
     }
 
     //查询联系人列表
-    function getContactList(pageNo, pageSize){
+    function getContactList(pageNo, pageSize) {
         //初始化工作
         $("#contact-list thead input[type='checkbox']").prop('checked', false);
         $("#search-owner").val($.trim($("#hidden-owner").val()));
@@ -311,7 +429,7 @@
 
         //发送Ajax请求，拿到联系人对应数据
         $.ajax({
-            url: "workbench/contact/getContactListByCondition",
+            url: "workbench/contact/getContactListByCondition.do",
             data: {
                 pageNoStr: pageNo,
                 pageSizeStr: pageSize,
@@ -323,12 +441,12 @@
             },
             type: "get",
             dataType: "json",
-            success: function (data){
+            success: function (data) {
                 var html = "";
 
                 //console.log("data",data)
                 $.each(data.data.dataList, function (i, n) {
-                    html += "<tr> <td> <input type='checkbox' value='" + n.id + "'/> </td> <td><a style='text-decoration: none; cursor: pointer' onclick='window.location.href=\"workbench/customer/detail.do?id=" + n.id + "\";'>" + n.name + n.salutation+"</a></td> <td>" + n.customer.name + "</td> <td>" + n.owner + "</td> <td>"+n.source+"</td> <td>" + n.birthday + "</td> </tr>";
+                    html += "<tr> <td> <input type='checkbox' value='" + n.id + "'/> </td> <td><a style='text-decoration: none; cursor: pointer' onclick='window.location.href=\"workbench/customer/detail.do?id=" + n.id + "\";'>" + n.name + n.salutation + "</a></td> <td>" + n.customer.name + "</td> <td>" + n.owner + "</td> <td>" + n.source + "</td> <td>" + n.birthday + "</td> </tr>";
                 });
 
                 //显示客户列表
@@ -362,6 +480,96 @@
         })
     }
 
+    //拿到用户的名字作为模态窗口中所有者的下拉列表值
+    function getUser(){
+        //初始化工作
+        //$("#save-owner").html("");
+        $("#save-u")[0].reset();
 
+        //发送Ajax请求，拿到user列表的数据
+        $.ajax({
+            url: "workbench/activity/getUserList.do",
+            data: {
+
+            },
+            type: "get",
+            dataType: "json",
+            async: false,
+            success: function (data){
+                let html = "";
+
+                //n用来遍历data的， i是接收data的
+                $.each(data.data, function (i, n){
+                    html += "<option value='"+n.id+"'>"+n.name+"</option>";
+                })
+
+                $("#save-owner").html(html);
+            }
+        })
+    }
+
+    //光标移到模态窗口中的客户名称输入框时触发键盘弹起事件
+    $("#save-customerName").keyup(function (event) {
+
+        if ($("#save-customerName").val() != '' && event.keyCode != 8) {
+            //发送Ajax请求，拿到客户名字
+            $.ajax({
+                url: "workbench/contact/getCustomerByName.do",
+                data: {
+                    name: $.trim($("#save-customerName").val())
+                },
+                type: "get",
+                dataType: "json",
+                success: function (data) {
+                    //console.log("data",data)
+                    if (data.data != null && data.data != '') {
+                        $("#save-customerName").val(data.data.name);
+                    }
+                }
+            })
+        }
+
+    })
+
+    //点击创建按钮后触发
+    function add(){
+        //初始化工作
+        $("#exampleModalLabel").text("添加");
+        getUser();
+
+        //所有者默认为当前登录者
+        var id = "${user.id}"
+        $("#save-owner").val(id);
+
+        $("#save-modal").modal("show");
+    }
+
+    function update(){
+        var $checked = $("#contact-list tbody input[type='checkbox']:checked");
+        if ($checked.length == 0){
+            alert("请选择要修改的记录");
+        }else if($checked.length > 1){
+            alert("每次只能修改一条记录");
+        }else {
+            //初始化工作
+            $("#exampleModalLabel").text("修改");
+            getUser();
+
+            var id = $checked.val();
+
+            //发送Ajax请求，拿到对应数据填入模态框对应位置
+            $.ajax({
+                url: "",
+                data: {
+                    id: id
+                },
+                type: "get",
+                dataType: "json",
+                success: function (data){
+
+                }
+            })
+        }
+    }
 </script>
 </html>

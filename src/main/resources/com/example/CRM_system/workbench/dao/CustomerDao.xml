@@ -145,4 +145,16 @@
 
         where c.id = #{id}
     </select>
+
+<!--    根据名字查询客户信息-->
+    <select id="getCustomerByName" resultType="com.example.CRM_system.workbench.pojo.Customer">
+        select
+        name
+        from c_customer
+        <where>
+            <if test="name != null and name != ''">
+                and name like concat('%', #{name}, '%')
+            </if>
+        </where>
+    </select>
 </mapper>

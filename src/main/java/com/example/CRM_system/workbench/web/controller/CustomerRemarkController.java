@@ -22,7 +22,7 @@ public class CustomerRemarkController {
     private CustomerRemarkService customerRemarkService;
 
     //根据客户id查询客户备足信息列表
-    @GetMapping("/getCustomerRemarkListByCustomerId")
+    @GetMapping("/getCustomerRemarkListByCustomerId.do")
     public Result getCustomerRemarkListByCustomerId(String customerId){
         System.out.println("进入根据客户id查询客户备注信息操作");
 
@@ -32,7 +32,7 @@ public class CustomerRemarkController {
     }
 
     //根据客户备注id查询客户备注信息
-    @GetMapping("/getCustomerRemarkById")
+    @GetMapping("/getCustomerRemarkById.do")
     public Result getCustomerRemarkById(String id){
         System.out.println("进入根据客户备注id查询客户备注信息操作");
 
@@ -42,7 +42,7 @@ public class CustomerRemarkController {
     }
 
     //添加或修改备注信息
-    @PostMapping("/saveCustomerRemark")
+    @PostMapping("/saveCustomerRemark.do")
     public Result saveCustomerRemark(CustomerRemark customerRemark, HttpSession session){
         System.out.println("进入添加或修改客户备注信息操作");
 
@@ -72,7 +72,7 @@ public class CustomerRemarkController {
     }
 
     //根据客户备注id删除客户备注信息
-    @PostMapping("deleteCustomerRemark")
+    @PostMapping("deleteCustomerRemark.do")
     public Result deleteCustomerRemark(String id){
         System.out.println("进入到根据客户备注id删除客户备注操作");
 
