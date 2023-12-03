@@ -1,6 +1,9 @@
 package com.example.CRM_system.workbench.web.controller;
 
 import com.example.CRM_system.commons.pojo.Result;
+import com.example.CRM_system.commons.utils.DateTimeUtil;
+import com.example.CRM_system.commons.utils.UUIDUtil;
+import com.example.CRM_system.settings.pojo.User;
 import com.example.CRM_system.vo.PaginationVO;
 import com.example.CRM_system.vo.req.ContactReq;
 import com.example.CRM_system.workbench.pojo.Contact;
@@ -10,12 +13,11 @@ import com.example.CRM_system.workbench.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/workbench/contact")
@@ -52,5 +54,42 @@ public class ContactController {
         Customer customer = customerService.getCustomerByName(name);
 
         return Result.success(customer);
+    }
+
+    //根据id拿到联系人对应的数据
+    @GetMapping("/getContactById.do")
+    @ResponseBody
+    public Result getContactById(String id){
+        System.out.println("进入根据id拿到对应联系人数据操作");
+
+        Contact contact = contactService.getContactById(id);
+
+        return Result.success(contact);
+    }
+
+    //添加或修改联系人
+    @PostMapping("saveContact.do")
+    @ResponseBody
+    public Result saveContact(Contact contact, String customerName, HttpSession session){
+        System.out.println("进入添加或修改联系人操作");
+
+        if (contact.getId() == null || contact.getId() == ""){//添加
+            String createBy = ((User) session.getAttribute("user")).getName();
+            contact.setId(UUIDUtil.getUUID());
+            contact.setCreateBy(createBy);
+            contact.setCreateTime(DateTimeUtil.getSysTime());
+        }else {//修改
+            String editBy = ((User) session.getAttribute("user")).getName();
+            contact.setEditBy(editBy);
+            contact.setEditTime(DateTimeUtil.getSysTime());
+        }
+
+        boolean flag = contactService.saveContact(contact, customerName);
+
+        if (flag){
+            return Result.success();
+        }else {
+            return Result.error("500", "添加或修改失败，请联系工作人员");
+        }
     }
 }

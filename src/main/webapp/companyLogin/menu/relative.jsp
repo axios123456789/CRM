@@ -444,9 +444,9 @@
             success: function (data) {
                 var html = "";
 
-                //console.log("data",data)
+                //console.log("data",data.data.dataList[0].customer)
                 $.each(data.data.dataList, function (i, n) {
-                    html += "<tr> <td> <input type='checkbox' value='" + n.id + "'/> </td> <td><a style='text-decoration: none; cursor: pointer' onclick='window.location.href=\"workbench/customer/detail.do?id=" + n.id + "\";'>" + n.name + n.salutation + "</a></td> <td>" + n.customer.name + "</td> <td>" + n.owner + "</td> <td>" + n.source + "</td> <td>" + n.birthday + "</td> </tr>";
+                    html += "<tr> <td> <input type='checkbox' value='" + n.id + "'/> </td> <td><a style='text-decoration: none; cursor: pointer' onclick='window.location.href=\"workbench/customer/detail.do?id=" + n.id + "\";'>" + n.name + n.salutation + "</a></td> <td>" + (n.customer == null ? "" : n.customer.name) + "</td> <td>" + n.owner + "</td> <td>" + n.source + "</td> <td>" + n.birthday + "</td> </tr>";
                 });
 
                 //显示客户列表
@@ -542,6 +542,7 @@
         $("#save-modal").modal("show");
     }
 
+    //修改联系人信息
     function update(){
         var $checked = $("#contact-list tbody input[type='checkbox']:checked");
         if ($checked.length == 0){
@@ -555,19 +556,80 @@
 
             var id = $checked.val();
 
+            //console.log("id",id)
             //发送Ajax请求，拿到对应数据填入模态框对应位置
             $.ajax({
-                url: "",
+                url: "workbench/contact/getContactById.do",
                 data: {
                     id: id
                 },
                 type: "get",
                 dataType: "json",
                 success: function (data){
+                    //console.log("data",data)
+                    $("#hidden-id").val(data.data.id);
+                    $("#save-name").val(data.data.name);
+                    $("#save-owner").val(data.data.owner);
+                    $("#save-source").val(data.data.source);
+                    $("#save-salutation").val(data.data.salutation);
+                    $("#save-email").val(data.data.email);
+                    $("#save-phone").val(data.data.phone);
+                    $("#save-position").val(data.data.position);
+                    $("#save-birthday").val(data.data.birthday);
+                    $("#save-description").val(data.data.description);
+                    $("#save-contactMinute").val(data.data.contactMinute);
+                    $("#save-nextContactTime").val(data.data.nextContactTime);
+                    $("#save-detailAddress").val(data.data.detailAddress);
+                    $("#save-customerName").val((data.data.customer==null?"":data.data.customer.name));
 
+                    //打开模态窗口1
+                    $("#save-modal").modal("show");
                 }
             })
         }
+    }
+
+    //点击模态窗口中的确认按钮后触发
+    function save(){
+        //发送Ajax请求，保存联系人数据到后端
+        $.ajax({
+            url: "workbench/contact/saveContact.do",
+            data: {
+                id :$("#hidden-id").val(),
+                name :$.trim($("#save-name").val()),
+                owner :$.trim($("#save-owner").val()),
+                source :$.trim($("#save-source").val()),
+                salutation :$.trim($("#save-salutation").val()),
+                email :$.trim($("#save-email").val()),
+                phone :$.trim($("#save-phone").val()),
+                position :$.trim($("#save-position").val()),
+                birthday :$.trim($("#save-birthday").val()),
+                description :$.trim($("#save-description").val()),
+                contactMinute :$.trim($("#save-contactMinute").val()),
+                nextContactTime :$.trim($("#save-nextContactTime").val()),
+                detailAddress :$.trim($("#save-detailAddress").val()),
+                customerName :$.trim($("#save-customerName").val())
+            },
+            type: "post",
+            dataType: "json",
+            success: function (data){
+                if (data.code == "200") {
+                    if ($("#hidden-id").val() == null || $("#hidden-id").val() == '') {//添加
+                        getContactList(1, $("#pagination").bs_pagination('getOption', 'rowsPerPage'));
+                    }else {//修改
+                        getContactList($("#pagination").bs_pagination('getOption', 'currentPage'), $("#pagination").bs_pagination('getOption', 'rowsPerPage'));
+
+                        //清空隐藏域
+                        $("#hidden-id").val("");
+                    }
+
+                    //关闭模态窗口
+                    $("#save-modal").modal("hide");
+                }else {
+                    alert(data.message);
+                }
+            }
+        })
     }
 </script>
 </html>

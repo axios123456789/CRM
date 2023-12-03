@@ -40,8 +40,72 @@
             <result column="csDetailAddress" property="detailAddress"></result>
         </association>
     </resultMap>
-    
-<!--条件查询联系人总记录数-->
+
+<!--    添加一条联系人记录-->
+    <insert id="addContact">
+        insert into c_contact(
+            id,
+            owner,
+            source,
+            name,
+            salutation,
+            email,
+            phone,
+            position,
+            birthday,
+            createBy,
+            createTime,
+            description,
+            contactMinute,
+            nextContactTime,
+            detailAddress,
+            customerId
+        )values (
+            #{id},
+            #{owner},
+            #{source},
+            #{name},
+            #{salutation},
+            #{email},
+            #{phone},
+            #{position},
+            #{birthday},
+            #{createBy},
+            #{createTime},
+            #{description},
+            #{contactMinute},
+            #{nextContactTime},
+            #{detailAddress},
+            #{customerId}
+        )
+    </insert>
+
+<!--    修改联系人记录-->
+    <update id="updateContact">
+        update c_contact
+
+        set
+
+        owner = #{owner},
+        source = #{source},
+        name = #{name},
+        salutation = #{salutation},
+        email = #{email},
+        phone = #{phone},
+        position = #{position},
+        birthday = #{birthday},
+        editBy = #{editBy},
+        editTime = #{editTime},
+        description = #{description},
+        contactMinute = #{contactMinute},
+        nextContactTime = #{nextContactTime},
+        detailAddress = #{detailAddress},
+        customerId = #{customerId}
+
+        where id = #{id}
+    </update>
+
+    <!--条件查询联系人总记录数-->
     <select id="getContactTotalByCondition" resultType="java.lang.Integer">
         select count(*)
 
@@ -101,5 +165,34 @@
                 ct.birthday = #{birthday}
             </if>
         </where>
+
+        order by ct.createTime desc
+        limit #{skipCount}, #{pageSize}
+    </select>
+
+<!--    根据id查询联系人记录-->
+    <select id="getContactById" resultMap="contactMap">
+        select
+
+            ct.id,
+            ct.owner,
+            ct.source,
+            ct.name,
+            ct.salutation,
+            ct.email,
+            ct.phone,
+            ct.position,
+            ct.birthday,
+            ct.description,
+            ct.contactMinute,
+            ct.nextContactTime,
+            ct.detailAddress,
+            cs.name as csName
+
+        from c_contact ct
+        left join c_customer cs on ct.customerId = cs.id
+
+        where ct.id = #{id}
+
     </select>
 </mapper>
