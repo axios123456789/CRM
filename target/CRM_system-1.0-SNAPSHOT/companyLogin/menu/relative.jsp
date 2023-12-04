@@ -446,7 +446,7 @@
 
                 //console.log("data",data.data.dataList[0].customer)
                 $.each(data.data.dataList, function (i, n) {
-                    html += "<tr> <td> <input type='checkbox' value='" + n.id + "'/> </td> <td><a style='text-decoration: none; cursor: pointer' onclick='window.location.href=\"workbench/customer/detail.do?id=" + n.id + "\";'>" + n.name + n.salutation + "</a></td> <td>" + (n.customer == null ? "" : n.customer.name) + "</td> <td>" + n.owner + "</td> <td>" + n.source + "</td> <td>" + n.birthday + "</td> </tr>";
+                    html += "<tr> <td> <input type='checkbox' value='" + n.id + "' /> </td> <td><a style='text-decoration: none; cursor: pointer' onclick='window.location.href=\"workbench/contact/detail.do?id=" + n.id + "\";'>" + n.name + n.salutation + "</a></td> <td>" + (n.customer == null ? "" : n.customer.name) + "</td> <td>" + n.owner + "</td> <td>" + n.source + "</td> <td>" + n.birthday + "</td> </tr>";
                 });
 
                 //显示客户列表
@@ -630,6 +630,44 @@
                 }
             }
         })
+    }
+
+    //删除联系人操作按钮
+    function del(){
+        var $checks = $("#contact-list tbody input[type='checkbox']:checked");
+        if ($checks.length == 0){
+            alert("请选择要删除的联系人记录!");
+        }else {
+            if (confirm("确定要删除选中的记录吗？")) {
+                var ids = "";
+
+                for (let i = 0; i < $checks.length; i++) {
+                    ids += $($checks[i]).val();
+
+                    if (i < $checks.length - 1){
+                        ids += ",";
+                    }
+                }
+
+                //console.log("ids", ids);
+                //发送Ajax请求，执行删除操作
+                $.ajax({
+                    url: "workbench/contact/deleteContactByIds.do",
+                    data: {
+                        ids: ids
+                    },
+                    type: "post",
+                    dataType: "json",
+                    success: function (data){
+                        if (data.code == "200"){
+                            getContactList(1, $("#pagination").bs_pagination('getOption', 'rowsPerPage'));
+                        }else {
+                            alert(data.message)
+                        }
+                    }
+                })
+            }
+        }
     }
 </script>
 </html>

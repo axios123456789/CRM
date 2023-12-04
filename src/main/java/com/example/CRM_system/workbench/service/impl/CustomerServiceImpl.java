@@ -2,6 +2,7 @@ package com.example.CRM_system.workbench.service.impl;
 
 import com.example.CRM_system.vo.PaginationVO;
 import com.example.CRM_system.vo.req.CustomerReq;
+import com.example.CRM_system.workbench.dao.ContactDao;
 import com.example.CRM_system.workbench.dao.CustomerDao;
 import com.example.CRM_system.workbench.dao.CustomerRemarkDao;
 import com.example.CRM_system.workbench.pojo.Customer;
@@ -18,6 +19,9 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Autowired
     private CustomerRemarkDao customerRemarkDao;
+
+    @Autowired
+    private ContactDao contactDao;
 
     /**
      * 条件查询客户列表数据
@@ -121,6 +125,9 @@ public class CustomerServiceImpl implements CustomerService {
         try {
             //根据ids删除所有对应的客户备注信息
             customerRemarkDao.deleteCustomerRemarkByCustomerIds(ids);
+
+            //根据ids删除所有与客户对应的联系人
+            contactDao.deleteContactByCustomerIds(ids);
 
             //根据客户ids删除客户信息
             customerDao.deleteCustomerByIds(ids);

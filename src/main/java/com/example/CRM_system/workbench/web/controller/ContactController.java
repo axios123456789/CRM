@@ -92,4 +92,33 @@ public class ContactController {
             return Result.error("500", "添加或修改失败，请联系工作人员");
         }
     }
+
+    //根据ids删除联系人
+    @PostMapping("/deleteContactByIds.do")
+    @ResponseBody
+    public Result deleteContactByIds(String[] ids){
+        System.out.println("进入根据ids删除联系人操作");
+
+        boolean flag = contactService.deleteContactByIds(ids);
+
+        if (flag){
+            return Result.success();
+        }else {
+            return Result.error("500", "删除联系人失败，请联系相关工作人员！");
+        }
+    }
+
+    //跳转到联系人详细信息页
+    @RequestMapping("/detail.do")
+    public String detail(String id, HttpSession session){
+        System.out.println("进入到跳转到联系人详细信息页操作");
+
+        //根据id查询到联系人相关信息
+        Contact contact = contactService.getContactMakeChineseOwnerById(id);
+
+        //将contact保存到session域中去
+        session.setAttribute("contact", contact);
+
+        return "companyLogin/menu/relative/detail";
+    }
 }

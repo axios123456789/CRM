@@ -20,4 +20,13 @@ public interface ContactDao {
 
     //修改联系人记录
     void updateContact(Contact contact);
+
+    //根据ids删除联系人
+    void deleteContactByIds(String[] ids);
+
+    //根据customerIds删除联系人
+    void deleteContactByCustomerIds(String[] ids);
+
+    //根据id拿到对应联系人记录并将所有者渲染成中文
+    Contact getContactMakeChineseOwnerById(String id);
 }

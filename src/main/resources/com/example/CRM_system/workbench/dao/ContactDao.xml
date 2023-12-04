@@ -105,6 +105,28 @@
         where id = #{id}
     </update>
 
+<!--    根据ids删除联系人的一条或多条记录-->
+    <delete id="deleteContactByIds">
+        delete from c_contact
+
+        where id in
+
+        <foreach collection="array" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+<!--   根据customerIds删除联系人的一条或多条记录 -->
+    <delete id="deleteContactByCustomerIds">
+        delete from c_contact
+
+        where customerId in
+
+        <foreach collection="array" item="customerId" open="(" close=")" separator=",">
+            #{customerId}
+        </foreach>
+    </delete>
+
     <!--条件查询联系人总记录数-->
     <select id="getContactTotalByCondition" resultType="java.lang.Integer">
         select count(*)
@@ -194,5 +216,38 @@
 
         where ct.id = #{id}
 
+    </select>
+
+<!--    根据id拿到对应联系人记录，并将所有者渲染成中文-->
+    <select id="getContactMakeChineseOwnerById" resultMap="contactMap">
+        select
+
+            ct.id,
+            u.name as owner,
+            ct.source,
+            ct.name,
+            ct.salutation,
+            ct.email,
+            ct.phone,
+            ct.position,
+            ct.birthday,
+            ct.createBy,
+            ct.createTime,
+            ct.editBy,
+            ct.editTime,
+            ct.description,
+            ct.contactMinute,
+            ct.nextContactTime,
+            ct.detailAddress,
+            ct.customerId,
+            cs.name as csName,
+            cs.companyExtension as companyExtension,
+            cs.companyWebsite as companyWebsite
+
+        from c_contact ct
+        left join c_user u on ct.owner = u.id
+        left join c_customer cs on ct.customerId = cs.id
+
+        where ct.id = #{id}
     </select>
 </mapper>

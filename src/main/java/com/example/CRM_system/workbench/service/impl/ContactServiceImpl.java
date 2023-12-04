@@ -55,6 +55,18 @@ public class ContactServiceImpl implements ContactService {
     }
 
     /**
+     * 根据id拿到对应联系人数据，并将联系人所有者渲染成中文
+     * @param id
+     * @return
+     */
+    @Override
+    public Contact getContactMakeChineseOwnerById(String id) {
+        Contact contact = contactDao.getContactMakeChineseOwnerById(id);
+
+        return contact;
+    }
+
+    /**
      * 添加或修改联系人
      * @param contact
      * @param customerName
@@ -100,6 +112,26 @@ public class ContactServiceImpl implements ContactService {
             }else {//修改
                 contactDao.updateContact(contact);
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+            flag = false;
+        }
+
+        return flag;
+    }
+
+    /**
+     * 根据ids删除联系人
+     * @param ids
+     * @return
+     */
+    @Override
+    public boolean deleteContactByIds(String[] ids) {
+        boolean flag = true;
+
+        try {
+            //根据ids删除联系人
+            contactDao.deleteContactByIds(ids);
         } catch (Exception e) {
             e.printStackTrace();
             flag = false;
