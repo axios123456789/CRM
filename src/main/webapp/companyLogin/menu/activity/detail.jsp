@@ -205,7 +205,7 @@
                 <%--       添加备注         --%>
                 <div id="remark-add" style="width: 900px; height: 200px; float: left; border:10px solid #b2b2b2">
                     <textarea class="form-control" rows="6" placeholder="添加备注"></textarea>
-                    <button type="button" class="btn btn-primary" style="float: right" onclick="add()">添加</button>
+                    <button type="button" class="btn btn-primary" style="float: right" onclick="add()">发表评论</button>
                 </div>
             </div>
 
@@ -441,7 +441,7 @@
 
     //删除备注信息
     function del_remark(id){
-        if (confirm("确定删除这条备注吗？")){
+        if (confirm("确定删除这条评论吗？")){
             //发送ajax请求执行删除备注操作
             $.ajax({
                 url: "workbench/activityRemark/delete.do",

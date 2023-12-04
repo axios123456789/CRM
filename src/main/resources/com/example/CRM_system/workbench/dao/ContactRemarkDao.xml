@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.CRM_system.workbench.dao.ContactRemarkDao">
+<!--    添加联系人备注-->
+    <insert id="addContactRemark">
+        insert into c_contact_remark(
+            id,
+            noteContent,
+            createBy,
+            createTime,
+            editFlag,
+            contactId
+        )values (
+            #{id},
+            #{noteContent},
+            #{createBy},
+            #{createTime},
+            #{editFlag},
+            #{contactId}
+        )
+    </insert>
+
+<!--    修改联系人备注-->
+    <update id="updateContactRemark">
+        update c_contact_remark
+
+        set
+
+        noteContent = #{noteContent},
+        editBy = #{editBy},
+        editTime = #{editTime},
+        editFlag = #{editFlag}
+
+        where id = #{id}
+    </update>
+
+<!--    根据id删除联系人备注记录-->
+    <delete id="deleteContactRemarkById">
+        delete from c_contact_remark
+
+        where id = #{id}
+    </delete>
+
+    <!--根据contactId查询联系人备注信息记录-->
+    <select id="getContactRemarkListByContactId"
+            resultType="com.example.CRM_system.workbench.pojo.ContactRemark">
+        select
+
+        id,
+        noteContent,
+        createBy,
+        createTime,
+        editBy,
+        editTime,
+        editFlag,
+        contactId
+
+        from c_contact_remark
+
+        where contactId = #{contactId}
+
+        order by createTime desc
+    </select>
+
+<!--    根据id查询联系人备注记录-->
+    <select id="getContactRemarkById" resultType="com.example.CRM_system.workbench.pojo.ContactRemark">
+        select * from c_contact_remark
+
+        where id = #{id}
+    </select>
+</mapper>

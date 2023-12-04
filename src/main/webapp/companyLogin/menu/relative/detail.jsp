@@ -231,7 +231,7 @@
                 <%--       添加备注         --%>
                 <div id="remark-add" style="width: 900px; height: 200px; float: left; border:10px solid #b2b2b2">
                     <textarea class="form-control" rows="6" placeholder="添加备注"></textarea>
-                    <button type="button" class="btn btn-primary" style="float: right" onclick="add()">添加</button>
+                    <button type="button" class="btn btn-primary" style="float: right" onclick="add()">发表评论</button>
                 </div>
             </div>
 
@@ -445,7 +445,7 @@
     function showRemarkList(){
         //发送ajax请求查询备注信息
         $.ajax({
-            url: "",
+            url: "workbench/contactRemark/getContactRemarkListByContactId.do",
             data: {
                 contactId: "${contact.id}"
             },
@@ -481,7 +481,7 @@
         if (noteContent != null && noteContent != ""){
             //发送ajax请求 执行添加操作
             $.ajax({
-                url: "",
+                url: "workbench/contactRemark/saveContactRemark.do",
                 data: {
                     "noteContent": noteContent,
                     "contactId": "${contact.id}"
@@ -513,7 +513,7 @@
 
         //发送ajax请求 拿到要修改的备注的原来备注信息
         $.ajax({
-            url: "",
+            url: "workbench/contactRemark/getContactRemarkById.do",
             data: {
                 "id": id
             },
@@ -531,10 +531,10 @@
 
     //删除备注信息
     function del_remark(id){
-        if (confirm("确定删除这条备注吗？")){
+        if (confirm("确定删除这条评论吗？")){
             //发送ajax请求执行删除备注操作
             $.ajax({
-                url: "",
+                url: "workbench/contactRemark/deleteContactRemarkById.do",
                 data: {
                     "id": id
                 },
@@ -556,7 +556,7 @@
     function remark_save(){
         //发送ajax请求 保存修改内容
         $.ajax({
-            url: "",
+            url: "workbench/contactRemark/saveContactRemark.do",
             data: {
                 "id": $.trim($("#hidden-remark-id").val()),
                 "noteContent": $.trim($("#edit-noteContent textarea").val())
