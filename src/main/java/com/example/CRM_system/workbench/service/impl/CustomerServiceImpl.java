@@ -1,5 +1,6 @@
 package com.example.CRM_system.workbench.service.impl;
 
+import com.example.CRM_system.commons.utils.TransactionStatus;
 import com.example.CRM_system.vo.PaginationVO;
 import com.example.CRM_system.vo.req.CustomerReq;
 import com.example.CRM_system.workbench.dao.ContactDao;
@@ -9,6 +10,7 @@ import com.example.CRM_system.workbench.pojo.Customer;
 import com.example.CRM_system.workbench.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.PlatformTransactionManager;
 
 import java.util.List;
 
@@ -22,6 +24,9 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Autowired
     private ContactDao contactDao;
+
+    @Autowired
+    private PlatformTransactionManager transactionManager;
 
     /**
      * 条件查询客户列表数据
@@ -91,22 +96,16 @@ public class CustomerServiceImpl implements CustomerService {
 
         //根据id查询客户信息
         Customer customerById = customerDao.getCustomerById(customer.getId());
-
-        //判断查到的客户信息是否为空，如果为空则执行添加操作，否则执行修改操作
-        if (customerById == null || "[]".equals(customerById) || "".equals(customerById)){//添加
-            try {
+        try {
+            //判断查到的客户信息是否为空，如果为空则执行添加操作，否则执行修改操作
+            if (customerById == null || "[]".equals(customerById) || "".equals(customerById)){//添加
                 customerDao.addCustomer(customer);
-            } catch (Exception e) {
-                e.printStackTrace();
-                flag = false;
-            }
-        }else {//修改
-            try {
+            }else {//修改
                 customerDao.editCustomer(customer);
-            } catch (Exception e) {
-                e.printStackTrace();
-                flag = false;
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+            flag = false;
         }
 
         return flag;
@@ -120,7 +119,7 @@ public class CustomerServiceImpl implements CustomerService {
      */
     @Override
     public boolean deleteCustomerByIds(String[] ids) {
-        boolean flag = true;
+        org.springframework.transaction.TransactionStatus status = transactionManager.getTransaction(TransactionStatus.getTransactionStatus());
 
         try {
             //根据ids删除所有对应的客户备注信息
@@ -133,9 +132,11 @@ public class CustomerServiceImpl implements CustomerService {
             customerDao.deleteCustomerByIds(ids);
         } catch (Exception e) {
             e.printStackTrace();
-            flag = false;
+            transactionManager.rollback(status);
+            return false;
         }
+        transactionManager.commit(status);
 
-        return flag;
+        return true;
     }
 }

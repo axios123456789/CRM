@@ -1,5 +1,6 @@
 package com.example.CRM_system.workbench.service.impl;
 
+import com.example.CRM_system.commons.utils.TransactionStatus;
 import com.example.CRM_system.vo.PaginationVO;
 import com.example.CRM_system.workbench.dao.ActivityDao;
 import com.example.CRM_system.workbench.dao.ActivityRemarkDao;
@@ -8,6 +9,7 @@ import com.example.CRM_system.workbench.pojo.Activity;
 import com.example.CRM_system.workbench.service.ActivityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -24,6 +26,9 @@ public class ActivityServiceImpl implements ActivityService {
     @Autowired
     private ClueActivityRelationDao clueActivityRelationDao;
 
+    @Autowired
+    private PlatformTransactionManager transactionManager;
+
     /**
      * 保存数据到市场活动列表中 包括修改和添加
      * @param activity
@@ -31,29 +36,21 @@ public class ActivityServiceImpl implements ActivityService {
      */
     @Override
     public boolean save(Activity activity) {
-        boolean flag = true;
-
         //判断id是否存在
         int countSelect = activityDao.selectById(activity.getId());
-
-        //id存在执行修改操作 不存在执行添加操作
-        if (countSelect == 1){
-            try {
+        try {
+            //id存在执行修改操作 不存在执行添加操作
+            if (countSelect == 1){
                 activityDao.upData(activity);
-            } catch (Exception e) {
-                e.printStackTrace();
-                flag = false;
-            }
-        }else {
-            try {
+            }else {
                 activityDao.save(activity);
-            } catch (Exception e) {
-                e.printStackTrace();
-                flag = false;
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
         }
 
-        return flag;
+        return true;
     }
 
     /**
@@ -85,24 +82,7 @@ public class ActivityServiceImpl implements ActivityService {
     @Override
     @Transactional
     public boolean delete(String[] ids) {
-        boolean flag = true;
-
-        /*//查询需要删除的市场活动备注的数量
-        int remarkCount = activityRemarkDao.getCountByAids(ids);
-
-        //删除市场活动备注， 返回受到影响的条数（实际删除的数量）
-        int delRemarkCount = activityRemarkDao.deleteCountByAids(ids);
-
-        if (remarkCount != delRemarkCount){
-            flag = false;
-        }
-
-        //删除市场活动
-        int delActivityCount = activityDao.deleteActivityByIds(ids);
-        if (delActivityCount != ids.length){
-            flag = false;
-        }*/
-
+        org.springframework.transaction.TransactionStatus status = transactionManager.getTransaction(TransactionStatus.getTransactionStatus());
         try {
             //删除市场活动备注
             activityRemarkDao.deleteCountByAids(ids);
@@ -114,10 +94,12 @@ public class ActivityServiceImpl implements ActivityService {
             activityDao.deleteActivityByIds(ids);
         } catch (Exception e) {
             e.printStackTrace();
-            flag = false;
+            transactionManager.rollback(status);
+            return false;
         }
+        transactionManager.commit(status);
 
-        return flag;
+        return true;
     }
 
     /**

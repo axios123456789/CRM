@@ -19,4 +19,7 @@ public interface ContactRemarkDao {
 
     //根据id删除联系人备注信息
     void deleteContactRemarkById(String id);
+
+    //根据contactIds删除联系人备注
+    void deleteContactRemarkByContactIds(String[] ids);
 }

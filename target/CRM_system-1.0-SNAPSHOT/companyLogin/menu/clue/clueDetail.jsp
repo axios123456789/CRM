@@ -233,7 +233,7 @@
                 <%--       添加备注         --%>
                 <div id="remark-add" style="width: 900px; height: 200px; float: left; border:10px solid #b2b2b2">
                     <textarea class="form-control" rows="6" placeholder="添加备注"></textarea>
-                    <button type="button" class="btn btn-primary" style="float: right" onclick="add()">添加</button>
+                    <button type="button" class="btn btn-primary" style="float: right" onclick="add()">发表评论</button>
                 </div>
             </div>
 
@@ -494,7 +494,7 @@
 
     //删除备注
     function del_remark(id){
-        if (confirm("确定要删除这个备注吗？")){
+        if (confirm("确定要删除这条评论吗？")){
             //发送Ajax请求，删除备注信息
             $.ajax({
                 url: "workbench/clueRemark/del.do",

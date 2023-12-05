@@ -43,6 +43,16 @@
         where id = #{id}
     </delete>
 
+<!--    根据contactId删除联系人备注信息-->
+    <delete id="deleteContactRemarkByContactIds">
+        delete
+        from c_contact_remark
+        where contactId in
+        <foreach collection="array" item="contactId" open="(" close=")" separator=",">
+            #{contactId}
+        </foreach>
+    </delete>
+
     <!--根据contactId查询联系人备注信息记录-->
     <select id="getContactRemarkListByContactId"
             resultType="com.example.CRM_system.workbench.pojo.ContactRemark">

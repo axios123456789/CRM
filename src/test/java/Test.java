@@ -1,8 +1,11 @@
 import com.example.CRM_system.commons.utils.MD5Util;
 import com.example.CRM_system.commons.utils.UUIDUtil;
 import com.example.CRM_system.vo.req.ClueReq;
+import com.example.CRM_system.workbench.dao.ClueDao;
 import org.apache.poi.ss.formula.functions.Replace;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.xml.soap.Detail;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -63,7 +66,5 @@ public class Test {
         }).collect(Collectors.toList());
 
         System.out.println(collect);*/
-
-        System.out.println(Integer.valueOf("29"));
     }
 }

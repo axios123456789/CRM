@@ -1,6 +1,6 @@
 package com.example.CRM_system.workbench.service.impl;
 
-import com.example.CRM_system.commons.utils.SqlSessionUtil;
+import com.example.CRM_system.commons.utils.TransactionStatus;
 import com.example.CRM_system.vo.PaginationVO;
 import com.example.CRM_system.vo.req.ClueReq;
 import com.example.CRM_system.workbench.dao.ClueActivityRelationDao;
@@ -10,6 +10,7 @@ import com.example.CRM_system.workbench.pojo.Clue;
 import com.example.CRM_system.workbench.service.ClueService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -25,6 +26,9 @@ public class ClueServiceImpl implements ClueService {
 
     @Autowired
     private ClueActivityRelationDao clueActivityRelationDao;
+
+    @Autowired
+    private PlatformTransactionManager transactionManager;
 
     /**
      * 条件查询线索列表
@@ -109,29 +113,10 @@ public class ClueServiceImpl implements ClueService {
      * @param ids
      * @return
      */
-    @Override
     @Transactional
+    @Override
     public boolean deleteClue(String[] ids) {
-        boolean flag = true;
-
-        /*//查询需要删除的线索备注的数量
-        int remarkCount = clueRemarkDao.getClueRemarkCountByClueIds(ids);
-
-        //删除线索备注，返回删除的记录数
-        int delRemarkCount = clueRemarkDao.deleteClueRemarkByClueIds(ids);
-
-        //比较查询到的需要删除的备注数量和实际删除的线索备注数量，相同则删除成功，不同则删除出现业务问题
-        if (remarkCount != delRemarkCount){
-            flag = false;
-        }
-
-        //删除线索,返回删除的记录数
-        int delClueCount = clueDao.deleteClueByIds(ids);
-
-        //比较实际删除的线索数量和ids的长度（需要删除的线索数量），相同则删除成功，不同则删除出现业务问题
-        if (delClueCount != ids.length){
-            flag = false;
-        }*/
+        org.springframework.transaction.TransactionStatus status = transactionManager.getTransaction(TransactionStatus.getTransactionStatus());
 
         try {
             //删除线索备注
@@ -144,9 +129,11 @@ public class ClueServiceImpl implements ClueService {
             clueDao.deleteClueByIds(ids);
         } catch (Exception e) {
             e.printStackTrace();
-            flag = false;
+            transactionManager.rollback(status);
+            return false;
         }
+        transactionManager.commit(status);
 
-        return flag;
+        return true;
     }
 }
