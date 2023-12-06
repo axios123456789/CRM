@@ -28,5 +28,8 @@ public interface CustomerDao {
     Customer getCustomerMakeChineseOwnerById(String id);
 
     //根据名字查询客户信息
-    Customer getCustomerByName(String name);
+    List<Customer> getCustomerByName(String name);
+
+    //根据名字不模糊查询客户列表
+    Customer getCustomerByAllName(String customerName);
 }

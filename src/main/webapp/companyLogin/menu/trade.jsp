@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
     String path = request.getContextPath();
     String basePath = request.getScheme() + "://"
@@ -18,10 +19,14 @@
     <title>交易</title>
     <base href="<%=basePath%>">
     <link rel="stylesheet" type="text/css" href="css/work.css"/>
-    <script type="text/javascript" src="js/jquery-1.6.1.min.js"></script>
+    <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
 
     <link rel="stylesheet" type="text/css" href="plug-ins/bootstrap-3.4.1-dist/css/bootstrap.min.css"/>
     <script type="text/javascript" src="plug-ins/bootstrap-3.4.1-dist/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/jquery.bs_pagination.min.css"/>
+    <script type="text/javascript" src="js/jquery.bs_pagination.min.js"></script>
+    <script type="text/javascript" src="js/en.js"></script>
 </head>
 <body>
 <header>
@@ -136,7 +141,122 @@
     </div>
 
     <div id="workplace">
-        交易
+        <div>
+            <div style="position: relative; left: 10px; top: -10px;">
+                <div class="page-header">
+                    <h3>交易列表</h3>
+                </div>
+            </div>
+        </div>
+
+<%--        条件查询--%>
+        <div style="position: relative; left: 10px; top: -20px; width: 1290px; height: 80px;">
+            <form id="trade-search" style="position: relative; top: 5px;">
+                <div class="input-group" style="width: 310px; float: left">
+                    <span class="input-group-addon" id="basic-addon1">名称</span>
+                    <input type="text" class="form-control" id="search-name" aria-describedby="basic-addon1"/>
+                </div>
+                <div class="input-group" style="width: 310px; float: left">
+                    <span class="input-group-addon" id="basic-addon2">所有者</span>
+                    <input type="text" class="form-control" id="search-owner" aria-describedby="basic-addon2"/>
+                </div>
+                <div class="input-group" style="width: 310px; float: left">
+                    <span class="input-group-addon" id="basic-addon3">客户名称</span>
+                    <input type="text" class="form-control" id="search-customerName" aria-describedby="basic-addon3"/>
+                </div>
+                <div class="input-group" style="width: 310px; float: left">
+                    <span class="input-group-addon" id="basic-addon4">阶段</span>
+                    <select class="form-control" id="search-stage">
+                        <option></option>
+                        <c:forEach items="${stageList}" var="stage">
+                            <option value="${stage.value}">${stage.text}</option>
+                        </c:forEach>
+                    </select>
+                </div>
+                <div class="input-group" style="width: 310px; float: left">
+                    <span class="input-group-addon" id="basic-addon5">类型</span>
+                    <select class="form-control" id="search-transactionType">
+                        <option></option>
+                        <c:forEach items="${transactionTypeList}" var="transactionType">
+                            <option value="${transactionType.value}">${transactionType.text}</option>
+                        </c:forEach>
+                    </select>
+                </div>
+                <div class="input-group" style="width: 310px; float: left">
+                    <span class="input-group-addon" id="basic-addon6">来源</span>
+                    <select class="form-control" id="search-source">
+                        <option></option>
+                        <c:forEach items="${sourceList}" var="source">
+                            <option value="${source.value}">${source.text}</option>
+                        </c:forEach>
+                    </select>
+                </div>
+                <div class="input-group" style="width: 310px; float: left">
+                    <span class="input-group-addon" id="basic-addon7">联系人名称</span>
+                    <input type="text" class="form-control" id="search-contactName" aria-describedby="basic-addon7"/>
+                </div>
+                <button type="button" class="btn btn-default" style="margin-left: 10px" onclick="search()">查询</button>
+            </form>
+        </div>
+
+<%--        增删改操作按钮--%>
+        <div style="width: 1290px; position: relative;left: 10px; top: 10px;">
+            <button type="button" class="btn btn-primary" onclick="add()"><img src="img/add.png"
+                                                                               style="width: 20px;"/>创建
+            </button>
+            <button type="button" class="btn btn-default" onclick="update()"><img src="img/pencil-fill.svg"/>修改
+            </button>
+            <button type="button" class="btn btn-danger" onclick="del()"><img src="img/delete.png"
+                                                                              style="width: 20px;"/>删除
+            </button>
+        </div>
+
+<%--        交易列表--%>
+        <div style="position: relative;left: 10px ;top: 50px;">
+            <table class="table table-hover" id="trade-list">
+                <thead>
+                <tr style="color: #B3B3B3;">
+                    <td><input type="checkbox"/></td>
+                    <td>名称</td>
+                    <td>客户名称</td>
+                    <td>阶段</td>
+                    <td>类型</td>
+                    <td>所有者</td>
+                    <td>来源</td>
+                    <td>联系人名称</td>
+                </tr>
+                </thead>
+                <tbody>
+               <%-- <tr>
+                    <td><input type="checkbox"/></td>
+                    <td><a style="text-decoration: none; cursor: pointer;"
+                           onclick="window.location.href='workbench/transaction/tranDetail.do?tranId=36be8d3e0c3747eeade2b68402701dcb';">动力节点-交易01</a></td>
+                    <td>动力节点</td>
+                    <td>谈判/复审</td>
+                    <td>新业务</td>
+                    <td>zhangsan</td>
+                    <td>广告</td>
+                    <td>李四</td>
+                </tr>
+                <tr class="active">
+                    <td><input type="checkbox"/></td>
+                    <td><a style="text-decoration: none; cursor: pointer;"
+                           onclick="window.location.href='workbench/transaction/tranDetail.do?tranId=36be8d3e0c3747eeade2b68402701dcb';">动力节点-交易01</a></td>
+                    <td>动力节点</td>
+                    <td>谈判/复审</td>
+                    <td>新业务</td>
+                    <td>zhangsan</td>
+                    <td>广告</td>
+                    <td>李四</td>
+                </tr>--%>
+                </tbody>
+            </table>
+        </div>
+
+        <%--       分页         --%>
+        <div id="pagination"></div>
+
+
     </div>
 </nav>
 <footer></footer>
@@ -169,6 +289,30 @@
             }
         })
 
+
+
+        //点击交易列表头部的复选框 头部以下的复选框都默认选中
+        $("#trade-list thead input[type='checkbox']").click(function (){
+            /*if (this.checked) {
+                $("#activity-list tbody input[type='checkbox']").prop('checked', true);
+                //$("#activity-list tbody input[type='checkbox']").prop('disabled', false);
+            }else {
+                $("#activity-list tbody input[type='checkbox']").prop('checked', false);
+            }*/
+            $("#trade-list tbody input[type='checkbox']").prop('checked', this.checked);
+        });
+
+        //头部以下的复选框全选了，则头部的复选框也选上 头部以下的复选框没全选，则头部的复选框不选
+        //通过动态生成元素来实现
+        /*动态生成的元素， 以on方法的形式来触发事件
+            语法：
+                $(需要绑定元素的有效的外层元素).on(绑定事件的方式，需要绑定的元素的jQuery对象，回调函数)
+        */
+        $("#trade-list tbody").on("click", $("#trade-list tbody input[type='checkbox']"), function (){
+            $("#trade-list thead input[type='checkbox']").prop("checked", $("#trade-list tbody input[type='checkbox']").length == $("#trade-list tbody input[type='checkbox']:checked").length);
+        })
     })
+
+
 </script>
 </html>

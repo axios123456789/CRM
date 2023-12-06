@@ -80,9 +80,13 @@ public class CustomerServiceImpl implements CustomerService {
      */
     @Override
     public Customer getCustomerByName(String name) {
-        Customer customer = customerDao.getCustomerByName(name);
+        List<Customer> customers = customerDao.getCustomerByName(name);
 
-        return customer;
+        if (customers.size() == 1){
+            return customers.get(0);
+        }else {
+            return null;
+        }
     }
 
     /**

@@ -90,7 +90,7 @@ public class ContactServiceImpl implements ContactService {
         try {
             if (customerName != null && customerName != "") {
                 //根据客户名称到客户列表中查询客户信息，如果查到了则将id保存为concat中的customerId， 没查到则创建客户并保存到客户表中
-                Customer customerByName = customerDao.getCustomerByName(customerName);
+                Customer customerByName = customerDao.getCustomerByAllName(customerName);
                 if (customerByName != null && !("".equals(customerByName)) && !("[]".equals(customerByName))){
                     //设置客户id设为concat的customerId
                     contact.setCustomerId(customerByName.getId());

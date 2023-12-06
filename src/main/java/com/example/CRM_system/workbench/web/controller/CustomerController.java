@@ -77,7 +77,7 @@ public class CustomerController {
         if (flag){
             return Result.success();
         }else {
-            return Result.error("500", "添加或修改失败，请联系工作人员");
+            return Result.error("500", "添加或修改失败，请检查您添加或修改的客户在客户列表中是否已经存在，如果已经存在了，请不要添加或修改相同的客户进来，如果不存在，请联系工作人员来解决您的问题！");
         }
     }
 
