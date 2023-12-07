@@ -197,65 +197,75 @@
                 </div>
                 <button type="button" class="btn btn-default" style="margin-left: 10px" onclick="search()">查询</button>
             </form>
+
+<%--            条件查询用来保存查询条件的隐藏域--%>
+            <input type="hidden" id="hidden-name"/>
+            <input type="hidden" id="hidden-owner"/>
+            <input type="hidden" id="hidden-customerName"/>
+            <input type="hidden" id="hidden-stage"/>
+            <input type="hidden" id="hidden-transactionType"/>
+            <input type="hidden" id="hidden-source"/>
+            <input type="hidden" id="hidden-contactName"/>
         </div>
 
-<%--        增删改操作按钮--%>
-        <div style="width: 1290px; position: relative;left: 10px; top: 10px;">
-            <button type="button" class="btn btn-primary" onclick="add()"><img src="img/add.png"
-                                                                               style="width: 20px;"/>创建
-            </button>
-            <button type="button" class="btn btn-default" onclick="update()"><img src="img/pencil-fill.svg"/>修改
-            </button>
-            <button type="button" class="btn btn-danger" onclick="del()"><img src="img/delete.png"
-                                                                              style="width: 20px;"/>删除
-            </button>
+        <div style="width: 1290px; position: relative; left: 10px; top: 30px">
+            <%--        增删改操作按钮--%>
+            <div style="width: 1290px; float: left">
+                <button type="button" class="btn btn-primary" onclick="add()"><img src="img/add.png"
+                                                                                   style="width: 20px;"/>创建
+                </button>
+                <button type="button" class="btn btn-default" onclick="update()"><img src="img/pencil-fill.svg"/>修改
+                </button>
+                <button type="button" class="btn btn-danger" onclick="del()"><img src="img/delete.png"
+                                                                                  style="width: 20px;"/>删除
+                </button>
+            </div>
+
+            <%--        交易列表--%>
+            <div style="width: 1290px; float: left; margin-top: 40px">
+                <table class="table table-hover" id="trade-list">
+                    <thead>
+                    <tr style="color: #B3B3B3;">
+                        <td><input type="checkbox"/></td>
+                        <td>名称</td>
+                        <td>客户名称</td>
+                        <td>阶段</td>
+                        <td>类型</td>
+                        <td>所有者</td>
+                        <td>来源</td>
+                        <td>联系人名称</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <%-- <tr>
+                         <td><input type="checkbox"/></td>
+                         <td><a style="text-decoration: none; cursor: pointer;"
+                                onclick="window.location.href='workbench/transaction/tranDetail.do?tranId=36be8d3e0c3747eeade2b68402701dcb';">动力节点-交易01</a></td>
+                         <td>动力节点</td>
+                         <td>谈判/复审</td>
+                         <td>新业务</td>
+                         <td>zhangsan</td>
+                         <td>广告</td>
+                         <td>李四</td>
+                     </tr>
+                     <tr class="active">
+                         <td><input type="checkbox"/></td>
+                         <td><a style="text-decoration: none; cursor: pointer;"
+                                onclick="window.location.href='workbench/transaction/tranDetail.do?tranId=36be8d3e0c3747eeade2b68402701dcb';">动力节点-交易01</a></td>
+                         <td>动力节点</td>
+                         <td>谈判/复审</td>
+                         <td>新业务</td>
+                         <td>zhangsan</td>
+                         <td>广告</td>
+                         <td>李四</td>
+                     </tr>--%>
+                    </tbody>
+                </table>
+            </div>
+
+            <%--       分页         --%>
+            <div id="pagination"></div>
         </div>
-
-<%--        交易列表--%>
-        <div style="position: relative;left: 10px ;top: 50px;">
-            <table class="table table-hover" id="trade-list">
-                <thead>
-                <tr style="color: #B3B3B3;">
-                    <td><input type="checkbox"/></td>
-                    <td>名称</td>
-                    <td>客户名称</td>
-                    <td>阶段</td>
-                    <td>类型</td>
-                    <td>所有者</td>
-                    <td>来源</td>
-                    <td>联系人名称</td>
-                </tr>
-                </thead>
-                <tbody>
-               <%-- <tr>
-                    <td><input type="checkbox"/></td>
-                    <td><a style="text-decoration: none; cursor: pointer;"
-                           onclick="window.location.href='workbench/transaction/tranDetail.do?tranId=36be8d3e0c3747eeade2b68402701dcb';">动力节点-交易01</a></td>
-                    <td>动力节点</td>
-                    <td>谈判/复审</td>
-                    <td>新业务</td>
-                    <td>zhangsan</td>
-                    <td>广告</td>
-                    <td>李四</td>
-                </tr>
-                <tr class="active">
-                    <td><input type="checkbox"/></td>
-                    <td><a style="text-decoration: none; cursor: pointer;"
-                           onclick="window.location.href='workbench/transaction/tranDetail.do?tranId=36be8d3e0c3747eeade2b68402701dcb';">动力节点-交易01</a></td>
-                    <td>动力节点</td>
-                    <td>谈判/复审</td>
-                    <td>新业务</td>
-                    <td>zhangsan</td>
-                    <td>广告</td>
-                    <td>李四</td>
-                </tr>--%>
-                </tbody>
-            </table>
-        </div>
-
-        <%--       分页         --%>
-        <div id="pagination"></div>
-
 
     </div>
 </nav>
@@ -289,7 +299,8 @@
             }
         })
 
-
+        //显示交易列表
+        getTradeList(1, 3);
 
         //点击交易列表头部的复选框 头部以下的复选框都默认选中
         $("#trade-list thead input[type='checkbox']").click(function (){
@@ -313,6 +324,100 @@
         })
     })
 
+    //条件查询交易列表
+    function search(){
+        //将查询输入框中的内容赋到隐藏框中
+        $("#hidden-name").val($.trim($("#search-name").val()));
+        $("#hidden-owner").val($.trim($("#search-owner").val()));
+        $("#hidden-customerName").val($.trim($("#search-customerName").val()));
+        $("#hidden-stage").val($.trim($("#search-stage").val()));
+        $("#hidden-transactionType").val($.trim($("#search-transactionType").val()));
+        $("#hidden-source").val($.trim($("#search-source").val()));
+        $("#hidden-contactName").val($.trim($("#search-contactName").val()));
 
+        //查询交易列表信息
+        getTradeList(1, $("#pagination").bs_pagination('getOption', 'rowsPerPage'))
+    }
+
+    //分页及条件查询交易列表
+    function getTradeList(pageNo, pageSize){
+        //初始化工作
+        $("#trade-list thead input[type='checkbox']").prop('checked', false);
+        $("#search-name").val($("#hidden-name").val());
+        $("#search-owner").val($("#hidden-owner").val());
+        $("#search-customerName").val($("#hidden-customerName").val());
+        $("#search-stage").val($("#hidden-stage").val());
+        $("#search-transactionType").val($("#hidden-transactionType").val());
+        $("#search-source").val($("#hidden-source").val());
+        $("#search-contactName").val($("#hidden-contactName").val());
+
+        //发送Ajax请求，拿到交易列表的数据
+        $.ajax({
+            url: "workbench/trade/getTradeListByCondition.do",
+            data: {
+                pageNoStr: pageNo,
+                pageSizeStr: pageSize,
+                name: $("#search-name").val(),
+                owner: $("#search-owner").val(),
+                customerName: $("#search-customerName").val(),
+                stage: $("#search-stage").val(),
+                type: $("#search-transactionType").val(),
+                source: $("#search-source").val(),
+                contactName: $("#search-contactName").val(),
+            },
+            type: "get",
+            dataType: "json",
+            success: function (data){
+                var html = "";
+
+                $.each(data.data.dataList, function (i, n) {
+                    html += "<tr> <td> <input type='checkbox' value='" + n.id + "'/> </td> <td><a style='text-decoration: none; cursor: pointer' onclick='window.location.href=\"workbench/trade/detail.do?id=" + n.id + "\";'>" + n.name + "</a></td> <td>" + n.customerId + "</td> <td>" + n.stage + "</td> <td>" + n.type + "</td> <td>" + n.owner + "</td> <td>" + n.source + "</td> <td>" + n.contactId + "</td> </tr>";
+                });
+
+                //显示客户列表
+                $("#trade-list tbody").html(html);
+
+                //计算总页数
+                var totalPages = data.data.total % pageSize == 0 ? data.data.total / pageSize : parseInt(data.data.total / pageSize) + 1;
+
+                //分页
+                $("#pagination").bs_pagination({
+                    currentPage: pageNo, //打开时显示到第几页，默认显示首页
+                    rowsPerPage: pageSize, //每页显示的数据条数，默认为10条
+                    maxRowsPerPage: 20,     //每页最多显示的记录条数
+                    totalPages: totalPages, //必须填，默认为100，表示显示多少页，应该自己算好再填
+                    totalRows: data.data.total, //数据总条数，默认1000
+                    visiblePageLinks: 3, //设置显示多少个按钮，默认为5
+                    showGoToPage: true,//是否显示“跳转到”部分，默认为true，表示显示
+                    showRowsInfo: true, //是否显示记录的信息，默认是true
+                    showRowsPerPage: true, //是否显示“每页显示条数”的部分，默认是true
+                    showRowsDefaultInfo: true,
+                    //用户每次切换页号都会执行本函数
+                    //该函数每次返回切换页号之后的pageNo和pageSize
+                    onChangePage: function (event, pageObj) {
+                        /*alert(event);
+                           alert(pageObj.currentPage);//当前页面
+                           alert(pageObj.rowsPerPage);//当前页面的数据条数*/
+                        getTradeList(pageObj.currentPage, pageObj.rowsPerPage);
+                    },
+                });
+            }
+        })
+    }
+
+    //创建交易
+    function add(){
+        window.location.href = "companyLogin/menu/trade/addTrade.jsp"
+    }
+
+    //修改交易相关信息
+    function update(){
+
+    }
+
+    //删除一笔或多笔交易
+    function del(){
+
+    }
 </script>
 </html>
