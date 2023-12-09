@@ -2,14 +2,19 @@ import com.example.CRM_system.commons.utils.MD5Util;
 import com.example.CRM_system.commons.utils.UUIDUtil;
 import com.example.CRM_system.vo.req.ClueReq;
 import com.example.CRM_system.workbench.dao.ClueDao;
+import jdk.jfr.internal.tool.Main;
 import org.apache.poi.ss.formula.functions.Replace;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
+import javax.servlet.ServletContext;
 import javax.xml.soap.Detail;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Test {
@@ -66,5 +71,34 @@ public class Test {
         }).collect(Collectors.toList());
 
         System.out.println(collect);*/
+
+        /*ResourceBundle resourceBundle = ResourceBundle.getBundle("poss");
+        String res = resourceBundle.getString("需求分析");
+        System.out.println(res);*/
+
+        Properties properties = new Properties();
+        String projectPath = System.getProperty("user.dir");
+        projectPath += "\\src\\main\\resources\\poss.properties";
+        try (InputStreamReader reader = new InputStreamReader(new FileInputStream("/D:/learnJava/CRM_system/target/classes/poss.properties"), StandardCharsets.UTF_8)) {
+            properties.load(reader);
+
+            String chineseKey = "需求分析";
+            String chineseValue = properties.getProperty(chineseKey);
+            System.out.println(chineseKey + " 对应的值为：" + chineseValue);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        //获取资源路径
+        ClassLoader classLoader = Test.class.getClassLoader();
+        URL resourceUrl = classLoader.getResource("poss.properties");
+        if (resourceUrl != null) {
+            String configFilePath = resourceUrl.getFile();
+            System.out.println("配置文件路径：" + configFilePath);
+        } else {
+            System.out.println("找不到配置文件");
+        }
+
+
     }
 }
