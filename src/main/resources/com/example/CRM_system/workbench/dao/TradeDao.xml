@@ -3,7 +3,71 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.CRM_system.workbench.dao.TradeDao">
-<!--条件查询交易列表-->
+<!--    添加一条交易记录-->
+    <insert id="addTrade">
+        insert into c_trade(
+            id,
+            owner,
+            amount,
+            name,
+            expectedTradeDate,
+            stage,
+            type,
+            source,
+            createBy,
+            createTime,
+            description,
+            contactMinute,
+            nextContactTime,
+            customerId,
+            activityId,
+            contactId
+        )values (
+            #{id},
+            #{owner},
+            #{amount},
+            #{name},
+            #{expectedTradeDate},
+            #{stage},
+            #{type},
+            #{source},
+            #{createBy},
+            #{createTime},
+            #{description},
+            #{contactMinute},
+            #{nextContactTime},
+            #{customerId},
+            #{activityId},
+            #{contactId}
+    )
+    </insert>
+
+<!--    修改交易记录-->
+    <update id="editTrade">
+        update c_trade
+
+        set
+
+        owner = #{owner},
+        amount = #{amount},
+        name = #{name},
+        expectedTradeDate = #{expectedTradeDate},
+        stage = #{stage},
+        type = #{type},
+        source = #{source},
+        editBy = #{editBy},
+        editTime = #{editTime},
+        description = #{description},
+        contactMinute = #{contactMinute},
+        nextContactTime = #{nextContactTime},
+        customerId = #{customerId},
+        activityId = #{activityId},
+        contactId = #{contactId}
+
+        where id = #{id}
+    </update>
+
+    <!--条件查询交易列表-->
     <select id="getTradeListByCondition" resultType="com.example.CRM_system.workbench.pojo.Trade">
         select
 

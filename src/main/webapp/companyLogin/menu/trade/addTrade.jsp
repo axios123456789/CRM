@@ -682,23 +682,21 @@
         }else {
             //发送ajax请求，进行添加线索操作
             $.ajax({
-                url: "",
+                url: "workbench/trade/addTrade.do",
                 data: {
-                    "owner": $.trim($("#create-owner").val()),
-                    "company": $.trim($("#create-company").val()),
-                    "salutation": $.trim($("#create-appellation").val()),
-                    "name": $.trim($("#create-name").val()),
-                    "position": $.trim($("#create-position").val()),
-                    "email": $.trim($("#create-email").val()),
-                    "companyExtension": $.trim($("#create-companyExtension").val()),
-                    "companyWebsite": $.trim($("#create-companyWebsite").val()),
-                    "phone": $.trim($("#create-phone").val()),
-                    "clueStatus": $.trim($("#create-clueStatus").val()),
-                    "clueSource": $.trim($("#create-clueSource").val()),
-                    "description": $.trim($("#create-description").val()),
-                    "contactMinute": $.trim($("#create-contactMinute").val()),
-                    "nextContactTime": $.trim($("#create-nextContactTime").val()),
-                    "detailAddress": $.trim($("#create-detailAddress").val())
+                    owner: $.trim($("#create-owner").val()),
+                    amount: $.trim($("#create-amount").val()),
+                    expectedTradeDate: $.trim($("#create-expectedTradeDate").val()),
+                    name: $.trim($("#create-name").val()),
+                    customerId: $.trim($("#create-customerId").val()),
+                    stage: $.trim($("#create-stage").val()),
+                    type: $.trim($("#create-transactionType").val()),
+                    source: $.trim($("#create-source").val()),
+                    activityId: $.trim($("#create-activityId").val()),
+                    contactId: $.trim($("#create-contactId").val()),
+                    nextContactTime: $.trim($("#create-nextContactTime").val()),
+                    description: $.trim($("#create-description").val()),
+                    contactMinute: $.trim($("#create-contactMinute").val())
                 },
                 type: "post",
                 dataType: "json",

@@ -35,4 +35,48 @@ public class TradeServiceImpl implements TradeService {
 
         return paginationVO;
     }
+
+    /**
+     * 添加交易
+     * @param trade
+     * @return
+     */
+    @Override
+    public boolean addTrade(Trade trade) {
+        try {
+            tradeDao.addTrade(trade);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * 根据id查询交易信息
+     * @param id
+     * @return
+     */
+    @Override
+    public Trade getTradeById(String id) {
+        Trade trade = tradeDao.getTradeById(id);
+
+        return trade;
+    }
+
+    /**
+     * 修改交易
+     * @param trade
+     * @return
+     */
+    @Override
+    public boolean editTrade(Trade trade) {
+        try {
+            tradeDao.editTrade(trade);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

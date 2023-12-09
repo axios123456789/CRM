@@ -47,7 +47,7 @@ public class ClueController {
 
         Clue clueById = clueService.getClueById(id);
 
-        req.getSession().setAttribute("clue", clueById);
+        //req.getSession().setAttribute("clue", clueById);
 
         return Result.success(clueById);
     }
@@ -58,11 +58,15 @@ public class ClueController {
     public Result getClueById02(String id, HttpServletRequest req){
         System.out.println("根据id查询线索");
 
-        Clue clueById = clueService.getClueById02(id);
+        try {
+            Clue clueById = clueService.getClueById02(id);
 
-        req.getSession().setAttribute("clue", clueById);
-
-        return Result.success(clueById);
+            req.getSession().setAttribute("clue", clueById);
+            return Result.success(clueById);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Result.error("500", "查询线索失败");
+        }
     }
 
     //进行添加线索操作
