@@ -11,6 +11,10 @@
     <title>Title</title>
 </head>
 <body>
-
+    ${trade.id}
+    ${trade.owner}
+    ${trade.customerId}
+    ${trade.activityId}
+    ${trade.contactId}
 </body>
 </html>

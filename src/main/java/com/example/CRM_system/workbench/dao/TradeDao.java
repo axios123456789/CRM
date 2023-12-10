@@ -22,4 +22,10 @@ public interface TradeDao {
 
     //修改交易信息
     void editTrade(Trade trade);
+
+    //根据ids删除交易相关记录
+    void deleteTradeByIds(String[] ids);
+
+    //根据id查询交易列表，并将相关字段渲染成中文
+    Trade getTradeSetChineseOwnerById(String id);
 }

@@ -67,6 +67,17 @@
         where id = #{id}
     </update>
 
+<!--    根据ids删除交易相关记录-->
+    <delete id="deleteTradeByIds">
+        delete from c_trade
+
+        where id in
+
+        <foreach collection="array" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
     <!--条件查询交易列表-->
     <select id="getTradeListByCondition" resultType="com.example.CRM_system.workbench.pojo.Trade">
         select
@@ -146,5 +157,37 @@
                 and ctt.name like concat('%', #{contactName}, '%')
             </if>
         </where>
+    </select>
+
+<!--    根据id查询交易信息，并将相关字段渲染成中文-->
+    <select id="getTradeSetChineseOwnerById" resultType="com.example.CRM_system.workbench.pojo.Trade">
+        select
+
+        t.id,
+        u.name as owner,
+        t.amount,
+        t.name,
+        t.expectedTradeDate,
+        t.stage,
+        t.type,
+        t.source,
+        t.createBy,
+        t.createTime,
+        t.editBy,
+        t.editTime,
+        t.description,
+        t.contactMinute,
+        t.nextContactTime,
+        ctr.name as customerId,
+        a.name as activityId,
+        ctt.name as contactId
+
+        from c_trade t
+        join c_user u on t.owner = u.id
+        join c_customer ctr on t.customerId = ctr.id
+        join c_contact ctt on t.contactId = ctt.id
+        join c_activity a on t.activityId = a.id
+
+        where t.id = #{id}
     </select>
 </mapper>

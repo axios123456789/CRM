@@ -141,4 +141,31 @@ public class TradeController {
             return Result.error("500", "修改交易失败，请联系工作人员！");
         }
     }
+
+    //根据ids删除交易信息
+    @PostMapping("/deleteTradeByIds.do")
+    @ResponseBody
+    public Result deleteTradeByIds(String[] ids){
+        System.out.println("进入根据ids删除交易记录操作");
+
+        boolean flag = tradeService.deleteTradeByIds(ids);
+
+        if (flag){
+            return Result.success();
+        }else {
+            return Result.error("500", "删除相关交易失败，请联系工作人员！");
+        }
+    }
+
+    //根据交易id跳转到详细信息页
+    @RequestMapping("/detail.do")
+    public String detail(String id, HttpSession session){
+        System.out.println("进入到交易详细信息页操作");
+
+        //根据id查询交易信息，并保存到session域中
+        Trade trade = tradeService.getTradeSetChineseOwnerById(id);
+        session.setAttribute("trade", trade);
+
+        return "companyLogin/menu/trade/detail";
+    }
 }

@@ -439,7 +439,40 @@
 
     //删除一笔或多笔交易
     function del(){
+        var $tradeChecked = $("#trade-list tbody input[type='checkbox']:checked");
+        if ($tradeChecked.length == 0){
+            alert("请选中要删除的交易记录!");
+        }else {
+            if (confirm("确定要删除选中的交易记录吗？")){
+                var ids = "";
 
+                for (let i = 0; i <$tradeChecked.length; i++) {
+                    ids += $($tradeChecked[i]).val();
+
+                    if (i < $tradeChecked.length - 1){
+                        ids += ",";
+                    }
+                }
+
+                //alert(ids)
+                //发送Ajax请求，根据ids删除对应的交易
+                $.ajax({
+                    url: "workbench/trade/deleteTradeByIds.do",
+                    data: {
+                        ids: ids
+                    },
+                    type: "post",
+                    dataType: "json",
+                    success: function (data){
+                        if (data.code == "200"){
+                            getTradeList(1, $("#pagination").bs_pagination('getOption', 'rowsPerPage'));
+                        }else {
+                            alert(data.message)
+                        }
+                    }
+                })
+            }
+        }
     }
 </script>
 </html>

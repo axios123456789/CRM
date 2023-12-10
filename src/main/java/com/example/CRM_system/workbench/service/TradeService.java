@@ -14,4 +14,8 @@ public interface TradeService {
     Trade getTradeById(String id);  //根据id查询交易信息
 
     boolean editTrade(Trade trade); //修改交易
+
+    boolean deleteTradeByIds(String[] ids); //根据ids删除相关交易
+
+    Trade getTradeSetChineseOwnerById(String id);   //根据id查询交易信息，并将相关信息渲染成中文
 }

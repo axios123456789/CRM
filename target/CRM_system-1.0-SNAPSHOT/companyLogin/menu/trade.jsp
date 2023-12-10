@@ -412,12 +412,67 @@
 
     //修改交易相关信息
     function update(){
+       var $tradeChecked = $("#trade-list tbody input[type='checkbox']:checked");
 
+       if ($tradeChecked.length == 0){
+           alert("请选中要修改的记录!");
+       }else if ($tradeChecked.length > 1){
+           alert("每次只能修改一条记录！");
+       }else {
+           //发送Ajax请求，根据交易id拿到对应的记录，并保存到session域中
+           $.ajax({
+               url: "workbench/trade/getTradeById.do",
+               data: {
+                   id: $tradeChecked.val()
+               },
+               type: "get",
+               dataType: "json",
+               success: function (data){
+                   if (data.code == "200") {
+                       //跳转到修改交易页面
+                       window.location.href = "companyLogin/menu/trade/updateTrade.jsp";
+                   }
+               }
+           })
+       }
     }
 
     //删除一笔或多笔交易
     function del(){
+        var $tradeChecked = $("#trade-list tbody input[type='checkbox']:checked");
+        if ($tradeChecked.length == 0){
+            alert("请选中要删除的交易记录!");
+        }else {
+            if (confirm("确定要删除选中的交易记录吗？")){
+                var ids = "";
 
+                for (let i = 0; i <$tradeChecked.length; i++) {
+                    ids += $($tradeChecked[i]).val();
+
+                    if (i < $tradeChecked.length - 1){
+                        ids += ",";
+                    }
+                }
+
+                //alert(ids)
+                //发送Ajax请求，根据ids删除对应的交易
+                $.ajax({
+                    url: "workbench/trade/deleteTradeByIds.do",
+                    data: {
+                        ids: ids
+                    },
+                    type: "post",
+                    dataType: "json",
+                    success: function (data){
+                        if (data.code == "200"){
+                            getTradeList(1, $("#pagination").bs_pagination('getOption', 'rowsPerPage'));
+                        }else {
+                            alert(data.message)
+                        }
+                    }
+                })
+            }
+        }
     }
 </script>
 </html>

@@ -1,5 +1,6 @@
 package com.example.CRM_system.workbench.service.impl;
 
+import com.example.CRM_system.commons.utils.TransactionStatus;
 import com.example.CRM_system.vo.PaginationVO;
 import com.example.CRM_system.vo.req.TradeReq;
 import com.example.CRM_system.workbench.dao.TradeDao;
@@ -7,6 +8,8 @@ import com.example.CRM_system.workbench.pojo.Trade;
 import com.example.CRM_system.workbench.service.TradeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -14,6 +17,9 @@ import java.util.List;
 public class TradeServiceImpl implements TradeService {
     @Autowired
     private TradeDao tradeDao;
+
+    @Autowired
+    private PlatformTransactionManager transactionManager;
 
     /**
      * 条件和分页查询交易列表
@@ -78,5 +84,41 @@ public class TradeServiceImpl implements TradeService {
             e.printStackTrace();
             return false;
         }
+    }
+
+    /**
+     * 根据ids删除交易，交易备注，
+     * @param ids
+     * @return
+     */
+    @Transactional
+    @Override
+    public boolean deleteTradeByIds(String[] ids) {
+        org.springframework.transaction.TransactionStatus status = transactionManager.getTransaction(TransactionStatus.getTransactionStatus());
+        try {
+
+
+            //根据ids删除交易
+            tradeDao.deleteTradeByIds(ids);
+        } catch (Exception e) {
+            e.printStackTrace();
+            transactionManager.rollback(status);
+            return false;
+        }
+        transactionManager.commit(status);
+
+        return true;
+    }
+
+    /**
+     * 根据id查询交易信息，并将相关字段渲染成中文
+     * @param id
+     * @return
+     */
+    @Override
+    public Trade getTradeSetChineseOwnerById(String id) {
+        Trade trade = tradeDao.getTradeSetChineseOwnerById(id);
+
+        return trade;
     }
 }
