@@ -169,6 +169,7 @@
         t.name,
         t.expectedTradeDate,
         t.stage,
+        dv.orderNo as stageNo,
         t.type,
         t.source,
         t.createBy,
@@ -187,6 +188,7 @@
         join c_customer ctr on t.customerId = ctr.id
         join c_contact ctt on t.contactId = ctt.id
         join c_activity a on t.activityId = a.id
+        left join c_dic_value dv on t.stage = dv.value
 
         where t.id = #{id}
     </select>

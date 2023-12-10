@@ -138,7 +138,7 @@
     <div id="workplace">
         <div style="width: 1290px; float: left">
             <div style="width: 100%; height: 70px; float: left; margin-bottom: 10px; border-bottom: 1px solid #b2b2b2">
-                <a href="companyLogin/menu/clue.jsp" style="margin-top: 18px; margin-right: 15px; float: left"><img src="img/return-left.png"></a>
+                <a class="myHref" href="javascript:void(0)" onclick="back()" style="margin-top: 18px; margin-right: 15px; float: left"><img src="img/return-left.png"></a>
                 <h2 style="float: left">${clue.name}${clue.salutation}</h2>
                 <h4 style="float: left; line-height: 60px; margin-left: 10px">${clue.company}</h4>
                 <button type="button" style="float: right; margin-right: 300px;margin-top: 10px; width: 80px; height: 40px" onclick="conversion()"><span class=" glyphicon glyphicon-retweet" style="float: left; margin-left: 10px"></span>转换</button>
@@ -394,6 +394,11 @@
         hoverRun();
         getActivityListByClueId();
     })
+
+    //返回上一张页面
+    function back(){
+        window.history.back();
+    }
 
     //实现鼠标移动到备注区域时修改删除按钮显示 移出时隐藏的动画效果
     function hoverRun(){

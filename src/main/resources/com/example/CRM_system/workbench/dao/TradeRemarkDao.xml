@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.CRM_system.workbench.dao.TradeRemarkDao">
+<!--添加交易备注xinx-->
+    <insert id="addTradeRemark">
+        insert into c_trade_remark(
+            id,
+            noteContent,
+            createBy,
+            createTime,
+            editFlag,
+            tradeId
+        )
+        values(
+            #{id},
+            #{noteContent},
+            #{createBy},
+            #{createTime},
+            #{editFlag},
+            #{tradeId}
+        )
+    </insert>
+
+<!--    修改交易备注信息-->
+    <update id="editTradeRemark">
+        update c_trade_remark
+
+        set
+
+        noteContent = #{noteContent},
+        editBy = #{editBy},
+        editTime = #{editTime},
+        editFlag = #{editFlag}
+
+        where id = #{id}
+    </update>
+
+<!--根据tradeIds删除交易备注相关记录-->
+    <delete id="deleteTradeRemarkByTradeIds">
+        delete from c_trade_remark
+
+        where tradeId in
+
+        <foreach collection="array" item="tradeId" open="(" close=")" separator=",">
+            #{tradeId}
+        </foreach>
+    </delete>
+</mapper>

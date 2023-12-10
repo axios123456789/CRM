@@ -12,6 +12,7 @@ public class Trade {
     private String name;
     private String expectedTradeDate;
     private String stage;
+    private String stageNo; //阶段对应字典中的序号
     private String type;
     private String source;
     private String createBy;

@@ -4,6 +4,7 @@ import com.example.CRM_system.commons.utils.TransactionStatus;
 import com.example.CRM_system.vo.PaginationVO;
 import com.example.CRM_system.vo.req.TradeReq;
 import com.example.CRM_system.workbench.dao.TradeDao;
+import com.example.CRM_system.workbench.dao.TradeRemarkDao;
 import com.example.CRM_system.workbench.pojo.Trade;
 import com.example.CRM_system.workbench.service.TradeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,9 @@ import java.util.List;
 public class TradeServiceImpl implements TradeService {
     @Autowired
     private TradeDao tradeDao;
+
+    @Autowired
+    private TradeRemarkDao tradeRemarkDao;
 
     @Autowired
     private PlatformTransactionManager transactionManager;
@@ -96,7 +100,8 @@ public class TradeServiceImpl implements TradeService {
     public boolean deleteTradeByIds(String[] ids) {
         org.springframework.transaction.TransactionStatus status = transactionManager.getTransaction(TransactionStatus.getTransactionStatus());
         try {
-
+            //根据ids删除交易备注相关记录
+            tradeRemarkDao.deleteTradeRemarkByTradeIds(ids);
 
             //根据ids删除交易
             tradeDao.deleteTradeByIds(ids);

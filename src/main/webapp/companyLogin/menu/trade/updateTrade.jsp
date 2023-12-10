@@ -733,7 +733,8 @@
 
     //取消
     function cancel() {
-        window.location.href = "companyLogin/menu/trade.jsp";
+        //window.location.href = "companyLogin/menu/trade.jsp";
+        window.history.back();
     }
 
     //点击警告框中的叉按钮后触发

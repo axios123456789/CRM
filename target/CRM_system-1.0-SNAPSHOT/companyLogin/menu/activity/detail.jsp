@@ -143,7 +143,7 @@
     <div id="workplace">
         <div style="width: 1290px; float: left">
             <div style="width: 1290px; height: 60px; float: left; border-bottom: 1px solid #b2b2b2">
-                <a href="companyLogin/menu/marketActivity.jsp" style="float: left; width: 50px; height: 50px; margin-top: 10px"><img src="img/return-left.png"></a>
+                <a class="myHref" href="javascript:void(0)" onclick="back()" style="float: left; width: 50px; height: 50px; margin-top: 10px"><img src="img/return-left.png"></a>
                 <h3 style="line-height: 10px; float: left">市场活动-${activity.name}</h3>
                 <h5 style="line-height: 40px; float: left">&nbsp;&nbsp;${activity.startDate}-${activity.endDate}</h5>
                 <div style="width: 400px; margin-top: 10px; float: right">
@@ -336,6 +336,11 @@
         })*/
 
     })
+
+    //返回上一张页面
+    function back(){
+        window.history.back();
+    }
 
     //实现鼠标移动到备注区域时修改删除按钮显示 移出时隐藏的动画效果
     function hoverRun(){
