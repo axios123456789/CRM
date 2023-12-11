@@ -76,6 +76,18 @@ public class ContactServiceImpl implements ContactService {
     }
 
     /**
+     * 根据客户id查询联系人列表
+     * @param customerId
+     * @return
+     */
+    @Override
+    public List<Contact> getContactListByCustomerId(String customerId) {
+        List<Contact> contacts = contactDao.getContactListByCustomerId(customerId);
+
+        return contacts;
+    }
+
+    /**
      * 添加或修改联系人
      * @param contact
      * @param customerName

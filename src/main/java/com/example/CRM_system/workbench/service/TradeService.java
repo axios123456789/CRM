@@ -18,4 +18,6 @@ public interface TradeService {
     boolean deleteTradeByIds(String[] ids); //根据ids删除相关交易
 
     Trade getTradeSetChineseOwnerById(String id);   //根据id查询交易信息，并将相关信息渲染成中文
+
+    List<Trade> getTradeListByCustomerId(String customerId);    //根据customerId查询交易列表
 }

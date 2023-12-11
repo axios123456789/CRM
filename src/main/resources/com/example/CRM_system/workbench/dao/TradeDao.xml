@@ -192,4 +192,20 @@
 
         where t.id = #{id}
     </select>
+
+<!--    根据客户id查询交易列表记录-->
+    <select id="getTradeListByCustomerId" resultType="com.example.CRM_system.workbench.pojo.Trade">
+        select
+
+        id,
+        name,
+        amount,
+        stage,
+        expectedTradeDate,
+        type
+
+        from c_trade
+
+        where customerId = #{customerId}
+    </select>
 </mapper>

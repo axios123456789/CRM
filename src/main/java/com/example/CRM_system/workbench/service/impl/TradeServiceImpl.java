@@ -126,4 +126,16 @@ public class TradeServiceImpl implements TradeService {
 
         return trade;
     }
+
+    /**
+     * 根据customerId查询交易列表信息
+     * @param customerId
+     * @return
+     */
+    @Override
+    public List<Trade> getTradeListByCustomerId(String customerId) {
+        List<Trade> trades = tradeDao.getTradeListByCustomerId(customerId);
+
+        return trades;
+    }
 }

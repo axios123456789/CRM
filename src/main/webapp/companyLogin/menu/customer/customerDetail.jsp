@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
     String path = request.getContextPath();
     String basePath = request.getScheme() + "://"
@@ -216,6 +217,47 @@
                 </div>
             </div>
 
+            <%--    与该客户相关的交易列表        --%>
+            <div style="width: 1290px; float: left; margin-top: 100px;">
+                <h4>交易</h4>
+                <table class="table table-hover" style="margin-top: 50px" id="tradeTable">
+                    <thead>
+                    <tr style="color: #B3B3B3;">
+                        <td>名称</td>
+                        <td>金额</td>
+                        <td>阶段</td>
+                        <td>可能性</td>
+                        <td>预计成交日期</td>
+                        <td>类型</td>
+                        <td></td>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+                <a href="companyLogin/menu/trade/addTrade.jsp" style="font-size: 17px;"><b><span class="glyphicon glyphicon-plus"></span>新建交易</b></a>
+            </div>
+
+            <%--    与该客户相关的联系人列表        --%>
+            <div style="width: 100%; float: left; margin-top: 100px; margin-bottom: 200px;">
+                <h4>联系人</h4>
+                <table class="table table-hover" style="margin-top: 50px" id="contactTable">
+                    <thead>
+                    <tr style="color: #B3B3B3;">
+                        <td>名称</td>
+                        <td>邮箱</td>
+                        <td>手机</td>
+                        <td></td>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+                <a class='myHref' href='javascript:void(0)' onclick="add_contact()" style="font-size: 17px;"><b><span class="glyphicon glyphicon-plus"></span>新增联系人</b></a>
+            </div>
+
             <%--    点击备注中的修改按钮时打开的模态窗口        --%>
             <div class="modal fade" tabindex="-1" role="dialog" id="edit-customer">
                 <div class="modal-dialog" role="document">
@@ -315,6 +357,115 @@
                 </div>
             </div>
 
+            <%--  点击新增联系人时打开该模态窗口          --%>
+            <div class="modal fade" id="create-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content" style="width: 800px;">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel2">创建</h1>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                        </div>
+                        <div class="modal-body" style="height: 670px">
+                            <form id="save-u">
+                                <div style="width: 400px; float: left">
+                                    <label style="width: 100px; line-height: 40px; float: left">所有者<span
+                                            style="color: red">*</span></label>
+                                    <select class="form-control" id="create-owner" style="width: 250px; float: left">
+
+                                    </select>
+                                </div>
+
+                                <div style="width: 350px; float: left;">
+                                    <label style="width: 80px; line-height: 40px; float: left">名称<span
+                                            style="color: red">*</span></label>
+                                    <input type="text" class="form-control" id="create-name"
+                                           style="width: 250px; float: left"/>
+                                </div>
+
+                                <div style="width: 400px; float: left; margin-top: 20px">
+                                    <label style="width: 100px; line-height: 30px; float: left">来源</label>
+                                    <select class="form-control" id="create-source" style="width: 250px; float: left">
+                                        <option></option>
+                                        <c:forEach items="${sourceList}" var="source">
+                                            <option value="${source.value}">${source.text}</option>
+                                        </c:forEach>
+                                    </select>
+                                </div>
+
+                                <div style="width: 350px; float: left; margin-top: 20px;">
+                                    <label style="width: 80px; line-height: 30px; float: left">称呼</label>
+                                    <select class="form-control" id="create-salutation" style="width: 250px; float: left">
+                                        <option></option>
+                                        <c:forEach items="${appellationList}" var="appellation">
+                                            <option value="${appellation.value}">${appellation.text}</option>
+                                        </c:forEach>
+                                    </select>
+                                </div>
+
+                                <div style="width: 400px; float: left; margin-top: 20px;">
+                                    <label style="width: 100px; line-height: 40px; float: left">邮箱</label>
+                                    <input type="text" class="form-control" id="create-email"
+                                           style="width: 250px; float: left"/>
+                                </div>
+
+                                <div style="width: 350px; float: left; margin-top: 20px;">
+                                    <label style="width: 80px; line-height: 40px; float: left">手机</label>
+                                    <input type="text" class="form-control" id="create-phone"
+                                           style="width: 250px; float: left"/>
+                                </div>
+
+                                <div style="width: 400px; float: left; margin-top: 20px;">
+                                    <label style="width: 100px; line-height: 40px; float: left">职位</label>
+                                    <input type="text" class="form-control" id="create-position"
+                                           style="width: 250px; float: left"/>
+                                </div>
+
+                                <div style="width: 350px; float: left; margin-top: 20px;">
+                                    <label style="width: 80px; line-height: 40px; float: left">生日</label>
+                                    <input type="text" class="form-control" id="create-birthday"
+                                           style="width: 250px; float: left" readonly />
+                                </div>
+
+                                <div style="width: 400px; float: left; margin-top: 20px">
+                                    <label style="width: 100px; line-height: 40px; float: left">下次联系时间</label>
+                                    <input type="text" class="form-control" id="create-nextContactTime"
+                                           style="width: 250px; float: left" readonly/>
+                                </div>
+
+                                <div style="width: 350px; float: left; margin-top: 20px;">
+                                    <label style="width: 80px; line-height: 40px; float: left">客户名称</label>
+                                    <input type="text" class="form-control" id="create-customerName"
+                                           style="width: 250px; float: left" value="${customer.name}" readonly/>
+                                </div>
+
+                                <div style="width: 750px; height: 120px; float: left; margin-top: 20px">
+                                    <label style="width: 100px;  float: left">描述</label>
+                                    <textarea class="form-control" rows="3" id="create-description"
+                                              style="width: 650px; float: left"></textarea>
+                                </div>
+
+                                <div style="width: 750px; height: 120px; float: left;">
+                                    <label style="width: 100px;  float: left">联系纪要</label>
+                                    <textarea class="form-control" rows="3" id="create-contactMinute"
+                                              style="width: 650px; float: left"></textarea>
+                                </div>
+
+                                <div style="width: 750px; height: 120px; float: left;">
+                                    <label style="width: 100px;  float: left">详细地址</label>
+                                    <textarea class="form-control" rows="3" id="create-detailAddress"
+                                              style="width: 650px; float: left"></textarea>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-primary" onclick="create()">创建</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </nav>
@@ -324,6 +475,12 @@
     //时间选择器
     laydate.render({
         elem: '#update-nextContactTime'
+    });
+    laydate.render({
+        elem: "#create-birthday"
+    });
+    laydate.render({
+        elem: "#create-nextContactTime"
     })
 
     $(document).ready(function () {
@@ -355,7 +512,12 @@
 
         //显示备注信息
         showRemarkList();
-        hoverRun()
+        hoverRun();
+        //显示交易列表
+        getTradeByCustomerId();
+        //显示联系人列表
+        getContactListByCustomerId();
+
         //为修改和删除按钮绑定点击事件
         /*$("#remarkDiv div").find("div").find("img:eq(0)").click(function (){
             alert("修改")
@@ -519,6 +681,179 @@
                 }
             }
         })
+    }
+
+    //根据客户id查询交易列表
+    function getTradeByCustomerId(){
+        //发送Ajax请求，查询交易列表
+        $.ajax({
+            url: "workbench/customerRemark/getTradeListByCustomerId.do",
+            data: {
+                customerId: "${customer.id}"
+            },
+            type: "get",
+            dataType: "json",
+            success: function (data){
+                var html = "";
+
+                //console.log("data",data)
+                $.each(data.data, function (i, n){
+                    html += "<tr><th>"+n.name+"</th><th>"+n.amount+"</th><th>"+n.stage+"</th><th id='"+n.id+"'></th><th>"+n.expectedTradeDate+"</th><th>"+n.type+"</th><th><a class='myHref' href='javascript:void(0)' onclick='del_trade(\""+n.id+"\")'><span class='glyphicon glyphicon-remove'></span>删除交易</a></th></tr>";
+                    //根据阶段查询可能性
+                    $.ajax({
+                        url: "workbench/trade/queryPossibility.do",
+                        type: "post",
+                        dataType: "json",
+                        data: {
+                            stageName: n.stage
+                        },
+                        success: function (data) {
+                            $("#"+n.id).text("%"+data);
+                        }
+                    });
+                })
+
+                $("#tradeTable tbody").html(html);
+            }
+        })
+    }
+
+    //根据id删除交易
+    function del_trade(id){
+        if (confirm("确定删除这笔交易？")) { //发送Ajax请求，删除交易
+            $.ajax({
+                url: "workbench/trade/deleteTradeByIds.do",
+                data: {
+                    ids: id
+                },
+                type: "post",
+                dataType: "json",
+                success: function (data){
+                    if (data.code == "200"){
+                        getTradeByCustomerId();
+                    }else {
+                        alert(data.message);
+                    }
+                }
+            })
+        }
+    }
+
+    //根据客户id查询联系人列表
+    function getContactListByCustomerId(){
+        $.ajax({
+            url: "workbench/customerRemark/getContactListByCustomerId.do",
+            data: {
+                customerId: "${customer.id}"
+            },
+            type: "get",
+            dataType: "json",
+            success: function (data){
+                var html = "";
+
+                $.each(data.data, function (i, n){
+                    html += "<tr><th>"+n.name+"</th><th>"+n.email+"</th><th>"+n.phone+"</th><th><a class='myHref' href='javascript:void(0)' onclick='del_contact(\""+n.id+"\")'><span class='glyphicon glyphicon-remove'></span>删除联系人</a></th></tr>"
+                })
+
+                $("#contactTable tbody").html(html);
+            }
+        })
+    }
+
+    //拿到用户的名字作为模态窗口中所有者的下拉列表值
+    function getUser(){
+        //初始化工作
+        //$("#save-owner").html("");
+        $("#save-u")[0].reset();
+
+        //发送Ajax请求，拿到user列表的数据
+        $.ajax({
+            url: "workbench/activity/getUserList.do",
+            data: {
+
+            },
+            type: "get",
+            dataType: "json",
+            async: false,
+            success: function (data){
+                let html = "";
+
+                //n用来遍历data的， i是接收data的
+                $.each(data.data, function (i, n){
+                    html += "<option value='"+n.id+"'>"+n.name+"</option>";
+                })
+
+                $("#create-owner").html(html);
+            }
+        })
+    }
+
+    //添加联系人
+    function add_contact(){
+        //初始化工作
+        getUser();
+
+        //所有者默认为当前登录者
+        var id = "${user.id}"
+        $("#create-owner").val(id);
+
+        $("#create-modal").modal("show");
+    }
+
+    //点击添加联系人模态窗口中的创建按钮后触发
+    function create(){
+        //发送Ajax请求，完成添加联系人操作
+        $.ajax({
+            url: "workbench/contact/saveContact.do",
+            data: {
+                name :$.trim($("#create-name").val()),
+                owner :$.trim($("#create-owner").val()),
+                source :$.trim($("#create-source").val()),
+                salutation :$.trim($("#create-salutation").val()),
+                email :$.trim($("#create-email").val()),
+                phone :$.trim($("#create-phone").val()),
+                position :$.trim($("#create-position").val()),
+                birthday :$.trim($("#create-birthday").val()),
+                description :$.trim($("#create-description").val()),
+                contactMinute :$.trim($("#create-contactMinute").val()),
+                nextContactTime :$.trim($("#create-nextContactTime").val()),
+                detailAddress :$.trim($("#create-detailAddress").val()),
+                customerName :$.trim($("#create-customerName").val())
+            },
+            type: "post",
+            dataType: "json",
+            success: function (data){
+                if (data.code == "200") {
+                    getContactListByCustomerId()
+
+                    //关闭模态窗口
+                    $("#create-modal").modal("hide");
+                }else {
+                    alert(data.message);
+                }
+            }
+        })
+    }
+
+    //点击删除联系人后触发
+    function del_contact(id){
+        if (confirm("确定要删除该联系人吗?")) { //发送Ajax请求，根据id删除联系人
+            $.ajax({
+                url: "workbench/contact/deleteContactByIds.do",
+                data: {
+                    ids: id
+                },
+                type: "post",
+                dataType: "json",
+                success: function (data){
+                    if (data.code == "200"){
+                        getContactListByCustomerId()
+                    }else {
+                        alert(data.message);
+                    }
+                }
+            })
+        }
     }
 
     //拿到user的名字数据 作为下拉列表的值

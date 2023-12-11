@@ -28,4 +28,7 @@ public interface TradeDao {
 
     //根据id查询交易列表，并将相关字段渲染成中文
     Trade getTradeSetChineseOwnerById(String id);
+
+    //根据客户id查询交易列表记录
+    List<Trade> getTradeListByCustomerId(String customerId);
 }

@@ -250,4 +250,18 @@
 
         where ct.id = #{id}
     </select>
+
+<!--    根据客户id查询联系人记录-->
+    <select id="getContactListByCustomerId" resultType="com.example.CRM_system.workbench.pojo.Contact">
+        select
+
+        id,
+        name,
+        email,
+        phone
+
+        from c_contact
+
+        where customerId = #{customerId}
+    </select>
 </mapper>

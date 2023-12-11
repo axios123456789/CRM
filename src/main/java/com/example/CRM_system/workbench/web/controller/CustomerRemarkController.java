@@ -4,8 +4,12 @@ import com.example.CRM_system.commons.pojo.Result;
 import com.example.CRM_system.commons.utils.DateTimeUtil;
 import com.example.CRM_system.commons.utils.UUIDUtil;
 import com.example.CRM_system.settings.pojo.User;
+import com.example.CRM_system.workbench.pojo.Contact;
 import com.example.CRM_system.workbench.pojo.CustomerRemark;
+import com.example.CRM_system.workbench.pojo.Trade;
+import com.example.CRM_system.workbench.service.ContactService;
 import com.example.CRM_system.workbench.service.CustomerRemarkService;
+import com.example.CRM_system.workbench.service.TradeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +24,12 @@ import java.util.List;
 public class CustomerRemarkController {
     @Autowired
     private CustomerRemarkService customerRemarkService;
+
+    @Autowired
+    private TradeService tradeService;
+
+    @Autowired
+    private ContactService contactService;
 
     //根据客户id查询客户备足信息列表
     @GetMapping("/getCustomerRemarkListByCustomerId.do")
@@ -83,5 +93,25 @@ public class CustomerRemarkController {
         }else {
             return Result.error("500", "删除备注失败，请联系工作人员");
         }
+    }
+
+    //根据客户id查询交易列表
+    @GetMapping("/getTradeListByCustomerId.do")
+    public Result getTradeListByCustomerId(String customerId){
+        System.out.println("进入根据客户id查询交易列表的操作");
+
+        List<Trade> trades = tradeService.getTradeListByCustomerId(customerId);
+
+        return Result.success(trades);
+    }
+
+    //根据客户id查询联系人列表
+    @GetMapping("/getContactListByCustomerId.do")
+    public Result getContactListByCustomerId(String customerId){
+        System.out.println("进入根据客户id查询联系人列表操作");
+
+        List<Contact> contacts = contactService.getContactListByCustomerId(customerId);
+
+        return Result.success(contacts);
     }
 }

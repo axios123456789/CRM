@@ -29,4 +29,7 @@ public interface ContactDao {
 
     //根据id拿到对应联系人记录并将所有者渲染成中文
     Contact getContactMakeChineseOwnerById(String id);
+
+    //根据客户id查询联系人列表记录
+    List<Contact> getContactListByCustomerId(String customerId);
 }
