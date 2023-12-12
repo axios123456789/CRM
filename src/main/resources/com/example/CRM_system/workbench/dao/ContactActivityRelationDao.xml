@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.CRM_system.workbench.dao.ContactActivityRelationDao">
+<!--添加联系人市场活动关联关系-->
+    <insert id="addContactAndActivityRelation">
+        insert into c_contact_activity_relation(
+            id,
+            contactId,
+            activityId
+        )
+
+        values
+
+        <foreach collection="list" item="item" separator=",">
+            (#{item.id},#{item.contactId},#{item.activityId})
+        </foreach>
+
+    </insert>
+
+<!--    根据联系人和市场活动id删除相关记录-->
+    <delete id="deleteContactWithActivityRelation">
+        delete from c_contact_activity_relation
+
+        where contactId = #{param1} and activityId = #{param2}
+    </delete>
+</mapper>

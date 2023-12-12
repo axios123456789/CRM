@@ -110,7 +110,7 @@ public class ContactController {
 
     //跳转到联系人详细信息页
     @RequestMapping("/detail.do")
-    public String detail(String id, HttpSession session){
+    public String detail(String id, HttpSession session) {
         System.out.println("进入到跳转到联系人详细信息页操作");
 
         //根据id查询到联系人相关信息

@@ -1,5 +1,6 @@
 package com.example.CRM_system.workbench.dao;
 
+import com.example.CRM_system.workbench.pojo.ContactActivityRelation;
 import com.example.CRM_system.workbench.pojo.ContactRemark;
 
 import java.util.List;

@@ -261,4 +261,82 @@
         where name like concat('%', #{param1}, '%')
     </select>
 
+<!-- 根据联系人id查询与之关联的市场活动列表   -->
+    <select id="getActivityListRelationWithContactByContactId"
+            resultType="com.example.CRM_system.workbench.pojo.Activity">
+        select
+
+            a.id,
+            a.name,
+            a.startDate,
+            a.endDate,
+            u.name as owner
+
+        from c_activity a
+        join c_contact_activity_relation car on a.id = car.activityId
+        join c_user u on a.owner = u.id
+
+        where car.contactId = #{contactId}
+    </select>
+
+<!--    根据联系人id查询没有被关联的市场活动列表-->
+    <select id="getNotBeRelationActivityListByContactId"
+            resultType="com.example.CRM_system.workbench.pojo.Activity">
+        select
+
+            a.id,
+            a.name,
+            a.startDate,
+            a.endDate,
+            u.name as owner
+
+        from c_activity a
+        join c_user u on a.owner = u.id
+
+        where a.id not in (
+            select
+
+            a2.id
+
+            from c_activity a2
+            join c_contact_activity_relation car on a2.id = car.activityId
+
+            where car.contactId = #{contactId}
+        )
+    </select>
+
+<!--    跟据名字模糊查询没有被联系人关联的市场活动列表-->
+    <select id="getNotBeRelationActivityListByNameAndContactId"
+            resultType="com.example.CRM_system.workbench.pojo.Activity">
+        select *
+
+        from
+
+        (
+            select
+
+                a.id,
+                a.name,
+                a.startDate,
+                a.endDate,
+                u.name as owner
+
+            from c_activity a
+            join c_user u on a.owner = u.id
+
+            where a.id not in (
+                select
+
+                    a2.id
+
+                from c_activity a2
+                join c_contact_activity_relation car on a2.id = car.activityId
+
+                where car.contactId = #{param2}
+            )
+        ) c_not_relation_activity
+
+        where name like concat('%', #{param1}, '%')
+    </select>
+
 </mapper>

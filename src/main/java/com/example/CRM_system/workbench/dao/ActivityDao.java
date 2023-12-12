@@ -41,4 +41,13 @@ public interface ActivityDao {
 
     //根据市场活动名字模糊查询被关联的市场活动列表
     List<Activity> getBeRelationActivityListByName(String name, String clueId);
+
+    //根据联系人id查询与之关联的市场活动列表
+    List<Activity> getActivityListRelationWithContactByContactId(String contactId);
+
+    //根据联系人id查询没有被关联的市场活动列表
+    List<Activity> getNotBeRelationActivityListByContactId(String contactId);
+
+    //根据联系人id和市场活动名字模糊查询没有被关联的市场活动列表
+    List<Activity> getNotBeRelationActivityListByNameAndContactId(String name, String contactId);
 }

@@ -31,4 +31,7 @@ public interface TradeDao {
 
     //根据客户id查询交易列表记录
     List<Trade> getTradeListByCustomerId(String customerId);
+
+    //根据联系人id查询交易列表记录
+    List<Trade> getTradeListByContactId(String contactId);
 }

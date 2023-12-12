@@ -12,4 +12,8 @@ public interface ContactRemarkService {
     boolean saveContactRemark(ContactRemark contactRemark); //添加或修改联系人备注
 
     boolean deleteContactRemarkById(String id); //根据id删除联系人备注
+
+    boolean addContactAndActivityRelation(String contactId, String[] activityIds);  //添加联系人与市场活动关联关系
+
+    boolean deleteContactWithActivityRelation(String contactId, String activityId); //解除联系人市场活动关联关系
 }

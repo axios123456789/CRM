@@ -150,4 +150,41 @@ public class ActivityServiceImpl implements ActivityService {
 
         return activities;
     }
+
+    /**
+     * 根据联系人id查询与之关联的市场活动列表
+     * @param contactId
+     * @return
+     */
+    @Override
+    public List<Activity> getActivityListRelationWithContactByContactId(String contactId) {
+        List<Activity> activities = activityDao.getActivityListRelationWithContactByContactId(contactId);
+
+        return activities;
+    }
+
+    /**
+     * 根据联系人id查询没有被关联的市场活动列表
+     * @param contactId
+     * @return
+     */
+    @Override
+    public List<Activity> getNotBeRelationActivityListByContactId(String contactId) {
+        List<Activity> activities = activityDao.getNotBeRelationActivityListByContactId(contactId);
+
+        return activities;
+    }
+
+    /**
+     * 根据联系人id和市场活动名字模糊查询没有被关联的市场活动列表
+     * @param name
+     * @param contactId
+     * @return
+     */
+    @Override
+    public List<Activity> getNotBeRelationActivityListByNameAndContactId(String name, String contactId) {
+        List<Activity> activities = activityDao.getNotBeRelationActivityListByNameAndContactId(name, contactId);
+
+        return activities;
+    }
 }

@@ -22,7 +22,7 @@
         )
     </insert>
 
-<!--    修改联系人备注-->
+    <!--    修改联系人备注-->
     <update id="updateContactRemark">
         update c_contact_remark
 
