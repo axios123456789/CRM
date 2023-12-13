@@ -17,4 +17,7 @@ public interface ClueActivityRelationDao {
 
     //根据线索id删除线索市场活动关联关系表中的相关记录
     void deleteClueAndActivityRelationByClueId(String[] ids);
+
+    //根据线索id获取与之关联的市场活动id
+    List<ClueActivityRelation> getWithClueRelationActivityListByClueId(String id);
 }

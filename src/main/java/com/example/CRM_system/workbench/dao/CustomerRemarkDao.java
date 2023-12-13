@@ -22,4 +22,7 @@ public interface CustomerRemarkDao {
 
     //根据客户ids删除所有对应的客户备注信息
     void deleteCustomerRemarkByCustomerIds(String[] ids);
+
+    //一次添加多条记录到客户备注表中去
+    void addCustomerRemarks(List<CustomerRemark> customerRemarks);
 }

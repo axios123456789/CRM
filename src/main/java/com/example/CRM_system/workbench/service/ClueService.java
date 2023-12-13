@@ -6,6 +6,7 @@ import com.example.CRM_system.workbench.pojo.Clue;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ClueService {
     //条件插叙线索列表
@@ -24,4 +25,7 @@ public interface ClueService {
     boolean deleteClue(String[] ids);
 
     Clue getClueById02(String id);
+
+    //进行线索转换操作
+    boolean clueChange(Map<String, String> clueMap);
 }

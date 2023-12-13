@@ -10,4 +10,7 @@ public interface ContactActivityRelationDao {
 
     //解除联系人与市场活动关联关系
     void deleteContactWithActivityRelation(String contactId, String activityId);
+
+    //根据联系人id删除联系人市场活动关联关系
+    void deleteContactWithActivityRelationByContactIds(String[] ids);
 }

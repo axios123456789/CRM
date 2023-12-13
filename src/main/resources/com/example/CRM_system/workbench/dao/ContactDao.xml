@@ -264,4 +264,11 @@
 
         where customerId = #{customerId}
     </select>
+
+<!--    根据name全名查询联系人记录-->
+    <select id="getContactByAllName" resultType="com.example.CRM_system.workbench.pojo.Contact">
+        select id from c_contact
+
+        where name = #{name}
+    </select>
 </mapper>

@@ -2,6 +2,7 @@ import com.example.CRM_system.commons.utils.MD5Util;
 import com.example.CRM_system.commons.utils.UUIDUtil;
 import com.example.CRM_system.vo.req.ClueReq;
 import com.example.CRM_system.workbench.dao.ClueDao;
+import com.example.CRM_system.workbench.service.ClueService;
 import jdk.jfr.internal.tool.Main;
 import org.apache.poi.ss.formula.functions.Replace;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Test {
+    @Autowired
+    private ClueService clueService;
+
     @org.junit.Test
     public void test(){
        /* String a = "你他妈有病";
@@ -76,7 +80,7 @@ public class Test {
         String res = resourceBundle.getString("需求分析");
         System.out.println(res);*/
 
-        Properties properties = new Properties();
+        /*Properties properties = new Properties();
         String projectPath = System.getProperty("user.dir");
         projectPath += "\\src\\main\\resources\\poss.properties";
         try (InputStreamReader reader = new InputStreamReader(new FileInputStream("/D:/learnJava/CRM_system/target/classes/poss.properties"), StandardCharsets.UTF_8)) {
@@ -97,8 +101,10 @@ public class Test {
             System.out.println("配置文件路径：" + configFilePath);
         } else {
             System.out.println("找不到配置文件");
-        }
+        }*/
 
-
+        String a = "1";
+        String[] b = {a};
+        System.out.println(Arrays.toString(b));
     }
 }

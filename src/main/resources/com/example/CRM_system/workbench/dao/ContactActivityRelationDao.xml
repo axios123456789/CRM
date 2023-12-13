@@ -25,4 +25,15 @@
 
         where contactId = #{param1} and activityId = #{param2}
     </delete>
+
+<!--    根据联系人id删除市场活动联系人关联关系-->
+    <delete id="deleteContactWithActivityRelationByContactIds">
+        delete from c_contact_activity_relation
+
+        where contactId in
+
+        <foreach collection="array" item="contactId" open="(" close=")" separator=",">
+            #{contactId}
+        </foreach>
+    </delete>
 </mapper>

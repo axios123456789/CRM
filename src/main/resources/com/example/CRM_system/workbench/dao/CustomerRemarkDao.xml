@@ -23,7 +23,25 @@
         )
     </insert>
 
-<!--    修改客户备注信息-->
+<!--    一次添加多条记录到客户备注表中-->
+    <insert id="addCustomerRemarks">
+        insert into c_customer_remark(
+            id,
+            noteContent,
+            createBy,
+            createTime,
+            editBy,
+            editTime,
+            editFlag,
+            customerId
+        )
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.id},#{item.noteContent},#{item.createBy},#{item.createTime},#{item.editBy},#{item.editTime},#{item.editFlag},#{item.customerId})
+        </foreach>
+    </insert>
+
+    <!--    修改客户备注信息-->
     <update id="updateCustomerRemark">
         update c_customer_remark
 

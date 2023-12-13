@@ -27,4 +27,7 @@ public interface TradeRemarkDao {
 
     //根据tradeIds删除交易备注相关信息
     void deleteTradeRemarkByTradeIds(String[] ids);
+
+    //添加一条或多条备注到交易备注表中
+    void addTradeRemarks(List<TradeRemark> tradeRemarks);
 }

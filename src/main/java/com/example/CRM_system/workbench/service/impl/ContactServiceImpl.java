@@ -3,6 +3,7 @@ package com.example.CRM_system.workbench.service.impl;
 import com.example.CRM_system.commons.utils.UUIDUtil;
 import com.example.CRM_system.vo.PaginationVO;
 import com.example.CRM_system.vo.req.ContactReq;
+import com.example.CRM_system.workbench.dao.ContactActivityRelationDao;
 import com.example.CRM_system.workbench.dao.ContactDao;
 import com.example.CRM_system.workbench.dao.ContactRemarkDao;
 import com.example.CRM_system.workbench.dao.CustomerDao;
@@ -26,6 +27,9 @@ public class ContactServiceImpl implements ContactService {
 
     @Autowired
     private ContactRemarkDao contactRemarkDao;
+
+    @Autowired
+    private ContactActivityRelationDao contactActivityRelationDao;
 
     @Autowired
     private PlatformTransactionManager transactionManager;
@@ -164,6 +168,9 @@ public class ContactServiceImpl implements ContactService {
         try {
             //根据ids删除联系人备注信息
             contactRemarkDao.deleteContactRemarkByContactIds(ids);
+
+            //根据ids删除联系人市场活动关联关系
+            contactActivityRelationDao.deleteContactWithActivityRelationByContactIds(ids);
 
             //根据ids删除联系人
             contactDao.deleteContactByIds(ids);

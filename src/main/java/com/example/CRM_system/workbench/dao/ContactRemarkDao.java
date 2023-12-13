@@ -23,4 +23,7 @@ public interface ContactRemarkDao {
 
     //根据contactIds删除联系人备注
     void deleteContactRemarkByContactIds(String[] ids);
+
+    //一次添加多条联系人备注到表中
+    void addContactRemarks(List<ContactRemark> contactRemarks);
 }

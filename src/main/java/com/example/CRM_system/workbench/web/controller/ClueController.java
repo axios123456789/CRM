@@ -13,6 +13,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 public class ClueController {
@@ -141,5 +143,31 @@ public class ClueController {
         req.getSession().setAttribute("clue",clue);
 
         return "companyLogin/menu/clue/clueDetail";
+    }
+
+    //进行线索转换操作
+    @PostMapping("/workbench/clue/clueChange.do")
+    @ResponseBody
+    public Result clueChange(String id, String owner, String createBy, String isCreateTrade, String amount, String tradeName, String expectedTradeDate, String stage, String activityId){
+        System.out.println("进入线索转换操作");
+
+        Map<String, String> clueMap = new HashMap<>();
+        clueMap.put("id", id);
+        clueMap.put("owner", owner);
+        clueMap.put("createBy", createBy);
+        clueMap.put("isCreateTrade", isCreateTrade);
+        clueMap.put("amount", amount);
+        clueMap.put("tradeName", tradeName);
+        clueMap.put("expectedTradeDate", expectedTradeDate);
+        clueMap.put("stage", stage);
+        clueMap.put("activityId", activityId);
+
+        boolean flag = clueService.clueChange(clueMap);
+
+        if (flag){
+            return Result.success();
+        }else {
+            return Result.error("500", "线索转换失败，请联系工作人员！");
+        }
     }
 }

@@ -23,7 +23,25 @@
         )
     </insert>
 
-<!--    修改交易备注信息-->
+<!--    添加一条或多条备注到交易备注表中-->
+    <insert id="addTradeRemarks">
+        insert into c_trade_remark(
+            id,
+            noteContent,
+            createBy,
+            createTime,
+            editBy,
+            editTime,
+            editFlag,
+            tradeId
+        )
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.id},#{item.noteContent},#{item.createBy},#{item.createTime},#{item.editBy},#{item.editTime},#{item.editFlag},#{item.tradeId})
+        </foreach>
+    </insert>
+
+    <!--    修改交易备注信息-->
     <update id="editTradeRemark">
         update c_trade_remark
 
