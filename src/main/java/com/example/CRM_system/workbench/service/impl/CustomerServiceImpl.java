@@ -3,10 +3,10 @@ package com.example.CRM_system.workbench.service.impl;
 import com.example.CRM_system.commons.utils.TransactionStatus;
 import com.example.CRM_system.vo.PaginationVO;
 import com.example.CRM_system.vo.req.CustomerReq;
-import com.example.CRM_system.workbench.dao.ContactDao;
-import com.example.CRM_system.workbench.dao.CustomerDao;
-import com.example.CRM_system.workbench.dao.CustomerRemarkDao;
+import com.example.CRM_system.workbench.dao.*;
+import com.example.CRM_system.workbench.pojo.Contact;
 import com.example.CRM_system.workbench.pojo.Customer;
+import com.example.CRM_system.workbench.service.ContactService;
 import com.example.CRM_system.workbench.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +24,12 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Autowired
     private ContactDao contactDao;
+
+    @Autowired
+    private ContactRemarkDao contactRemarkDao;
+
+    @Autowired
+    private ContactActivityRelationDao contactActivityRelationDao;
 
     @Autowired
     private PlatformTransactionManager transactionManager;
@@ -129,7 +135,21 @@ public class CustomerServiceImpl implements CustomerService {
             //根据ids删除所有对应的客户备注信息
             customerRemarkDao.deleteCustomerRemarkByCustomerIds(ids);
 
-            //根据ids删除所有与客户对应的联系人
+            //根据客户ids查询联系人ids
+            List<Contact> contacts = contactDao.getContactListByCustomerIds(ids);
+
+            String[] contactId = new String[contacts.size()];
+            for (int i = 0; i < contacts.size(); i++) {
+                contactId[i] = contacts.get(i).getId();
+            }
+
+            //根据联系人ids删除联系人备注信息
+            contactRemarkDao.deleteContactRemarkByContactIds(contactId);
+
+            //根据联系人ids删除联系人市场活动关联关系
+            contactActivityRelationDao.deleteContactWithActivityRelationByContactIds(contactId);
+
+            //根据客户ids删除联系人
             contactDao.deleteContactByCustomerIds(ids);
 
             //根据客户ids删除客户信息

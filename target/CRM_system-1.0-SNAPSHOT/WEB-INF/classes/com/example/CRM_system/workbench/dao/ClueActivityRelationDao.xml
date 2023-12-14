@@ -47,4 +47,16 @@
             #{clueId}
         </foreach>
     </delete>
+
+<!--    根据线索id获取与之关联的市场活动id-->
+    <select id="getWithClueRelationActivityListByClueId"
+            resultType="com.example.CRM_system.workbench.pojo.ClueActivityRelation">
+        select
+
+        activityId
+
+        from c_clue_activity_relation
+
+        where clueId = #{id}
+    </select>
 </mapper>

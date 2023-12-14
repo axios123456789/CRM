@@ -243,14 +243,12 @@ public class ClueServiceImpl implements ClueService {
                 contactActivityRelations.add(contactActivityRelation);
             }
             //5.2.一次添加多条记录到联系人市场活动关联关系表中
-            if (contactActivityRelations.size() > 1){
+            if (contactActivityRelations.size() > 0){
                 contactActivityRelationDao.addContactAndActivityRelation(contactActivityRelations);
             }
 
             //入果创建了交易即
-            System.out.println("isCreateTrade"+clueMap.get("isCreateTrade"));
             if ("1".equals(clueMap.get("isCreateTrade"))){
-                System.out.println("执行力");
                 //6.交易信息保存到交易表中
                 Trade trade = new Trade();
                 trade.setId(UUIDUtil.getUUID());
@@ -284,7 +282,7 @@ public class ClueServiceImpl implements ClueService {
                     tradeRemarks.add(tradeRemark);
                 }
                 //7.2.添加一条或多条备注到交易备注表中
-                if (tradeRemarks.size() > 1){
+                if (tradeRemarks.size() > 0){
                     tradeRemarkDao.addTradeRemarks(tradeRemarks);
                 }
             }

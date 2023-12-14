@@ -267,8 +267,23 @@
 
 <!--    根据name全名查询联系人记录-->
     <select id="getContactByAllName" resultType="com.example.CRM_system.workbench.pojo.Contact">
-        select id from c_contact
+        select * from c_contact
 
         where name = #{name}
+    </select>
+
+    <!--    根据客户ids查询联系人ids-->
+    <select id="getContactListByCustomerIds" resultType="com.example.CRM_system.workbench.pojo.Contact">
+        select
+
+        id
+
+        from c_contact
+
+        where customerId in
+
+        <foreach collection="array" item="customerId" open="(" close=")" separator=",">
+            #{customerId}
+        </foreach>
     </select>
 </mapper>

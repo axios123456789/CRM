@@ -160,7 +160,7 @@
 
 <!--    根据名字不模糊查询客户列表-->
     <select id="getCustomerByAllName" resultType="com.example.CRM_system.workbench.pojo.Customer">
-        select id
+        select *
         from c_customer
         where name = #{customerName}
     </select>

@@ -174,7 +174,7 @@
                         <select id="stage" class="form-control">
                             <option></option>
                             <c:forEach items="${stageList}" var="s">
-                                <option value="${s.id}">${s.value}</option>
+                                <option value="${s.value}">${s.text}</option>
                             </c:forEach>
                         </select>
                     </div>
@@ -296,6 +296,8 @@
                 $("#create-transaction2").show();
             }else {
                 //console.log("0")
+                $("#activityId").val("");
+                $("#activity").val("");
                 $("#create-transaction2").hide();
             }
         })
@@ -351,7 +353,35 @@
 
     //点击转换按钮后触发该事件
     $("#convertBtn").click(function (){
-        alert("转换")
+        var isCreateTrade = "0"
+        if ($("#isCreateTransaction:checked").length == 1){
+            isCreateTrade = "1";
+        }
+
+        //发送Ajax请求，进行线索转换
+        $.ajax({
+            url: "workbench/clue/clueChange.do",
+            data: {
+                id: "${clue.id}",
+                owner: "${user.id}",
+                createBy: "${user.name}",
+                isCreateTrade: isCreateTrade,
+                amount: $.trim($("#amountOfMoney").val()),
+                tradeName: $.trim($("#tradeName").val()),
+                expectedTradeDate: $.trim($("#expectedClosingDate").val()),
+                stage: $.trim($("#stage").val()),
+                activityId: $("#activityId").val()
+            },
+            type: "post",
+            dataType: "json",
+            success: function (data){
+                if (data.code == "200"){
+                    window.location.href = "companyLogin/menu/clue.jsp";
+                }else {
+                    alert(data.message);
+                }
+            }
+        })
     })
 
     //点击取消按钮后触发该事件

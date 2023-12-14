@@ -35,4 +35,7 @@ public interface ContactDao {
 
     //根据name全名查询联系人记录
     Contact getContactByAllName(String name);
+
+    //根据客户ids查询联系人ids
+    List<Contact> getContactListByCustomerIds(String[] ids);
 }
