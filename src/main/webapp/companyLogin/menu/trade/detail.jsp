@@ -286,6 +286,29 @@
                 </div>
             </div>
 
+            <%--     显示阶段历史列表       --%>
+            <div style="width: 1290px; float: left; margin-top: 100px; margin-bottom: 100px">
+                <div class="page-header">
+                    <h4>阶段历史</h4>
+                </div>
+                <div style="width: 100% ;margin-top: 10px; float: left">
+                    <table id="historyTable" class="table table-hover">
+                        <thead>
+                        <tr style="color: #B3B3B3;">
+                            <td>阶段</td>
+                            <td>金额</td>
+                            <td>预计成交日期</td>
+                            <td>创建人</td>
+                            <td>创建时间</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
             <%--    点击备注中的修改按钮时打开的模态窗口        --%>
             <div class="modal fade" tabindex="-1" role="dialog" id="edit-remark">
                 <div class="modal-dialog" role="document">
@@ -392,6 +415,9 @@
         //显示备注信息
         showRemarkList();
         hoverRun()
+        //显示阶段历史
+        getTradeHistoryList();
+
         //为修改和删除按钮绑定点击事件
         /*$("#remarkDiv div").find("div").find("img:eq(0)").click(function (){
             alert("修改")
@@ -550,6 +576,36 @@
 
                     //关闭模态窗口
                     $("#edit-remark").modal("hide");
+                }else {
+                    alert(data.message);
+                }
+            }
+        })
+    }
+
+    //查询阶段历史
+    function getTradeHistoryList(){
+        //发送Ajax请求，拿到交易历史数据
+        $.ajax({
+            url: "workbench/tradeRemark/getTradeHistoryListByTradeId.do",
+            data: {
+                stage: "${trade.stage}",
+                amount: "${trade.amount}",
+                expectedTradeDate: "${trade.expectedTradeDate}",
+                createBy: "${user.name}",
+                tradeId: "${trade.id}"
+            },
+            type: "get",
+            dataType: "json",
+            success: function (data){
+                if (data.code == "200") {
+                    var html = "";
+
+                    $.each(data.data, function (i, n){
+                        html += "<tr><td>"+n.stage+"</td><td>"+n.amount+"</td><td>"+n.expectedTradeDate+"</td><td>"+n.createBy+"</td><td>"+n.createTime+"</td></tr>"
+                    })
+
+                    $("#historyTable tbody").html(html);
                 }else {
                     alert(data.message);
                 }

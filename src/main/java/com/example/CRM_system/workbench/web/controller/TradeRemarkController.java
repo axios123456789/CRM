@@ -4,7 +4,9 @@ import com.example.CRM_system.commons.pojo.Result;
 import com.example.CRM_system.commons.utils.DateTimeUtil;
 import com.example.CRM_system.commons.utils.UUIDUtil;
 import com.example.CRM_system.settings.pojo.User;
+import com.example.CRM_system.workbench.pojo.TradeHistory;
 import com.example.CRM_system.workbench.pojo.TradeRemark;
+import com.example.CRM_system.workbench.service.TradeHistoryService;
 import com.example.CRM_system.workbench.service.TradeRemarkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +22,9 @@ import java.util.List;
 public class TradeRemarkController {
     @Autowired
     private TradeRemarkService tradeRemarkService;
+
+    @Autowired
+    private TradeHistoryService tradeHistoryService;
 
     //根据交易id查询交易备注信息
     @GetMapping("/getTradeRemarkListByTradeId.do")
@@ -79,6 +84,36 @@ public class TradeRemarkController {
             return Result.success();
         }else {
             return Result.error("500", "删除交易备注失败，请联系相关工作人员！");
+        }
+    }
+
+    //查询交易阶段历史表
+    @GetMapping("/getTradeHistoryListByTradeId.do")
+    public Result getTradeHistoryListByTradeId(TradeHistory tradeHistory){
+        System.out.println("进入查询阶段历史表操作");
+
+        try {
+            List<TradeHistory> tradeHistories = tradeHistoryService.getTradeHistoryListByTradeId(tradeHistory);
+
+            boolean isCreate = true;
+            for (int i = 0; i < tradeHistories.size(); i++) {
+                if (tradeHistory.getStage().equals(tradeHistories.get(i).getStage())){
+                    isCreate = false;
+                }
+            }
+            if (isCreate){
+                tradeHistory.setId(UUIDUtil.getUUID());
+                tradeHistory.setCreateTime(DateTimeUtil.getSysTime());
+
+                tradeHistoryService.addTradeHistory(tradeHistory);
+            }
+
+            List<TradeHistory> tradeHistoryListByTradeId = tradeHistoryService.getTradeHistoryListByTradeId(tradeHistory);
+
+            return Result.success(tradeHistoryListByTradeId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Result.error("500", "查询中添加交易时失败！");
         }
     }
 }

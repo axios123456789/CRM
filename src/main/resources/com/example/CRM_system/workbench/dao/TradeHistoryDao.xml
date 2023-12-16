@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.CRM_system.workbench.dao.TradeHistoryDao">
+<!--    添加一条交易历史记录-->
+    <insert id="addTradeHistory">
+        insert into c_trade_history(
+            id,
+            stage,
+            amount,
+            expectedTradeDate,
+            createTime,
+            createBy,
+            tradeId
+        )values (
+            #{id},
+            #{stage},
+            #{amount},
+            #{expectedTradeDate},
+            #{createTime},
+            #{createBy},
+            #{tradeId}
+        )
+    </insert>
+
+<!--    根据交易ids删除交易历史-->
+    <delete id="deleteTradeHistoryByTradeIds">
+        delete from c_trade_history
+
+        where tradeId in
+
+        <foreach collection="array" item="tradeId" open="(" close=")" separator=",">
+            #{tradeId}
+        </foreach>
+    </delete>
+
+    <!--根据交易id查询交易历史列表-->
+    <select id="getTradeHistoryListByTradeId" resultType="com.example.CRM_system.workbench.pojo.TradeHistory">
+        select
+
+            stage,
+            amount,
+            expectedTradeDate,
+            createTime,
+            createBy
+
+        from c_trade_history
+
+        where tradeId = #{tradeId}
+
+        order by createTime
+    </select>
+</mapper>
