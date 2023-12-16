@@ -4,6 +4,7 @@ import com.example.CRM_system.commons.utils.TransactionStatus;
 import com.example.CRM_system.vo.PaginationVO;
 import com.example.CRM_system.vo.req.TradeReq;
 import com.example.CRM_system.workbench.dao.TradeDao;
+import com.example.CRM_system.workbench.dao.TradeHistoryDao;
 import com.example.CRM_system.workbench.dao.TradeRemarkDao;
 import com.example.CRM_system.workbench.pojo.Trade;
 import com.example.CRM_system.workbench.service.TradeService;
@@ -21,6 +22,9 @@ public class TradeServiceImpl implements TradeService {
 
     @Autowired
     private TradeRemarkDao tradeRemarkDao;
+
+    @Autowired
+    private TradeHistoryDao tradeHistoryDao;
 
     @Autowired
     private PlatformTransactionManager transactionManager;
@@ -102,6 +106,9 @@ public class TradeServiceImpl implements TradeService {
         try {
             //根据ids删除交易备注相关记录
             tradeRemarkDao.deleteTradeRemarkByTradeIds(ids);
+
+            //根据ids删除交易历史
+            tradeHistoryDao.deleteTradeHistoryByTradeIds(ids);
 
             //根据ids删除交易
             tradeDao.deleteTradeByIds(ids);

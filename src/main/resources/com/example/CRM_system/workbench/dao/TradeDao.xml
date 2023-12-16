@@ -93,8 +93,8 @@
 
         from c_trade t
         join c_user u on t.owner = u.id
-        join c_customer ctr on t.customerId = ctr.id
-        join c_contact ctt on t.contactId = ctt.id
+        left join c_customer ctr on t.customerId = ctr.id
+        left join c_contact ctt on t.contactId = ctt.id
 
         <where>
             <if test="name != null and name != ''">
@@ -115,7 +115,7 @@
             <if test="source != null and source != ''">
                 and t.source like concat('%', #{source}, '%')
             </if>
-            <if test="contactName != null and contactName != null">
+            <if test="contactName != null and contactName != ''">
                 and ctt.name like concat('%', #{contactName}, '%')
             </if>
         </where>
@@ -131,8 +131,8 @@
 
         from c_trade t
         join c_user u on t.owner = u.id
-        join c_customer ctr on t.customerId = ctr.id
-        join c_contact ctt on t.contactId = ctt.id
+        left join c_customer ctr on t.customerId = ctr.id
+        left join c_contact ctt on t.contactId = ctt.id
 
         <where>
             <if test="name != null and name != ''">
@@ -153,7 +153,7 @@
             <if test="source != null and source != ''">
                 and t.source like concat('%', #{source}, '%')
             </if>
-            <if test="contactName != null and contactName != null">
+            <if test="contactName != null and contactName != ''">
                 and ctt.name like concat('%', #{contactName}, '%')
             </if>
         </where>
@@ -185,9 +185,9 @@
 
         from c_trade t
         join c_user u on t.owner = u.id
-        join c_customer ctr on t.customerId = ctr.id
-        join c_contact ctt on t.contactId = ctt.id
-        join c_activity a on t.activityId = a.id
+        left join c_customer ctr on t.customerId = ctr.id
+        left join c_contact ctt on t.contactId = ctt.id
+        left join c_activity a on t.activityId = a.id
         left join c_dic_value dv on t.stage = dv.value
 
         where t.id = #{id}

@@ -2,8 +2,11 @@ import com.example.CRM_system.commons.utils.DateTimeUtil;
 import com.example.CRM_system.commons.utils.MD5Util;
 import com.example.CRM_system.commons.utils.UUIDUtil;
 import com.example.CRM_system.vo.req.ClueReq;
+import com.example.CRM_system.vo.req.TradeReq;
 import com.example.CRM_system.workbench.dao.ClueDao;
+import com.example.CRM_system.workbench.dao.TradeDao;
 import com.example.CRM_system.workbench.dao.TradeHistoryDao;
+import com.example.CRM_system.workbench.pojo.Trade;
 import com.example.CRM_system.workbench.pojo.TradeHistory;
 import com.example.CRM_system.workbench.service.ClueService;
 import com.example.CRM_system.workbench.service.TradeHistoryService;
@@ -28,6 +31,9 @@ public class Test {
 
     @Autowired
     private TradeHistoryDao historyDao;
+
+    @Autowired
+    private TradeDao tradeDao;
     @org.junit.Test
     public void test(){
        /* String a = "你他妈有病";
@@ -109,10 +115,13 @@ public class Test {
             System.out.println("找不到配置文件");
         }*/
 
-        try {
+        /*try {
             historyDao.addTradeHistory(new TradeHistory(UUIDUtil.getUUID(),"","","", DateTimeUtil.getSysTime(),"",""));
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
+
+        List<Trade> tradeListByCondition = tradeDao.getTradeListByCondition(new TradeReq());
+        System.out.println(tradeListByCondition);
     }
 }
