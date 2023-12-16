@@ -2,6 +2,7 @@ package com.example.CRM_system.workbench.service.impl;
 
 import com.example.CRM_system.commons.utils.TransactionStatus;
 import com.example.CRM_system.vo.PaginationVO;
+import com.example.CRM_system.vo.TradeChartsVo;
 import com.example.CRM_system.vo.req.TradeReq;
 import com.example.CRM_system.workbench.dao.TradeDao;
 import com.example.CRM_system.workbench.dao.TradeHistoryDao;
@@ -156,5 +157,16 @@ public class TradeServiceImpl implements TradeService {
         List<Trade> trades = tradeDao.getTradeListByContactId(contactId);
 
         return trades;
+    }
+
+    /**
+     * 分组查询交易列表，显示漏斗图表
+     * @return
+     */
+    @Override
+    public List<TradeChartsVo> getTradeListGroupByStage() {
+        List<TradeChartsVo> tradeChartsVos = tradeDao.getTradeListGroupByStage();
+
+        return tradeChartsVos;
     }
 }

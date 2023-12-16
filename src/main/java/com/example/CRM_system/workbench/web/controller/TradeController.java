@@ -5,6 +5,7 @@ import com.example.CRM_system.commons.utils.DateTimeUtil;
 import com.example.CRM_system.commons.utils.UUIDUtil;
 import com.example.CRM_system.settings.pojo.User;
 import com.example.CRM_system.vo.PaginationVO;
+import com.example.CRM_system.vo.TradeChartsVo;
 import com.example.CRM_system.vo.req.TradeReq;
 import com.example.CRM_system.workbench.pojo.Trade;
 import com.example.CRM_system.workbench.service.TradeService;
@@ -24,6 +25,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.UUID;
@@ -167,5 +169,16 @@ public class TradeController {
         session.setAttribute("trade", trade);
 
         return "companyLogin/menu/trade/detail";
+    }
+
+    //显示交易漏斗图表
+    @GetMapping("/showTradeCharts.do")
+    @ResponseBody
+    public Result showTradeCharts(){
+        System.out.println("进入显示交易漏斗图操作");
+
+        List<TradeChartsVo> tradeChartsVos = tradeService.getTradeListGroupByStage();
+
+        return Result.success(tradeChartsVos);
     }
 }

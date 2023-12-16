@@ -22,6 +22,8 @@
 
     <link rel="stylesheet" type="text/css" href="plug-ins/bootstrap-3.4.1-dist/css/bootstrap.min.css"/>
     <script type="text/javascript" src="plug-ins/bootstrap-3.4.1-dist/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript" src="js/echarts5.4.3.js"></script>
 </head>
 <body>
 <header>
@@ -136,7 +138,8 @@
     </div>
 
     <div id="workplace">
-        交易活动统计图表
+        <!-- 为 ECharts 准备一个定义了宽高的 DOM -->
+        <div id="main" style="width: 800px;height:500px;margin-top: 40px; margin-left: 40px"></div>
     </div>
 </nav>
 <footer></footer>
@@ -169,6 +172,75 @@
             }
         })
 
+        //显示交易漏斗图
+        showTradeCharts();
     })
+
+    //显示图表
+    function showTradeCharts(){
+        //发送Ajax请求，查询各阶段交易数量
+        $.ajax({
+            url: "workbench/trade/showTradeCharts.do",
+            data: {
+
+            },
+            type: "get",
+            dataType: "json",
+            success: function (data){
+                //console.log("data",data)
+                // 基于准备好的dom，初始化echarts实例
+                var myChart = echarts.init(document.getElementById('main'));
+
+                // 指定图表的配置项和数据
+                var option = {
+                    title: {
+                        text: '交易统计图表',
+                        subtext: '交易表中各个阶段的数量'
+                    },
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: '{a} <br/>{b} : {c}'
+                    },
+                    toolbox: {
+                        feature: {
+                            dataView: { readOnly: false },
+                            restore: {},
+                            saveAsImage: {}
+                        }
+                    },
+                    legend: {
+                        data: data.data
+                    },
+                    series: [
+                        {
+                            name: '数据量',
+                            type: 'funnel',
+                            left: '10%',
+                            width: '80%',
+                            label: {
+                                formatter: '{b}'
+                            },
+                            labelLine: {
+                                show: true
+                            },
+                            itemStyle: {
+                                opacity: 0.7
+                            },
+                            emphasis: {
+                                label: {
+                                    position: 'inside',
+                                    formatter: '{b}: {c}'
+                                }
+                            },
+                            data: data.data
+                        }
+                    ]
+                };
+
+                // 使用刚指定的配置项和数据显示图表。
+                myChart.setOption(option);
+            }
+        })
+    }
 </script>
 </html>

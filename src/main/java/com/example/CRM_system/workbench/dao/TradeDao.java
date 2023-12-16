@@ -1,5 +1,6 @@
 package com.example.CRM_system.workbench.dao;
 
+import com.example.CRM_system.vo.TradeChartsVo;
 import com.example.CRM_system.vo.req.TradeReq;
 import com.example.CRM_system.workbench.pojo.Trade;
 import org.apache.ibatis.annotations.Select;
@@ -34,4 +35,7 @@ public interface TradeDao {
 
     //根据联系人id查询交易列表记录
     List<Trade> getTradeListByContactId(String contactId);
+
+    //分组查询交易列表，显示为漏斗图表
+    List<TradeChartsVo> getTradeListGroupByStage();
 }

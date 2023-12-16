@@ -224,4 +224,11 @@
 
         where contactId = #{contactId}
     </select>
+
+<!--    分组查询交易列表，显示为漏斗图表-->
+    <select id="getTradeListGroupByStage" resultType="com.example.CRM_system.vo.TradeChartsVo">
+        select stage as name, count(*) as `value`
+
+        from c_trade group by stage
+    </select>
 </mapper>

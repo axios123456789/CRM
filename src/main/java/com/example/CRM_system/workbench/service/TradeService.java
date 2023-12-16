@@ -1,6 +1,7 @@
 package com.example.CRM_system.workbench.service;
 
 import com.example.CRM_system.vo.PaginationVO;
+import com.example.CRM_system.vo.TradeChartsVo;
 import com.example.CRM_system.vo.req.TradeReq;
 import com.example.CRM_system.workbench.pojo.Trade;
 
@@ -22,4 +23,6 @@ public interface TradeService {
     List<Trade> getTradeListByCustomerId(String customerId);    //根据customerId查询交易列表
 
     List<Trade> getTradeListByContactId(String contactId);  //根据contactId查询交易列表
+
+    List<TradeChartsVo> getTradeListGroupByStage(); //分组查询交易列表显示为漏斗图表
 }
