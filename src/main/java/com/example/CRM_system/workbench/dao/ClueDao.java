@@ -1,5 +1,6 @@
 package com.example.CRM_system.workbench.dao;
 
+import com.example.CRM_system.vo.TradeChartsVo;
 import com.example.CRM_system.vo.req.ClueReq;
 import com.example.CRM_system.workbench.pojo.Clue;
 import org.mybatis.spring.annotation.MapperScan;
@@ -26,4 +27,10 @@ public interface ClueDao {
     int deleteClueByIds(String[] ids);
 
     Clue getClueById02(String id);
+
+    //根据线索状态进行分组查询
+    List<TradeChartsVo> getClueGroupByClueStatus();
+
+    //根据线索来源进行分组查询
+    List<TradeChartsVo> getClueGroupBySource();
 }

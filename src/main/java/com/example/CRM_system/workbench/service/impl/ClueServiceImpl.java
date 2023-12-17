@@ -4,6 +4,7 @@ import com.example.CRM_system.commons.utils.DateTimeUtil;
 import com.example.CRM_system.commons.utils.TransactionStatus;
 import com.example.CRM_system.commons.utils.UUIDUtil;
 import com.example.CRM_system.vo.PaginationVO;
+import com.example.CRM_system.vo.TradeChartsVo;
 import com.example.CRM_system.vo.req.ClueReq;
 import com.example.CRM_system.workbench.dao.*;
 import com.example.CRM_system.workbench.pojo.*;
@@ -14,6 +15,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -306,6 +308,25 @@ public class ClueServiceImpl implements ClueService {
         transactionManager.commit(status);
 
         return true;
+    }
+
+    /**
+     * 显示线索相关图表
+     * @return
+     */
+    @Override
+    public Map<String, List<TradeChartsVo>> showClueCharts() {
+        //根据线索状态进行分组查询
+        List<TradeChartsVo> status = clueDao.getClueGroupByClueStatus();
+
+        //根据线索来源进行分组查询
+        List<TradeChartsVo> source = clueDao.getClueGroupBySource();
+
+        Map<String, List<TradeChartsVo>> map = new HashMap<>();
+        map.put("clueStatus", status);
+        map.put("clueSource", source);
+
+        return map;
     }
 
     /**

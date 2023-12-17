@@ -246,4 +246,18 @@
 
         where id = #{id}
     </select>
+
+<!--    根据线索状态进行分组查询-->
+    <select id="getClueGroupByClueStatus" resultType="com.example.CRM_system.vo.TradeChartsVo">
+        select clueStatus as name, count(*) as `value`
+
+        from c_clue group by clueStatus
+    </select>
+
+<!--    根据线索来源进行分组查询-->
+    <select id="getClueGroupBySource" resultType="com.example.CRM_system.vo.TradeChartsVo">
+        select clueSource as name, count(*) as `value`
+
+        from c_clue group by clueSource
+    </select>
 </mapper>

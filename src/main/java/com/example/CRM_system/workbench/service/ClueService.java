@@ -1,6 +1,7 @@
 package com.example.CRM_system.workbench.service;
 
 import com.example.CRM_system.vo.PaginationVO;
+import com.example.CRM_system.vo.TradeChartsVo;
 import com.example.CRM_system.vo.req.ClueReq;
 import com.example.CRM_system.workbench.pojo.Clue;
 import org.springframework.stereotype.Service;
@@ -28,4 +29,7 @@ public interface ClueService {
 
     //进行线索转换操作
     boolean clueChange(Map<String, String> clueMap);
+
+    //显示线索图表
+    Map<String, List<TradeChartsVo>> showClueCharts();
 }

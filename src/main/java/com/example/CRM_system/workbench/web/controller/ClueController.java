@@ -5,6 +5,7 @@ import com.example.CRM_system.commons.utils.DateTimeUtil;
 import com.example.CRM_system.commons.utils.UUIDUtil;
 import com.example.CRM_system.settings.pojo.User;
 import com.example.CRM_system.vo.PaginationVO;
+import com.example.CRM_system.vo.TradeChartsVo;
 import com.example.CRM_system.vo.req.ClueReq;
 import com.example.CRM_system.workbench.pojo.Clue;
 import com.example.CRM_system.workbench.service.ClueService;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -169,5 +171,16 @@ public class ClueController {
         }else {
             return Result.error("500", "线索转换失败，请联系工作人员！");
         }
+    }
+
+    //显示线索状态和线索来源图表
+    @GetMapping("/workbench/clue/showClueStatusAndSourceCharts.do")
+    @ResponseBody
+    public Result showCharts(){
+        System.out.println("进入显示线索状态和来源图表操作");
+
+        Map<String, List<TradeChartsVo>> map = clueService.showClueCharts();
+
+        return Result.success(map);
     }
 }
