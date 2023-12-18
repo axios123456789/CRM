@@ -22,6 +22,8 @@
 
     <link rel="stylesheet" type="text/css" href="plug-ins/bootstrap-3.4.1-dist/css/bootstrap.min.css"/>
     <script type="text/javascript" src="plug-ins/bootstrap-3.4.1-dist/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript" src="js/echarts5.4.3.js"></script>
 </head>
 <body>
 <header>
@@ -136,7 +138,11 @@
     </div>
 
     <div id="workplace">
-        市场活动统计图表
+        <div style="width: 1290px; float: left">
+            <div style="width: 1000px; height: 450px; float: left; margin-left: 100px;" id="nameCharts"></div>
+            <div style="width: 490px; height: 350px; float: left; margin-left: 100px; margin-top: 20px;" id="ownerCharts"></div>
+            <div style="width: 490px; height: 350px; float: left; margin-left: 20px; margin-top: 20px;" id="costCharts"></div>
+        </div>
     </div>
 </nav>
 <footer></footer>
@@ -169,6 +175,189 @@
             }
         })
 
+        //显示图表
+        showActivityCharts();
     })
+
+    //拿到对应市场活动图表的数据
+    function showActivityCharts(){
+        //发送Ajax请求，拿到数据
+        $.ajax({
+            url: "workbench/activity/showActivityCharts.do",
+            type: "get",
+            dataType: "json",
+            success: function (data){
+                //console.log("data",data);
+                showChartsByName(data.data.activityName);
+                showChartsByCost(data.data.activityCost);
+                showChartsByOwner(data.data.activityOwner);
+            }
+        })
+    }
+
+    //根据市场活动名字显示图表
+    function showChartsByName(data){
+        var myCharts = echarts.init(document.getElementById('nameCharts'));
+
+        //处理数据
+        var nameData = [];
+        for (let i = 0; i < data.length; i++) {
+            nameData[i] = data[i].name;
+        }
+
+        var option = {
+            title: {
+                text: '市场活动统计图表',
+                subtext: '根据市场活动名字进行统计'
+            },
+            xAxis: {
+                type: 'category',
+                data: nameData
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [
+                {
+                    data: data,
+                    type: 'bar',
+                    showBackground: true,
+                    backgroundStyle: {
+                        color: 'rgba(180, 180, 180, 0.2)'
+                    }
+                }
+            ]
+        };
+
+        myCharts.setOption(option);
+    }
+
+    //根据成本显示市场活动图表
+    function showChartsByCost(data){
+        var myCharts = echarts.init(document.getElementById('costCharts'));
+
+        var activityData = []
+        for (let i = 0; i < data.length; i++) {
+            activityData[i] = data[i].value;
+        }
+        for (let i = 0; i < activityData.length; i++) {
+            for (let j = 1; j < activityData.length - i; j++) {
+                var temp
+                if (activityData[j] < activityData[j-1]){
+                    temp = activityData[j];
+                    activityData[j] = activityData[j-1];
+                    activityData[j-1] = temp;
+                }
+            }
+        }
+
+        var option = {
+            backgroundColor: '#2c343c',
+            title: {
+                text: '市场活动统计图表',
+                subtext: '根据各阶段成本进行统计',
+                left: 'center',
+                top: 20,
+                textStyle: {
+                    color: '#ccc'
+                }
+            },
+            tooltip: {
+                trigger: 'item'
+            },
+            visualMap: {
+                show: false,
+                min: activityData[0],
+                max: activityData[activityData.length-1],
+                inRange: {
+                    colorLightness: [0, 1]
+                }
+            },
+            series: [
+                {
+                    name: '成本',
+                    type: 'pie',
+                    radius: '55%',
+                    center: ['50%', '50%'],
+                    data: data.sort(function (a, b) {
+                        return a.value - b.value;
+                    }),
+                    roseType: 'radius',
+                    label: {
+                        color: 'rgba(255, 255, 255, 0.3)'
+                    },
+                    labelLine: {
+                        lineStyle: {
+                            color: 'rgba(255, 255, 255, 0.3)'
+                        },
+                        smooth: 0.2,
+                        length: 10,
+                        length2: 20
+                    },
+                    itemStyle: {
+                        color: '#c23531',
+                        shadowBlur: 200,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    },
+                    animationType: 'scale',
+                    animationEasing: 'elasticOut',
+                    animationDelay: function (idx) {
+                        return Math.random() * 200;
+                    }
+                }
+            ]
+        };
+
+        myCharts.setOption(option);
+    }
+
+    //根据所有者显示图表
+    function showChartsByOwner(data){
+        var myCharts = echarts.init(document.getElementById('ownerCharts'));
+
+        var option = {
+            title: {
+                text: '市场活动统计图表',
+                subtext: '根据所有者进行统计'
+            },
+            tooltip: {
+                trigger: 'item'
+            },
+            legend: {
+                top: '5%',
+                left: 'center'
+            },
+            series: [
+                {
+                    name: '所有者',
+                    type: 'pie',
+                    radius: ['40%', '70%'],
+                    avoidLabelOverlap: false,
+                    itemStyle: {
+                        borderRadius: 10,
+                        borderColor: '#fff',
+                        borderWidth: 2
+                    },
+                    label: {
+                        show: false,
+                        position: 'center'
+                    },
+                    emphasis: {
+                        label: {
+                            show: true,
+                            fontSize: 40,
+                            fontWeight: 'bold'
+                        }
+                    },
+                    labelLine: {
+                        show: false
+                    },
+                    data: data
+                }
+            ]
+        };
+
+        myCharts.setOption(option);
+    }
 </script>
 </html>

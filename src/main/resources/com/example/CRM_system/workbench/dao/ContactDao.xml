@@ -286,4 +286,15 @@
             #{customerId}
         </foreach>
     </select>
+
+<!--    根据customerId进行分组查询-->
+    <select id="getContactListGroupByCustomerId" resultType="com.example.CRM_system.vo.TradeChartsVo">
+        select
+            ctr.name as name,
+            count(*) as `value`
+        from c_contact ctt
+        join c_customer ctr on ctt.customerId = ctr.id
+
+        group by ctt.customerId
+    </select>
 </mapper>

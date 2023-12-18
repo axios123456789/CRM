@@ -2,11 +2,9 @@ package com.example.CRM_system.workbench.service.impl;
 
 import com.example.CRM_system.commons.utils.UUIDUtil;
 import com.example.CRM_system.vo.PaginationVO;
+import com.example.CRM_system.vo.TradeChartsVo;
 import com.example.CRM_system.vo.req.ContactReq;
-import com.example.CRM_system.workbench.dao.ContactActivityRelationDao;
-import com.example.CRM_system.workbench.dao.ContactDao;
-import com.example.CRM_system.workbench.dao.ContactRemarkDao;
-import com.example.CRM_system.workbench.dao.CustomerDao;
+import com.example.CRM_system.workbench.dao.*;
 import com.example.CRM_system.workbench.pojo.Contact;
 import com.example.CRM_system.workbench.pojo.Customer;
 import com.example.CRM_system.workbench.service.ContactService;
@@ -15,7 +13,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service("contact")
 public class ContactServiceImpl implements ContactService {
@@ -27,6 +28,9 @@ public class ContactServiceImpl implements ContactService {
 
     @Autowired
     private ContactRemarkDao contactRemarkDao;
+
+    @Autowired
+    private TradeDao tradeDao;
 
     @Autowired
     private ContactActivityRelationDao contactActivityRelationDao;
@@ -89,6 +93,26 @@ public class ContactServiceImpl implements ContactService {
         List<Contact> contacts = contactDao.getContactListByCustomerId(customerId);
 
         return contacts;
+    }
+
+    /**
+     * 显示联系人和客户，联系人和交易，客户和交易关系统计图表
+     * @return
+     */
+    @Override
+    public Map<String, List<TradeChartsVo>> showContactAndCustomerAndTradeCharts() {
+        List<TradeChartsVo> contactListGroupByCustomerId = contactDao.getContactListGroupByCustomerId();
+
+        List<TradeChartsVo> tradeListGroupByCustomerId = tradeDao.getTradeListGroupByCustomerId();
+
+        List<TradeChartsVo> tradeListGroupByContactId = tradeDao.getTradeListGroupByContactId();
+
+        Map<String, List<TradeChartsVo>> map = new HashMap<>();
+        map.put("customerAndContact", contactListGroupByCustomerId);
+        map.put("customerAndTrade", tradeListGroupByCustomerId);
+        map.put("contactAndTrade", tradeListGroupByContactId);
+
+        return map;
     }
 
     /**

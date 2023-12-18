@@ -38,4 +38,10 @@ public interface TradeDao {
 
     //分组查询交易列表，显示为漏斗图表
     List<TradeChartsVo> getTradeListGroupByStage();
+
+    //根据customerId进行分组查询交易
+    List<TradeChartsVo> getTradeListGroupByCustomerId();
+
+    //根据contactId分组查询交易
+    List<TradeChartsVo> getTradeListGroupByContactId();
 }

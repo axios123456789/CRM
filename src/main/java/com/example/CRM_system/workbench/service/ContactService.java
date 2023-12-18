@@ -1,10 +1,12 @@
 package com.example.CRM_system.workbench.service;
 
 import com.example.CRM_system.vo.PaginationVO;
+import com.example.CRM_system.vo.TradeChartsVo;
 import com.example.CRM_system.vo.req.ContactReq;
 import com.example.CRM_system.workbench.pojo.Contact;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ContactService {
     PaginationVO<Contact> getContactListByCondition(ContactReq contactReq); //条件查询联系人列表
@@ -18,4 +20,6 @@ public interface ContactService {
     Contact getContactMakeChineseOwnerById(String id); //根据id查询联系人并将所有者渲染成中文
 
     List<Contact> getContactListByCustomerId(String customerId);    //根据客户id查询联系人列表
+
+    Map<String, List<TradeChartsVo>> showContactAndCustomerAndTradeCharts();    //显示联系人和客户，联系人和交易，客户和交易关系统计图表
 }

@@ -22,6 +22,8 @@
 
     <link rel="stylesheet" type="text/css" href="plug-ins/bootstrap-3.4.1-dist/css/bootstrap.min.css"/>
     <script type="text/javascript" src="plug-ins/bootstrap-3.4.1-dist/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript" src="js/echarts5.4.3.js"></script>
 </head>
 <body>
 <header>
@@ -136,7 +138,11 @@
     </div>
 
     <div id="workplace">
-        客户和联系人统计图表
+        <div style="width: 1290px; float: left">
+            <div style="width: 1100px; height: 450px; float: left; margin-left: 100px;" id="customerAndContactCharts"></div>
+            <div style="width: 545px; height: 400px; float: left; margin-left: 100px; margin-top: 20px;" id="customerAndTradeCharts"></div>
+            <div style="width: 545px; height: 400px; float: left; margin-left: 20px; margin-top: 20px;" id="contactAndTradeCharts"></div>
+        </div>
     </div>
 </nav>
 <footer></footer>
@@ -169,6 +175,181 @@
             }
         })
 
+        showCharts();
     })
+
+    //拿到对应图表所有数据，并显示图表
+    function showCharts(){
+        //发送Ajax请求，拿到对应数据
+        $.ajax({
+            url: "workbench/contact/showContactAndCustomerAndTradeCharts.do",
+            type: "get",
+            dataType: "json",
+            success: function (data){
+                console.log("data",data);
+                customerAndContactCharts(data.data.customerAndContact);
+                customerAndTradeCharts(data.data.customerAndTrade);
+                contactAndTradeCharts(data.data.contactAndTrade);
+            }
+        })
+    }
+
+    //显示客户和联系人关系图表
+    function customerAndContactCharts(data){
+        var myChart = echarts.init(document.getElementById('customerAndContactCharts'));
+
+        //处理数据
+        var nameData = [];
+        for (let i = 0; i < data.length; i++) {
+            nameData[i] = data[i].name;
+        }
+
+        var option = {
+            title: {
+                text: '客户和联系人统计图表',
+                subtext: '每个客户对应的联系人数量'
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'shadow'
+                }
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            xAxis: [
+                {
+                    type: 'category',
+                    data: nameData,
+                    axisTick: {
+                        alignWithLabel: true
+                    }
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value'
+                }
+            ],
+            series: [
+                {
+                    name: '联系人数',
+                    type: 'bar',
+                    barWidth: '60%',
+                    data: data
+                }
+            ]
+        };
+
+        myChart.setOption(option);
+    }
+
+    //显示客户和交易关系图表
+    function customerAndTradeCharts(data){
+        var myChart = echarts.init(document.getElementById('customerAndTradeCharts'));
+
+        var option = {
+            title: {
+                text: '客户和交易图表',
+                subtext: '每个客户对应的交易数统计'
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: '{a} <br/>{b} : {c}'
+            },
+            toolbox: {
+                feature: {
+                    dataView: { readOnly: false },
+                    restore: {},
+                    saveAsImage: {}
+                }
+            },
+            legend: {
+                data: data
+            },
+            series: [
+                {
+                    name: '数据量',
+                    type: 'funnel',
+                    left: '10%',
+                    width: '80%',
+                    label: {
+                        formatter: '{b}'
+                    },
+                    labelLine: {
+                        show: true
+                    },
+                    itemStyle: {
+                        opacity: 0.7
+                    },
+                    emphasis: {
+                        label: {
+                            position: 'inside',
+                            formatter: '{b}: {c}'
+                        }
+                    },
+                    data: data
+                }
+            ]
+        };
+
+        myChart.setOption(option);
+    }
+
+    //显示联系人和交易关系统计图表
+    function contactAndTradeCharts(data){
+        var myChart = echarts.init(document.getElementById('contactAndTradeCharts'));
+
+        var option = {
+            title: {
+                text: '客户和联系人图表',
+                subtext: '每个联系人对应的交易数统计'
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: '{a} <br/>{b} : {c}'
+            },
+            toolbox: {
+                feature: {
+                    dataView: { readOnly: false },
+                    restore: {},
+                    saveAsImage: {}
+                }
+            },
+            legend: {
+                data: data
+            },
+            series: [
+                {
+                    name: '数据量',
+                    type: 'funnel',
+                    left: '10%',
+                    width: '80%',
+                    label: {
+                        formatter: '{b}'
+                    },
+                    labelLine: {
+                        show: true
+                    },
+                    itemStyle: {
+                        opacity: 0.7
+                    },
+                    emphasis: {
+                        label: {
+                            position: 'inside',
+                            formatter: '{b}: {c}'
+                        }
+                    },
+                    data: data
+                }
+            ]
+        };
+
+        myChart.setOption(option);
+    }
 </script>
 </html>

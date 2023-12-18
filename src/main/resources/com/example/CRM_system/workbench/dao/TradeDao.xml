@@ -231,4 +231,30 @@
 
         from c_trade group by stage
     </select>
+
+<!--    根据customerId进行分组查询交易-->
+    <select id="getTradeListGroupByCustomerId" resultType="com.example.CRM_system.vo.TradeChartsVo">
+        select
+
+        c.name as name,
+        count(*) as `value`
+
+        from c_trade t
+        join c_customer c on t.customerId = c.id
+
+        group by t.customerId
+    </select>
+
+<!--    根据contactId进行分组查询交易-->
+    <select id="getTradeListGroupByContactId" resultType="com.example.CRM_system.vo.TradeChartsVo">
+        select
+
+        c.name as name,
+        count(*) as `value`
+
+        from c_trade t
+        join c_contact c on t.contactId = c.id
+
+        group by t.contactId
+    </select>
 </mapper>

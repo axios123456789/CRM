@@ -5,6 +5,7 @@ import com.example.CRM_system.commons.utils.DateTimeUtil;
 import com.example.CRM_system.commons.utils.UUIDUtil;
 import com.example.CRM_system.settings.pojo.User;
 import com.example.CRM_system.vo.PaginationVO;
+import com.example.CRM_system.vo.TradeChartsVo;
 import com.example.CRM_system.vo.req.ContactReq;
 import com.example.CRM_system.workbench.pojo.Contact;
 import com.example.CRM_system.workbench.pojo.Customer;
@@ -18,6 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/workbench/contact")
@@ -120,5 +124,16 @@ public class ContactController {
         session.setAttribute("contact", contact);
 
         return "companyLogin/menu/relative/detail";
+    }
+
+    //显示联系人和客户，联系人和交易，客户和交易关系统计图表
+    @GetMapping("/showContactAndCustomerAndTradeCharts.do")
+    @ResponseBody
+    public Result showCharts(){
+        System.out.println("进入显示客户联系人，客户交易，联系人交易关系图表操作！");
+
+        Map<String, List<TradeChartsVo>> map = contactService.showContactAndCustomerAndTradeCharts();
+
+        return Result.success(map);
     }
 }

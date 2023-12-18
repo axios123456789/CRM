@@ -1,5 +1,6 @@
 package com.example.CRM_system.workbench.dao;
 
+import com.example.CRM_system.vo.TradeChartsVo;
 import com.example.CRM_system.vo.req.ContactReq;
 import com.example.CRM_system.workbench.pojo.Contact;
 
@@ -38,4 +39,7 @@ public interface ContactDao {
 
     //根据客户ids查询联系人ids
     List<Contact> getContactListByCustomerIds(String[] ids);
+
+    //根据customerId进行分组查询
+    List<TradeChartsVo> getContactListGroupByCustomerId();
 }
