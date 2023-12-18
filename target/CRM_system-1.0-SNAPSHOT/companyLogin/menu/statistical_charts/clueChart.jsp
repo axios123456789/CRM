@@ -22,6 +22,8 @@
 
     <link rel="stylesheet" type="text/css" href="plug-ins/bootstrap-3.4.1-dist/css/bootstrap.min.css"/>
     <script type="text/javascript" src="plug-ins/bootstrap-3.4.1-dist/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript" src="js/echarts5.4.3.js"></script>
 </head>
 <body>
 <header>
@@ -136,7 +138,10 @@
     </div>
 
     <div id="workplace">
-        线索统计图表
+        <div style="width: 1290px;float: left">
+            <div style="width: 850px; height: 400px; float: left; margin-left: 150px;" id="statusCharts"></div>
+            <div style="width: 850px; height: 400px; float: left; margin-left: 150px; margin-top: 50px;" id="sourceCharts"></div>
+        </div>
     </div>
 </nav>
 <footer></footer>
@@ -169,6 +174,185 @@
             }
         })
 
+        //线索两个对应图表
+        showClueStatusAndSourceCharts();
     })
+
+    //显示线索状态和来源图表
+    function showClueStatusAndSourceCharts(){
+        //发送Ajax请求拿到对应数据
+        $.ajax({
+            url: "workbench/clue/showClueStatusAndSourceCharts.do",
+            data: {
+
+            },
+            type: "get",
+            dataType: "json",
+            success: function (data){
+                clueStatus(data.data.clueStatus);
+                clueSource(data.data.clueSource);
+            }
+        })
+    }
+
+    //线索状态表显示
+    function clueStatus(data){
+        var chartDom = document.getElementById('statusCharts');
+        var myChart = echarts.init(chartDom);
+
+        var option = {
+            title: {
+                text: '线索状态统计图',
+                left: 'left',
+                top: 'bottom'
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: '{a} <br/>{b} : {c}'
+            },
+            toolbox: {
+                orient: 'vertical',
+                top: 'center',
+                feature: {
+                    dataView: { readOnly: false },
+                    restore: {},
+                    saveAsImage: {}
+                }
+            },
+            legend: {
+                orient: 'vertical',
+                left: 'left',
+                data: data
+            },
+            series: [
+                {
+                    name: '线索状态',
+                    type: 'funnel',
+                    width: '40%',
+                    height: '45%',
+                    left: '5%',
+                    top: '50%',
+                    data: data
+                },
+                {
+                    name: '线索状态',
+                    type: 'funnel',
+                    width: '40%',
+                    height: '45%',
+                    left: '5%',
+                    top: '5%',
+                    sort: 'ascending',
+                    data: data
+                },
+                {
+                    name: '线索状态',
+                    type: 'funnel',
+                    width: '40%',
+                    height: '45%',
+                    left: '55%',
+                    top: '5%',
+                    label: {
+                        position: 'left'
+                    },
+                    data: data
+                },
+                {
+                    name: '线索状态',
+                    type: 'funnel',
+                    width: '40%',
+                    height: '45%',
+                    left: '55%',
+                    top: '50%',
+                    sort: 'ascending',
+                    label: {
+                        position: 'left'
+                    },
+                    data: data
+                }
+            ]
+        };
+
+        option && myChart.setOption(option);
+    }
+
+    //线索来源图表显示
+    function clueSource(data){
+        var chartDom = document.getElementById('sourceCharts');
+        var myChart = echarts.init(chartDom);
+
+        var option = {
+            title: {
+                text: '线索来源统计图',
+                left: 'left',
+                top: 'bottom'
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: '{a} <br/>{b} : {c}'
+            },
+            toolbox: {
+                orient: 'vertical',
+                top: 'center',
+                feature: {
+                    dataView: { readOnly: false },
+                    restore: {},
+                    saveAsImage: {}
+                }
+            },
+            legend: {
+                orient: 'vertical',
+                left: 'left',
+                data: data
+            },
+            series: [
+                {
+                    name: '线索来源',
+                    type: 'funnel',
+                    width: '40%',
+                    height: '45%',
+                    left: '5%',
+                    top: '50%',
+                    data: data
+                },
+                {
+                    name: '线索来源',
+                    type: 'funnel',
+                    width: '40%',
+                    height: '45%',
+                    left: '5%',
+                    top: '5%',
+                    sort: 'ascending',
+                    data: data
+                },
+                {
+                    name: '线索来源',
+                    type: 'funnel',
+                    width: '40%',
+                    height: '45%',
+                    left: '55%',
+                    top: '5%',
+                    label: {
+                        position: 'left'
+                    },
+                    data: data
+                },
+                {
+                    name: '线索来源',
+                    type: 'funnel',
+                    width: '40%',
+                    height: '45%',
+                    left: '55%',
+                    top: '50%',
+                    sort: 'ascending',
+                    label: {
+                        position: 'left'
+                    },
+                    data: data
+                }
+            ]
+        };
+
+        option && myChart.setOption(option);
+    }
 </script>
 </html>

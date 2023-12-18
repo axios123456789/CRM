@@ -2,6 +2,7 @@ package com.example.CRM_system.workbench.service.impl;
 
 import com.example.CRM_system.commons.utils.TransactionStatus;
 import com.example.CRM_system.vo.PaginationVO;
+import com.example.CRM_system.vo.TradeChartsVo;
 import com.example.CRM_system.workbench.dao.ActivityDao;
 import com.example.CRM_system.workbench.dao.ActivityRemarkDao;
 import com.example.CRM_system.workbench.dao.ClueActivityRelationDao;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -186,5 +188,25 @@ public class ActivityServiceImpl implements ActivityService {
         List<Activity> activities = activityDao.getNotBeRelationActivityListByNameAndContactId(name, contactId);
 
         return activities;
+    }
+
+    /**
+     * 显示市场活动相关图表
+     * @return
+     */
+    @Override
+    public Map<String ,List<TradeChartsVo>> showActivityCharts() {
+        List<TradeChartsVo> activityListGroupByName = activityDao.getActivityListGroupByName();
+
+        List<TradeChartsVo> activityListGroupByCost = activityDao.getActivityListGroupByCost();
+
+        List<TradeChartsVo> activityListGroupByOwner = activityDao.getActivityListGroupByOwner();
+
+        Map<String, List<TradeChartsVo>> map = new HashMap<>();
+        map.put("activityName", activityListGroupByName);
+        map.put("activityCost", activityListGroupByCost);
+        map.put("activityOwner", activityListGroupByOwner);
+
+        return map;
     }
 }

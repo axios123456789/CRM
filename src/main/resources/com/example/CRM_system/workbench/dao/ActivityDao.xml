@@ -339,4 +339,38 @@
         where name like concat('%', #{param1}, '%')
     </select>
 
+<!--    根据市场活动的名字进行分组查询-->
+    <select id="getActivityListGroupByName" resultType="com.example.CRM_system.vo.TradeChartsVo">
+        select `name`, count(*) as `value`
+
+        from c_activity group by name
+    </select>
+
+<!--    根据市场活动各成本段进行分组查询-->
+    <select id="getActivityListGroupByCost" resultMap="chartsMap">
+        select case
+                when cost between 0 and 100000 then '10w以下'
+                when cost between 100000 and 1000000 then '10~100w'
+                else '100w以上'
+               end as ac_name,
+        COUNT(*) AS ac_value
+        from c_activity
+        group by ac_name;
+    </select>
+
+<!--    根据所有者进行分组查询-->
+    <select id="getActivityListGroupByOwner" resultType="com.example.CRM_system.vo.TradeChartsVo">
+        select u.name as name, count(*) as `value`
+
+        from c_activity a
+        join c_user u on a.owner = u.id
+
+        group by a.owner;
+    </select>
+
+    <resultMap id="chartsMap" type="com.example.CRM_system.vo.TradeChartsVo">
+        <result column="ac_name" property="name"></result>
+        <result column="ac_value" property="value"></result>
+    </resultMap>
+
 </mapper>

@@ -1,5 +1,6 @@
 package com.example.CRM_system.workbench.dao;
 
+import com.example.CRM_system.vo.TradeChartsVo;
 import com.example.CRM_system.workbench.pojo.Activity;
 
 import java.util.List;
@@ -50,4 +51,13 @@ public interface ActivityDao {
 
     //根据联系人id和市场活动名字模糊查询没有被关联的市场活动列表
     List<Activity> getNotBeRelationActivityListByNameAndContactId(String name, String contactId);
+
+    //根据市场活动名字进行分组查询
+    List<TradeChartsVo> getActivityListGroupByName();
+
+    //根据市场活动各成本段进行分组查询
+    List<TradeChartsVo> getActivityListGroupByCost();
+
+    //根据市场活动所有者进行分组查询
+    List<TradeChartsVo> getActivityListGroupByOwner();
 }

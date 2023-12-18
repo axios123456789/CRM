@@ -8,6 +8,7 @@ import com.example.CRM_system.commons.utils.DateTimeUtil;
 import com.example.CRM_system.commons.utils.ServiceFactory;
 import com.example.CRM_system.commons.utils.UUIDUtil;
 import com.example.CRM_system.vo.PaginationVO;
+import com.example.CRM_system.vo.TradeChartsVo;
 import com.example.CRM_system.workbench.pojo.Activity;
 import com.example.CRM_system.workbench.service.ActivityService;
 import com.example.CRM_system.workbench.service.impl.ActivityServiceImpl;
@@ -164,5 +165,16 @@ public class ActivityController{
         List<Activity> activities = activityService.getBeRelationActivityListByName(name, clueId);
 
         return Result.success(activities);
+    }
+
+    //显示市场活动图表
+    @GetMapping("/workbench/activity/showActivityCharts.do")
+    @ResponseBody
+    public Result showCharts(){
+        System.out.println("进入显示市场活动相关图表操作");
+
+        Map<String, List<TradeChartsVo>> map = activityService.showActivityCharts();
+
+        return Result.success(map);
     }
 }

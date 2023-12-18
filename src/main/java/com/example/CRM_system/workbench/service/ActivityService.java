@@ -2,6 +2,7 @@ package com.example.CRM_system.workbench.service;
 
 import com.example.CRM_system.settings.pojo.User;
 import com.example.CRM_system.vo.PaginationVO;
+import com.example.CRM_system.vo.TradeChartsVo;
 import com.example.CRM_system.workbench.pojo.Activity;
 
 import java.util.List;
@@ -31,4 +32,6 @@ public interface ActivityService {
     List<Activity> getNotBeRelationActivityListByContactId(String contactId);   //根据联系人id查询没有被关联的市场活动列表
 
     List<Activity> getNotBeRelationActivityListByNameAndContactId(String name, String contactId);   //根据市场活动名字模糊查询没有被联系人关联的市场活动列表
+
+    Map<String, List<TradeChartsVo>> showActivityCharts();   //显示市场活动相关图表
 }

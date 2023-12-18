@@ -1,31 +1,15 @@
 package com.example.CRM_system.vo;
 
 public class TradeChartsVo {
-    private String name;
     private Integer value;
+    private String name;
 
 
     public TradeChartsVo() {
     }
 
-    public TradeChartsVo(String name, Integer value) {
-        this.name = name;
+    public TradeChartsVo(Integer value, String name) {
         this.value = value;
-    }
-
-    /**
-     * 获取
-     * @return name
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * 设置
-     * @param name
-     */
-    public void setName(String name) {
         this.name = name;
     }
 
@@ -45,7 +29,23 @@ public class TradeChartsVo {
         this.value = value;
     }
 
+    /**
+     * 获取
+     * @return name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * 设置
+     * @param name
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String toString() {
-        return "TradeChartsVo{name = " + name + ", value = " + value + "}";
+        return "TradeChartsVo{value = " + value + ", name = " + name + "}";
     }
 }
