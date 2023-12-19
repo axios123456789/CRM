@@ -2,7 +2,8 @@
 /* DBMS name:      MySQL 5.0                                    */
 /* Created on:     2023/12/6 13:54:36                           */
 /*==============================================================*/
-
+drom database if exists crm;
+create database crm;
 
 drop table if exists c_activity;
 
@@ -158,7 +159,7 @@ create table c_contact
 create table c_contact_activity_relation
 (
    id                   char(32) not null,
-   contactionId         char(32),
+   contactId         char(32),
    activityId           char(32),
    primary key (id)
 );
@@ -175,7 +176,7 @@ create table c_contact_remark
    editBy               varchar(255),
    editTime             char(19),
    editFlag             char(1),
-   contactionId         char(32),
+   contactId         char(32),
    primary key (id)
 );
 
@@ -327,7 +328,7 @@ insert into c_dic_type(code, name, description) values
 ("stage","阶段",""),
 ("transactionType","交易类型","");
 
-insert into c_dic_value (id, "value", text, orderNo, typeCode) values
+insert into c_dic_value (id, value, text, orderNo, typeCode) values
 ("06e3cbdf10a44eca8511dddfc6896c55","虚假线索","虚假线索","4","clueState"),
 ("0fe33840c6d84bf78df55d49b169a894","销售邮件","销售邮件","8","source"),
 ("12302fd42bd349c1bb768b19600e6b20","交易会","交易会","11","source"),
