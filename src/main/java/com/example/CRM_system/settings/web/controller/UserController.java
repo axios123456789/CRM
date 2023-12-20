@@ -8,6 +8,7 @@ import com.example.CRM_system.settings.service.DicService;
 import com.example.CRM_system.settings.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -103,6 +104,7 @@ public class UserController {
     @PostMapping("/settings/user/editPwd.do")
     @ResponseBody
     public Result editPwd(String id, String newPassword, String enterPassword, HttpSession session){
+        System.out.println("进入修改密码的操作！");
         if (newPassword != "" && newPassword != null && newPassword.equals(enterPassword)){
             String loginPwd = MD5Util.getMD5(newPassword);
 
@@ -117,5 +119,15 @@ public class UserController {
             }
         }
         return Result.error("500", "两次输入的密码不同！");
+    }
+
+    //退出登录
+    @RequestMapping("/settings/user/outLogin.do")
+    public String outLogin(HttpSession session){
+        System.out.println("进入退出登录操作！");
+
+        session.setAttribute("user",null);
+
+        return "login";
     }
 }
