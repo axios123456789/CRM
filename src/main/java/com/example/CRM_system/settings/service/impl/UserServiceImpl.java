@@ -27,4 +27,22 @@ public class UserServiceImpl implements UserService {
 
         return userList;
     }
+
+    /**
+     * 修改密码
+     * @param id
+     * @param loginPwd
+     * @return
+     */
+    @Override
+    public boolean updatePwd(String id, String loginPwd) {
+        try {
+            userDao.updatePwd(id, loginPwd);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
+    }
 }

@@ -13,4 +13,7 @@ public interface UserDao {
 
     //查询用户表的所有信息
     List<User> getUserList();
+
+    //修改密码
+    void updatePwd(String id, String loginPwd);
 }

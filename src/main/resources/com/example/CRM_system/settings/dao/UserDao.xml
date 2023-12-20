@@ -3,7 +3,15 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.CRM_system.settings.dao.UserDao">
-<!--    查询c_user的所有信息-->
+<!--    修改密码-->
+    <update id="updatePwd">
+        update c_user
+
+        set loginPwd = #{param2}
+
+        where id = #{param1}
+    </update>
+    <!--    查询c_user的所有信息-->
     <select id="getUserList" resultType="com.example.CRM_system.settings.pojo.User">
         select * from c_user
     </select>

@@ -41,12 +41,12 @@ public class Test {
         System.out.println(b);*/
 
         //测试生成id和加密后的密码
-        /*String uuid = UUIDUtil.getUUID();
+        String uuid = UUIDUtil.getUUID();
         System.out.println("id值"+uuid);
 
-        String ps = "8888888";
+        String ps = "1234567";
         String md5 = MD5Util.getMD5(ps);
-        System.out.println("密码"+md5);*/
+        System.out.println("密码"+md5);
 
         //测试将数据处理成List<Map>类型
         /*String clueId = "1";
@@ -121,7 +121,7 @@ public class Test {
             e.printStackTrace();
         }*/
 
-        List<Trade> tradeListByCondition = tradeDao.getTradeListByCondition(new TradeReq());
-        System.out.println(tradeListByCondition);
+        /*List<Trade> tradeListByCondition = tradeDao.getTradeListByCondition(new TradeReq());
+        System.out.println(tradeListByCondition);*/
     }
 }

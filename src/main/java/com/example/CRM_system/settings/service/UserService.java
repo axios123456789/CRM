@@ -9,4 +9,6 @@ public interface UserService {
     User getUserByLoginActAndPwd(Map<String, Object> map);
 
     List<User> getUserList();
+
+    boolean updatePwd(String id, String loginPwd); //修改密码
 }
