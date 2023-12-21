@@ -28,18 +28,22 @@
 <header>
     <h1>CRM</h1>
     <img src="img/logo.png" style="height: 60px; "/>
-    <div style="width: 100px; height: 60px; margin-right: 50px; float: right;">
+    <div style="width: 200px; height: 60px; float: right;">
         <img src="img/person.svg" style="height: 40px; margin-top: 10px; float: left"/>
-        <div class="dropdown" style="margin-top: 20px; float: left;">
-            <button id="dLabel" type="button" data-toggle="dropdown" style="background-color: #CCCCCC; border: 0px;">
+        <div class="dropdown" style="margin-top: 20px; float: left; width: 150px">
+            <button id="dLabel" type="button" data-toggle="dropdown" style="background-color: #CCCCCC; border: 0px">
                 ${user.name}
                 <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" aria-labelledby="dLabel">
-                <li><a href="companyLogin/menu/workstation.jsp"><span class="glyphicon glyphicon-home"></span>&nbsp;工作台</a></li>
-                <li><a href="companyLogin/setting/setSystem.jsp"><span class="glyphicon glyphicon-wrench"></span>&nbsp;系统设置</a></li>
-                <li><a href="companyLogin/setting/personInformation.jsp"><span class="glyphicon glyphicon-file"></span>&nbsp;我的资料</a></li>
-                <li><a href="companyLogin/setting/pwdEdit.jsp"><span class="glyphicon glyphicon-edit"></span>&nbsp;修改密码</a></li>
+                <li><a href="companyLogin/menu/workstation.jsp"><span class="glyphicon glyphicon-home"></span>&nbsp;工作台</a>
+                </li>
+                <li><a href="companyLogin/setting/setSystem.jsp"><span class="glyphicon glyphicon-wrench"></span>&nbsp;系统设置</a>
+                </li>
+                <li><a href="companyLogin/setting/personInformation.jsp"><span class="glyphicon glyphicon-file"></span>&nbsp;我的资料</a>
+                </li>
+                <li><a href="companyLogin/setting/pwdEdit.jsp"><span class="glyphicon glyphicon-edit"></span>&nbsp;修改密码</a>
+                </li>
                 <li><a href="settings/user/outLogin.do"><span class="glyphicon glyphicon-off"></span>&nbsp;退出</a></li>
             </ul>
         </div>
@@ -51,7 +55,9 @@
         <div style="width: 300px; height: 300px; float: left">
             <ul>
                 常规
-                <li style="list-style-type: none; margin-top: 10px"><a href="" style="text-decoration: none">个人设置</a></li>
+                <li style="list-style-type: none; margin-top: 10px"><a
+                        href="companyLogin/setting/systemSet/personSet/personInformation.jsp"
+                        style="text-decoration: none">个人设置</a></li>
             </ul>
         </div>
         <div style="width: 300px; height: 300px;  float: left">
@@ -65,21 +71,24 @@
         <div style="width: 300px; height: 300px;  float: left">
             <ul>
                 扩展及API
-                <li style="list-style-type: none; margin-top: 10px"><a href="" style="text-decoration: none">API</a></li>
+                <li style="list-style-type: none; margin-top: 10px"><a href="" style="text-decoration: none">API</a>
+                </li>
                 <li style="list-style-type: none"><a href="" style="text-decoration: none">其他的</a></li>
             </ul>
         </div>
         <div style="width: 300px; height: 300px;  float: left">
             <ul>
                 安全控制
-                <li style="list-style-type: none; margin-top: 10px"><a href="" style="text-decoration: none">部门管理</a></li>
+                <li style="list-style-type: none; margin-top: 10px"><a href="" style="text-decoration: none">部门管理</a>
+                </li>
                 <li style="list-style-type: none"><a href="" style="text-decoration: none">权限管理</a></li>
             </ul>
         </div>
         <div style="width: 300px; height: 300px;  float: left">
             <ul>
                 自动化
-                <li style="list-style-type: none; margin-top: 10px"><a href="" style="text-decoration: none">工作流自动化</a></li>
+                <li style="list-style-type: none; margin-top: 10px"><a href="" style="text-decoration: none">工作流自动化</a>
+                </li>
                 <li style="list-style-type: none"><a href="" style="text-decoration: none">计划</a></li>
                 <li style="list-style-type: none"><a href="" style="text-decoration: none">Web表单</a></li>
                 <li style="list-style-type: none"><a href="" style="text-decoration: none">分配规则</a></li>
@@ -89,7 +98,9 @@
         <div style="width: 300px; height: 300px;  float: left">
             <ul>
                 数据管理
-                <li style="list-style-type: none; margin-top: 10px"><a href="companyLogin/setting/systemSet/dataDic/dataType.jsp" style="text-decoration: none">数据字典表</a></li>
+                <li style="list-style-type: none; margin-top: 10px"><a
+                        href="companyLogin/setting/systemSet/dataDic/dataType.jsp"
+                        style="text-decoration: none">数据字典表</a></li>
                 <li style="list-style-type: none"><a href="" style="text-decoration: none">导入</a></li>
                 <li style="list-style-type: none"><a href="" style="text-decoration: none">导出</a></li>
                 <li style="list-style-type: none"><a href="" style="text-decoration: none">存储</a></li>

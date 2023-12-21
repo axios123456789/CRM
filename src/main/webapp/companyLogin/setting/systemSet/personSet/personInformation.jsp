@@ -16,7 +16,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>我的资料</title>
+    <title>个人设置</title>
     <base href="<%=basePath%>">
 
     <link rel="stylesheet" type="text/css" href="css/work.css"/>
@@ -24,6 +24,8 @@
 
     <link rel="stylesheet" type="text/css" href="plug-ins/bootstrap-3.4.1-dist/css/bootstrap.min.css"/>
     <script type="text/javascript" src="plug-ins/bootstrap-3.4.1-dist/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript" src="plug-ins/layDate-v5.3.1/laydate/laydate.js"></script>
 </head>
 <body>
 <header>
@@ -108,8 +110,99 @@
                 </c:if>
             </small>
         </div>
+        <div style="width: 700px; height: 50px; float: left; margin-left: 100px; margin-top: 30px">
+            <button style="width: 100px;height: 40px; float: left; margin-left: 150px; font-size: 20px; color: #051b11" onclick="edit_person()">修改</button>
+        </div>
     </div>
+
+<%--    修改个人信息模态窗口--%>
+    <div class="modal fade" tabindex="-1" role="dialog" id="update-modal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" style="width: 800px">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">修改个人信息</h4>
+                </div>
+                <div class="modal-body" style="width: 100%; height: 250px">
+                    <div style="width: 100%; float: left;">
+                        <label style="width: 100px; line-height: 35px; float: left;">账号:</label>
+                        <input class="form-control" style="width: 250px; float: left" id="loginAct">
+                        <label style="width: 100px; float: left; line-height: 35px; margin-left: 50px">名字:</label>
+                        <input class="form-control" style="width: 250px; float:left;" id="name">
+                    </div>
+                    <div style="width: 100%; float: left; margin-top: 50px">
+                        <label style="width: 100px; line-height: 35px; float: left;">邮箱:</label>
+                        <input class="form-control" style="width: 250px; float: left" id="email">
+                        <label style="width: 100px; float: left; line-height: 35px; margin-left: 50px">部门编号:</label>
+                        <input class="form-control" style="width: 250px; float:left;" id="deptno">
+                    </div>
+                    <div style="width: 100%; float: left; margin-top: 50px; display: none" id="specal-input">
+                        <label style="width: 100px; line-height: 30px; float: left;">账号过期时间:</label>
+                        <input class="form-control" style="width: 250px; float: left" id="expireTime" readonly>
+                        <label style="width: 100px; float: left; line-height: 30px; margin-left: 50px">账号允许的IP:</label>
+                        <input class="form-control" style="width: 250px; float:left;" id="allowIps" placeholder="填入允许的IP，用逗号分隔！">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" onclick="update_person()">修改</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 </nav>
 <footer></footer>
 </body>
+<script>
+    laydate.render({
+        elem: "#expireTime",
+        type: "datetime"
+    })
+
+    $(document).ready(function (){
+        //判断登录人等级，确定模态窗口中的内容
+        if ("${user.lockState}" == "2"){//管理员登录
+            $("#specal-input").show();
+        }
+    })
+
+    //修改个人信息
+    function edit_person(){
+        //设置模态窗口中的值
+        $("#loginAct").val("${user.loginAct}");
+        $("#name").val("${user.name}");
+        $("#email").val("${user.email}");
+        $("#deptno").val("${user.deptno}");
+        $("#expireTime").val("${user.expireTime}");
+        $("#allowIps").val("${user.allowIps}");
+        $("#update-modal").modal("show");
+    }
+
+    //点击模态框中的确认按钮后触发
+    function update_person(){
+        //发送Ajax请求，进行修改个人信息操作
+        $.ajax({
+            url: "settings/user/updatePersonInformation.do",
+            data: {
+                id: "${user.id}",
+                loginAct: $.trim($("#loginAct").val()),
+                name: $.trim($("#name").val()),
+                email: $.trim($("#email").val()),
+                deptno: $.trim($("#deptno").val()),
+                expireTime: $.trim($("#expireTime").val()),
+                allowIps: $.trim($("#allowIps").val())
+            },
+            type: "post",
+            dataType: "json",
+            success: function (data){
+                if (data.code == "200"){
+                    $("#update-modal").modal("hide");
+                    window.location.reload();
+                }else {
+                    alert(data.message);
+                }
+            }
+        })
+    }
+</script>
 </html>

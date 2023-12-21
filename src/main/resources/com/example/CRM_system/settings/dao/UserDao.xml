@@ -11,6 +11,25 @@
 
         where id = #{param1}
     </update>
+
+<!--   修改个人信息-->
+    <update id="updatePersonInformation">
+        update c_user
+
+        set
+
+        loginAct = #{loginAct},
+        name = #{name},
+        email = #{email},
+        deptno = #{deptno},
+        expireTime = #{expireTime},
+        allowIps = #{allowIps},
+        editBy = #{editBy},
+        editTime = #{editTime}
+
+        where id = #{id};
+    </update>
+
     <!--    查询c_user的所有信息-->
     <select id="getUserList" resultType="com.example.CRM_system.settings.pojo.User">
         select * from c_user

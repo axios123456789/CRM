@@ -45,4 +45,33 @@ public class UserServiceImpl implements UserService {
 
         return true;
     }
+
+    /**
+     * 修改个人信息
+     * @param user
+     * @return
+     */
+    @Override
+    public boolean updatePersonInformation(User user) {
+        try {
+            userDao.updatePersonInformation(user);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * 根据id查询用户
+     * @param id
+     * @return
+     */
+    @Override
+    public User getUserById(String id) {
+        User user = userDao.getUserById(id);
+
+        return user;
+    }
 }

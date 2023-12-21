@@ -32,19 +32,22 @@
 <header>
     <h1>CRM</h1>
     <img src="img/logo.png" style="height: 60px; "/>
-    <div style="width: 100px; height: 60px; margin-right: 50px; float: right;">
+    <div style="width: 200px; height: 60px; float: right;">
         <img src="img/person.svg" style="height: 40px; margin-top: 10px; float: left"/>
-        <div class="dropdown" style="margin-top: 20px; float: left;">
-            <button id="dLabel" type="button" data-toggle="dropdown" style="background-color: #CCCCCC; border: 0px;">
+        <div class="dropdown" style="margin-top: 20px; float: left; width: 150px">
+            <button id="dLabel" type="button" data-toggle="dropdown" style="background-color: #CCCCCC; border: 0px">
                 ${user.name}
                 <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" aria-labelledby="dLabel">
-                <li><a href="companyLogin/menu/workstation.jsp"><span class="glyphicon glyphicon-home"></span>&nbsp;工作台</a></li>
-                <li><a href="companyLogin/setting/setSystem.jsp"><span class="glyphicon glyphicon-wrench"></span>&nbsp;系统设置</a></li>
+                <li><a href="companyLogin/menu/workstation.jsp"><span class="glyphicon glyphicon-home"></span>&nbsp;工作台</a>
+                </li>
+                <li><a href="companyLogin/setting/setSystem.jsp"><span class="glyphicon glyphicon-wrench"></span>&nbsp;系统设置</a>
+                </li>
                 <li><a href="companyLogin/setting/personInformation.jsp"><span class="glyphicon glyphicon-file"></span>&nbsp;我的资料</a>
                 </li>
-                <li><a href="companyLogin/setting/pwdEdit.jsp"><span class="glyphicon glyphicon-edit"></span>&nbsp;修改密码</a></li>
+                <li><a href="companyLogin/setting/pwdEdit.jsp"><span class="glyphicon glyphicon-edit"></span>&nbsp;修改密码</a>
+                </li>
                 <li><a href="settings/user/outLogin.do"><span class="glyphicon glyphicon-off"></span>&nbsp;退出</a></li>
             </ul>
         </div>

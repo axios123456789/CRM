@@ -121,6 +121,32 @@ public class UserController {
         return Result.error("500", "两次输入的密码不同！");
     }
 
+    //修改个人信息
+    @PostMapping("/settings/user/updatePersonInformation.do")
+    @ResponseBody
+    public Result updatePersonInformation(User user, HttpSession session){
+        System.out.println("进入修改个人信息操作！");
+
+        String editBy = ((User) session.getAttribute("user")).getName();
+        user.setEditBy(editBy);
+        user.setEditTime(DateTimeUtil.getSysTime());
+
+        //修改
+        boolean flag = userService.updatePersonInformation(user);
+
+        if (flag){
+            //根据id查询新的个人信息
+            User user1 = userService.getUserById(user.getId());
+
+            //保存新的个人信息到session域中
+            session.setAttribute("user", user1);
+
+            return Result.success();
+        }else {
+            return Result.error("500", "修改个人信息失败，请联系相关人员！");
+        }
+    }
+
     //退出登录
     @RequestMapping("/settings/user/outLogin.do")
     public String outLogin(HttpSession session){

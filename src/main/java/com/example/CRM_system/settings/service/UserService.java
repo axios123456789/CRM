@@ -11,4 +11,8 @@ public interface UserService {
     List<User> getUserList();
 
     boolean updatePwd(String id, String loginPwd); //修改密码
+
+    boolean updatePersonInformation(User user); //修改个人信息
+
+    User getUserById(String id);    //根据id查询用户
 }
