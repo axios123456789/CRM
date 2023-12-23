@@ -39,4 +39,63 @@
     <select id="getUserByLoginActAndPwd" resultType="com.example.CRM_system.settings.pojo.User">
         select * from c_user where loginAct = #{loginAct} and loginPwd = #{loginPwd}
     </select>
+
+<!--    条件查询除当前用户以外的所有用户列表-->
+    <select id="getUserListAndNotIncludeCurrentUser" resultType="com.example.CRM_system.settings.pojo.User">
+        select
+
+            id,
+            loginAct,
+            name,
+            email,
+            expireTime,
+            lockState,
+            deptno,
+            allowIps
+
+        from c_user
+
+        <where>
+            <if test="name != null and name != ''">
+                and name like concat('%', #{name}, '%')
+            </if>
+            <if test="deptno != null and deptno != ''">
+                and deptno like concat('%', #{deptno}, '%')
+            </if>
+            <if test="lockState != null and lockState != ''">
+                and lockState = #{lockState}
+            </if>
+            <if test="id != null and id != ''">
+                and id != #{id}
+            </if>
+        </where>
+
+        order by createTime desc
+
+        limit #{skipCount}, #{pageSize};
+    </select>
+
+<!--    条件查询查到的记录数-->
+    <select id="getUserListAndNotIncludeCurrentUserTotal" resultType="java.lang.Integer">
+        select
+
+        count(*)
+
+        from c_user
+
+        <where>
+            <if test="name != null and name != ''">
+                and name like concat('%', #{name}, '%')
+            </if>
+            <if test="deptno != null and deptno != ''">
+                and deptno like concat('%', #{deptno}, '%')
+            </if>
+            <if test="lockState != null and lockState != ''">
+                and lockState = #{lockState}
+            </if>
+            <if test="id != null and id != ''">
+                and id != #{id}
+            </if>
+        </where>
+    </select>
 </mapper>

@@ -6,6 +6,8 @@ import com.example.CRM_system.settings.pojo.DicValue;
 import com.example.CRM_system.settings.pojo.User;
 import com.example.CRM_system.settings.service.DicService;
 import com.example.CRM_system.settings.service.UserService;
+import com.example.CRM_system.vo.PaginationVO;
+import com.example.CRM_system.vo.req.UserReq;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -145,6 +147,24 @@ public class UserController {
         }else {
             return Result.error("500", "修改个人信息失败，请联系相关人员！");
         }
+    }
+
+    //拿到除当前用户的列表数据
+    @GetMapping("/settings/user/getUserListAndNotIncludeCurrentUser.do")
+    @ResponseBody
+    public Result getUserListAndNotIncludeCurrentUser(UserReq userReq){
+        System.out.println("进入查询非当前用户列表！");
+
+        //处理数据
+        Integer pageNo = Integer.valueOf(userReq.getPageNoStr());
+        Integer pageSize = Integer.valueOf(userReq.getPageSizeStr());
+        int countSkip = (pageNo - 1) * pageSize;
+        userReq.setPageSize(pageSize);
+        userReq.setSkipCount(countSkip);
+
+        PaginationVO<User> paginationVO = userService.getUserListAndNotIncludeCurrentUser(userReq);
+
+        return Result.success(paginationVO);
     }
 
     //退出登录

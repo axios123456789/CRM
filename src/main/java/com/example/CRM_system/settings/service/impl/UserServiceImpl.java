@@ -3,6 +3,8 @@ package com.example.CRM_system.settings.service.impl;
 import com.example.CRM_system.settings.dao.UserDao;
 import com.example.CRM_system.settings.pojo.User;
 import com.example.CRM_system.settings.service.UserService;
+import com.example.CRM_system.vo.PaginationVO;
+import com.example.CRM_system.vo.req.UserReq;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -73,5 +75,22 @@ public class UserServiceImpl implements UserService {
         User user = userDao.getUserById(id);
 
         return user;
+    }
+
+    /**
+     * 查询除当前用户以外的用户列表
+     * @param userReq
+     * @return
+     */
+    @Override
+    public PaginationVO<User> getUserListAndNotIncludeCurrentUser(UserReq userReq) {
+        int total = userDao.getUserListAndNotIncludeCurrentUserTotal(userReq);
+        List<User> users = userDao.getUserListAndNotIncludeCurrentUser(userReq);
+
+        PaginationVO<User> paginationVO = new PaginationVO<>();
+        paginationVO.setTotal(total);
+        paginationVO.setDataList(users);
+
+        return paginationVO;
     }
 }

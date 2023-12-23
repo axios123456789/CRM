@@ -81,7 +81,7 @@
                 安全控制
                 <li style="list-style-type: none; margin-top: 10px"><a href="" style="text-decoration: none">部门管理</a>
                 </li>
-                <li style="list-style-type: none"><a href="" style="text-decoration: none">权限管理</a></li>
+                <li style="list-style-type: none"><a class="myHref" href="javascript:void(0)" onclick="power()" style="text-decoration: none">权限管理</a></li>
             </ul>
         </div>
         <div style="width: 300px; height: 300px;  float: left">
@@ -114,4 +114,15 @@
 
 </footer>
 </body>
+<script>
+    //进入权限管理操作
+    function power(){
+        if ("${user.lockState}" == "2"){
+            //跳转
+            window.location.href = "companyLogin/setting/systemSet/power/powerManage.jsp";
+        }else {
+            alert("非管理员，不能进行该操作！");
+        }
+    }
+</script>
 </html>
