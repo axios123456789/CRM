@@ -3,7 +3,35 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.CRM_system.settings.dao.UserDao">
-<!--    修改密码-->
+<!--    添加新账户-->
+    <insert id="addAct">
+        insert into c_user(
+            id,
+            loginAct,
+            name,
+            loginPwd,
+            email,
+            expireTime,
+            lockState,
+            deptno,
+            allowIps,
+            createTime,
+            createBy
+        )values (
+            #{id},
+            #{loginAct},
+            #{name},
+            #{loginPwd},
+            #{email},
+            #{expireTime},
+            #{lockState},
+            #{deptno},
+            #{allowIps},
+            #{createTime},
+            #{createBy}
+        )
+    </insert>
+    <!--    修改密码-->
     <update id="updatePwd">
         update c_user
 

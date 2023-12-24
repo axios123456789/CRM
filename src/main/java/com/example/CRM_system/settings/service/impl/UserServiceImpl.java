@@ -8,6 +8,7 @@ import com.example.CRM_system.vo.req.UserReq;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -92,5 +93,56 @@ public class UserServiceImpl implements UserService {
         paginationVO.setDataList(users);
 
         return paginationVO;
+    }
+
+    /**
+     * 添加新账户
+     * @param user
+     * @return
+     */
+    @Override
+    public boolean addAct(User user) {
+        try {
+            userDao.addAct(user);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * 删除账户
+     * @param id
+     * @return
+     */
+    @Override
+    public boolean deleteAct(String id) {
+        try {
+            userDao.deleteAct(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * 管理员修改
+     * @param user
+     * @return
+     */
+    @Override
+    public boolean editActByManage(User user) {
+        try {
+            userDao.editActByManage(user);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
     }
 }

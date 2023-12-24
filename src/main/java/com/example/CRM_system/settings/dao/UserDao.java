@@ -2,8 +2,10 @@ package com.example.CRM_system.settings.dao;
 
 import com.example.CRM_system.settings.pojo.User;
 import com.example.CRM_system.vo.req.UserReq;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.mybatis.spring.annotation.MapperScan;
 
 import java.util.List;
@@ -23,7 +25,7 @@ public interface UserDao {
     void updatePersonInformation(User user);
 
     //根据id查询用户
-    @Select("select * from c_user where id = #{id};")
+    @Select("select * from c_user where id = #{id}")
     User getUserById(String id);
 
     //查询除当前用户以外的所有用户列表
@@ -31,4 +33,15 @@ public interface UserDao {
 
     //条件查询查到的记录数
     int getUserListAndNotIncludeCurrentUserTotal(UserReq userReq);
+
+    //添加新账户
+    void addAct(User user);
+
+    //删除账户
+    @Delete("delete from c_user where id = #{id}")
+    void deleteAct(String id);
+
+    //管理员修改
+    @Update("update c_user set expireTime = #{expireTime}, allowIps = #{allowIps}, lockState = #{lockState} where id = #{id}")
+    void editActByManage(User user);
 }

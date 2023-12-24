@@ -121,16 +121,109 @@
             <div id="pagination"></div>
         </div>
     </div>
+
+    <%--    添加账号的模态窗口--%>
+    <div class="modal fade" tabindex="-1" role="dialog" id="add-modal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" style="width: 800px">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">添加新账号</h4>
+                </div>
+                <div class="modal-body" style="width: 100%; height: 350px">
+                    <form id="add-form">
+                        <div style="width: 100%; float: left;">
+                            <label style="width: 100px; line-height: 35px; float: left;">账号:</label>
+                            <input class="form-control" style="width: 250px; float: left" id="loginAct">
+                            <label style="width: 100px; float: left; line-height: 35px; margin-left: 50px">密码:</label>
+                            <input class="form-control" style="width: 250px; float:left;" id="loginPwd">
+                        </div>
+                        <div style="width: 100%; float: left; margin-top: 50px">
+                            <label style="width: 100px; line-height: 35px; float: left;">名字:</label>
+                            <input class="form-control" style="width: 250px; float: left" id="name">
+                            <label style="width: 100px; float: left; line-height: 35px; margin-left: 50px">邮箱:</label>
+                            <input class="form-control" style="width: 250px; float:left;" id="email">
+                        </div>
+                        <div style="width: 100%; float: left; margin-top: 50px" id="specal-input">
+                            <label style="width: 100px; line-height: 30px; float: left;">账号过期时间:</label>
+                            <input class="form-control" style="width: 250px; float: left" id="expireTime" readonly>
+                            <label style="width: 100px; float: left; line-height: 30px; margin-left: 50px">账号允许的IP:</label>
+                            <input class="form-control" style="width: 250px; float:left;" id="allowIps"
+                                   placeholder="填入允许的IP，用逗号分隔！">
+                        </div>
+                        <div style="width: 100%; float: left; margin-top: 50px">
+                            <label style="width: 100px; line-height: 35px; float: left;">部门编号:</label>
+                            <input class="form-control" style="width: 250px; float: left" id="deptno">
+                            <label style="width: 100px; float: left; line-height: 35px; margin-left: 50px">账号级别:</label>
+                            <select class="form-control" style="width: 250px; float:left;" id="lockState">
+                                <option value="1">普通账号</option>
+                                <option value="0">被锁定的账号</option>
+                                <option value="2">管理员账号</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" onclick="add_act()">添加</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <%--    修改账户的模态窗口--%>
+    <div class="modal fade" tabindex="-1" role="dialog" id="update-modal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" style="width: 800px">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">修改账户信息</h4>
+                </div>
+                <div class="modal-body" style="width: 100%; height: 250px">
+                    <input type="hidden" id="hidden-id">
+                    <div style="width: 100%; float: left; margin-top: 50px">
+                        <label style="width: 100px; line-height: 30px; float: left;">账号过期时间:</label>
+                        <input class="form-control" style="width: 250px; float: left" id="edit-expireTime" readonly>
+                        <label style="width: 100px; float: left; line-height: 30px; margin-left: 50px">账号允许的IP:</label>
+                        <input class="form-control" style="width: 250px; float:left;" id="edit-allowIps" placeholder="填入允许的IP，用逗号分隔！">
+                    </div>
+                    <div style="width: 100%; float: left; margin-top: 50px">
+                        <label style="width: 100px; line-height: 30px; float: left;">账号级别:</label>
+                        <select class="form-control" style="width: 250px; float: left" id="edit-lockState">
+                            <option value="1">普通账号</option>
+                            <option value="0">被锁定的账号</option>
+                            <option value="2">管理员账号</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" onclick="save()">修改</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
 </nav>
 <footer></footer>
 <script>
-    $(document).ready(function (){
+    laydate.render({
+        elem: "#expireTime",
+        type: "datetime"
+    });
+    laydate.render({
+        elem: "#edit-expireTime",
+        type: "datetime"
+    })
+
+    $(document).ready(function () {
         //显示列表
-        getActList(1,3);
+        getActList(1, 3);
     })
 
     //条件查询
-    function search(){
+    function search() {
         //将文本框中的内容保存到隐藏域中
         $("#hidden-name").val($.trim($("#search-name").val()));
         $("#hidden-deptno").val($.trim($("#search-deptno").val()));
@@ -141,7 +234,7 @@
     }
 
     //查询除当前账号以外的全部账号
-    function getActList(pageNo, pageSize){
+    function getActList(pageNo, pageSize) {
         //初始化
         $("#search-name").val($("#hidden-name").val());
         $("#search-deptno").val($("#hidden-deptno").val());
@@ -160,12 +253,12 @@
             },
             type: "get",
             dataType: "json",
-            success: function (data){
+            success: function (data) {
                 var html = "";
 
                 //console.log("clue",data)
-                $.each(data.data.dataList, function (i, n){
-                    html += "<tr><td>"+n.name+"</td> <td>"+n.loginAct+"</td> <td>"+n.email+"</td> <td>"+n.expireTime+"</td> <td>"+n.deptno+"</td> <td>"+n.allowIps+"</td> <td>"+n.lockState+"</td> <td><button onclick='update_act("+n.id+")'>修改</button><button onclick='delete_act("+n.id+")'>删除</button></td> </tr>";
+                $.each(data.data.dataList, function (i, n) {
+                    html += "<tr><td>" + n.name + "</td> <td>" + n.loginAct + "</td> <td>" + n.email + "</td> <td>" + n.expireTime + "</td> <td>" + n.deptno + "</td> <td>" + n.allowIps + "</td> <td>" + (n.lockState == '0' ? '被锁定的账号' : (n.lockState == '1' ? '普通账号' : '管理员账号')) + "</td> <td><button class='btn btn-default' onclick='update_act(\""+n.id+"\")'>修改</button>&nbsp;<button class='btn btn-danger' onclick='delete_act(\""+ n.id +"\")'>删除</button></td> </tr>";
                 });
 
                 //线索列表
@@ -197,6 +290,110 @@
                 });
             }
         })
+    }
+
+    //添加账号
+    function add() {
+        //初始化
+        $("#add-form")[0].reset();
+
+        $("#add-modal").modal("show");
+    }
+
+    //点击添加模态窗口中的添加按钮后触发
+    function add_act(){
+        //发送Ajax请求，进行添加操作
+        $.ajax({
+            url: "settings/user/addAct.do",
+            data: {
+                loginAct: $.trim($("#loginAct").val()),
+                loginPwd: $.trim($("#loginPwd").val()),
+                name: $.trim($("#name").val()),
+                email: $.trim($("#email").val()),
+                expireTime: $.trim($("#expireTime").val()),
+                lockState: $.trim($("#lockState").val()),
+                deptno: $.trim($("#deptno").val()),
+                allowIps: $.trim($("#allowIps").val())
+            },
+            type: "post",
+            dataType: "json",
+            success: function (data){
+                if (data.code == "200"){
+                    getActList(1, $("#pagination").bs_pagination('getOption', 'rowsPerPage'));
+                    $("#add-modal").modal("hide");
+                }else {
+                    alert(data.message);
+                }
+            }
+        })
+    }
+
+    //修改账户
+    function update_act(id){
+        //发送ajax请求，拿到对应数据，填充到对应文本框中
+        $.ajax({
+            url: "settings/user/getUserById.do",
+            data: {
+                id: id
+            },
+            type: "get",
+            dataType: "json",
+            success: function (data){
+                //console.log("data",data)
+                $("#hidden-id").val(data.data.id);
+                $("#edit-expireTime").val(data.data.expireTime);
+                $("#edit-allowIps").val(data.data.allowIps);
+                $("#edit-lockState").val(data.data.lockState);
+
+                $("#update-modal").modal("show")
+            }
+        })
+    }
+
+    //点击修改账户模态窗口中的修改后触发
+    function save(){
+        //发送Ajax请求，进行修改操作
+        $.ajax({
+            url: "settings/user/editActByManage.do",
+            data: {
+                id: $("#hidden-id").val(),
+                expireTime: $.trim($("#edit-expireTime").val()),
+                allowIps: $.trim($("#edit-allowIps").val()),
+                lockState: $.trim($("#edit-lockState").val())
+            },
+            type: "post",
+            dataType: "json",
+            success: function (data){
+                if (data.code == "200"){
+                    getActList($("#pagination").bs_pagination('getOption', 'currentPage'), $("#pagination").bs_pagination('getOption', 'rowsPerPage'));
+                    $("#update-modal").modal("hide");
+                }else {
+                    alert(data.message);
+                }
+            }
+        })
+    }
+
+    //删除账户
+    function delete_act(id){
+        //发送Ajax请求，删除账户
+        if (confirm("确定删除该账户？")) {
+            $.ajax({
+                url: "settings/user/deleteAct.do",
+                data: {
+                    id: id
+                },
+                type: "post",
+                dataType: "json",
+                success: function (data){
+                    if (data.code == "200"){
+                        getActList(1, $("#pagination").bs_pagination('getOption', 'rowsPerPage'));
+                    }else {
+                        alert(data.message);
+                    }
+                }
+            })
+        }
     }
 
 </script>

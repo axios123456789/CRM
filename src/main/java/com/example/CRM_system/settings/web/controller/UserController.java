@@ -167,6 +167,69 @@ public class UserController {
         return Result.success(paginationVO);
     }
 
+    //添加新账号
+    @PostMapping("/settings/user/addAct.do")
+    @ResponseBody
+    public Result addAct(User user, HttpSession session){
+        System.out.println("进入添加新账户操作！");
+
+        //设置数据
+        String createBy = ((User) session.getAttribute("user")).getName();
+        user.setId(UUIDUtil.getUUID());
+        user.setLoginPwd(MD5Util.getMD5(user.getLoginPwd()));
+        user.setCreateBy(createBy);
+        user.setCreateTime(DateTimeUtil.getSysTime());
+
+        boolean flag = userService.addAct(user);
+
+        if (flag){
+            return Result.success();
+        }else {
+            return Result.error("500", "添加该账户失败，请联系相关人员！");
+        }
+    }
+
+    //根据id查询当前用户信息
+    @GetMapping("/settings/user/getUserById.do")
+    @ResponseBody
+    public Result getUserById(String id){
+        System.out.println("进入根据id查询当前用户操作！");
+
+        User userById = userService.getUserById(id);
+
+        return Result.success(userById);
+    }
+
+    //管理员修改账号
+    @PostMapping("/settings/user/editActByManage.do")
+    @ResponseBody
+    public Result editActByManage(User user){
+        System.out.println("进入修改账号操作");
+
+        boolean flag = userService.editActByManage(user);
+
+        if (flag){
+            return Result.success();
+        }else {
+            return Result.error("500", "修改出错！");
+        }
+    }
+
+    //删除账户
+    @PostMapping("/settings/user/deleteAct.do")
+    @ResponseBody
+    public Result deleteAct(String id){
+        System.out.println("进入删除账户的操作");
+
+        boolean flag = userService.deleteAct(id);
+
+        if (flag){
+            return Result.success();
+        }else {
+            return Result.error("500", "删除失败！");
+        }
+    }
+
     //退出登录
     @RequestMapping("/settings/user/outLogin.do")
     public String outLogin(HttpSession session){

@@ -19,4 +19,10 @@ public interface UserService {
     User getUserById(String id);    //根据id查询用户
 
     PaginationVO<User> getUserListAndNotIncludeCurrentUser(UserReq userReq);    //查询除当前用户以外的用户列表
+
+    boolean addAct(User user);  //添加新账户
+
+    boolean deleteAct(String id);   //删除
+
+    boolean editActByManage(User user); //管理员修改
 }
