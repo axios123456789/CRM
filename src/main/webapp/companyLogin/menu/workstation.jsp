@@ -22,6 +22,8 @@
 
     <link rel="stylesheet" type="text/css" href="plug-ins/bootstrap-3.4.1-dist/css/bootstrap.min.css"/>
     <script type="text/javascript" src="plug-ins/bootstrap-3.4.1-dist/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript" src="js/echarts5.4.3.js"></script>
 </head>
 <body>
 <header>
@@ -143,9 +145,10 @@
     <div id="workplace">
         <div style="width: 600px; float: left">
             <%--  客户信息列表      --%>
-            <div style="width: 600px; height: 400px; float: left">
+            <div style="width: 600px; height: 500px; float: left">
                 <h3>北京客户</h3>
-                <table class="table">
+                <br><br>
+                <table class="table" id="customer-list">
                     <thead>
                     <tr>
                         <th scope="col">客户名称</th>
@@ -154,20 +157,6 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                    </tr>
-                    <tr>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">Larry the Bird</td>
-                        <td>@twitter</td>
-                    </tr>
                     </tbody>
                 </table>
             </div>
@@ -180,8 +169,9 @@
 
         <div style="width: 679px; float: left">
             <%--    销售漏斗管理        --%>
-            <div style="width: 679px; height: 400px; float: left; background-color: #0a53be; margin-left: 20px">
+            <div style="width: 679px; height: 500px; float: left; margin-left: 20px">
                 <h3>销售漏斗管理</h3>
+                <div id="main" style="width: 679px;height:450px;float: left; margin-top: 40px;"></div>
             </div>
 
             <%--    行业分析       --%>
@@ -222,6 +212,97 @@
             }
         })
 
+        showTradeCharts();
+        getCustomerList();
     })
+
+    //显示图表
+    function showTradeCharts(){
+        //发送Ajax请求，查询各阶段交易数量
+        $.ajax({
+            url: "workbench/trade/showTradeCharts.do",
+            data: {
+
+            },
+            type: "get",
+            dataType: "json",
+            success: function (data){
+                //console.log("data",data)
+                // 基于准备好的dom，初始化echarts实例
+                var myChart = echarts.init(document.getElementById('main'));
+
+                // 指定图表的配置项和数据
+                var option = {
+                    title: {
+                        text: '交易统计图表',
+                        subtext: '交易表中各个阶段的数量'
+                    },
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: '{a} <br/>{b} : {c}'
+                    },
+                    toolbox: {
+                        feature: {
+                            dataView: { readOnly: false },
+                            restore: {},
+                            saveAsImage: {}
+                        }
+                    },
+                    legend: {
+                        data: data.data
+                    },
+                    series: [
+                        {
+                            name: '数据量',
+                            type: 'funnel',
+                            left: '10%',
+                            width: '80%',
+                            label: {
+                                formatter: '{b}'
+                            },
+                            labelLine: {
+                                show: true
+                            },
+                            itemStyle: {
+                                opacity: 0.7
+                            },
+                            emphasis: {
+                                label: {
+                                    position: 'inside',
+                                    formatter: '{b}: {c}'
+                                }
+                            },
+                            data: data.data
+                        }
+                    ]
+                };
+
+                // 使用刚指定的配置项和数据显示图表。
+                myChart.setOption(option);
+            }
+        })
+    }
+
+    //查询客户相关信息
+    function getCustomerList(){
+        //发送Ajax请求，拿到对应数据
+        $.ajax({
+            url: "workbench/customer/getCustomerByDetailAddress.do",
+            data: {
+                detailAddress: "北京"
+            },
+            type: "get",
+            dataType: "json",
+            success: function (data){
+                var html = "";
+
+                $.each(data.data, function (i,n){
+                    html += "<tr><td>"+n.name+"</td><td>"+n.detailAddress+"</td><td><a style='text-decoration: none; cursor: pointer' onclick='window.location.href=\"workbench/customer/detail.do?id=" + n.id + "\";'>查看详细信息</a></td></tr>"
+                });
+
+                $("#customer-list tbody").html(html);
+            }
+        })
+    }
 </script>
 </html>

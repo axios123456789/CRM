@@ -110,7 +110,7 @@
 
 
         from c_clue cl
-        join c_user u
+        left join c_user u
         on cl.owner = u.id
 
         <where>
@@ -165,7 +165,7 @@
         select count(*)
 
         from c_clue cl
-        join c_user u
+        left join c_user u
         on cl.owner = u.id
 
         <where>
@@ -237,7 +237,7 @@
         c.detailAddress
 
         from c_clue c
-        join c_user u on c.owner = u.id
+        left join c_user u on c.owner = u.id
 
         where c.id = #{id}
     </select>

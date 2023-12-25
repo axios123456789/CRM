@@ -72,7 +72,7 @@
         c.companyWebsite
 
         from c_customer c
-        join c_user u on c.owner = u.id
+        left join c_user u on c.owner = u.id
 
         <where>
             <if test="name != null and name != ''">
@@ -99,7 +99,7 @@
         select count(*)
 
         from c_customer c
-        join c_user u on c.owner = u.id
+        left join c_user u on c.owner = u.id
 
         <where>
             <if test="name != null and name != ''">
@@ -141,7 +141,7 @@
         c.detailAddress
 
         from c_customer c
-        join c_user u on c.owner = u.id
+        left join c_user u on c.owner = u.id
 
         where c.id = #{id}
     </select>

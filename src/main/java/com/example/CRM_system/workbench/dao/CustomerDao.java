@@ -2,6 +2,7 @@ package com.example.CRM_system.workbench.dao;
 
 import com.example.CRM_system.vo.req.CustomerReq;
 import com.example.CRM_system.workbench.pojo.Customer;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -32,4 +33,8 @@ public interface CustomerDao {
 
     //根据名字不模糊查询客户列表
     Customer getCustomerByAllName(String customerName);
+
+    //根据地址模糊查询客户列表
+    @Select("select id,name,detailAddress from c_customer where detailAddress like concat('%', #{detailAddress}, '%');")
+    List<Customer> getCustomerByDetailAddress(String detailAddress);
 }

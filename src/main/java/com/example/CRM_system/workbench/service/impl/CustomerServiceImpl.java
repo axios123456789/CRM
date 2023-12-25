@@ -96,6 +96,18 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     /**
+     * 根据地址模糊查询客户列表
+     * @param detailAddress
+     * @return
+     */
+    @Override
+    public List<Customer> getCustomerByDetailAddress(String detailAddress) {
+        List<Customer> customers = customerDao.getCustomerByDetailAddress(detailAddress);
+
+        return customers;
+    }
+
+    /**
      * 添加或修改客户信息
      * @param customer
      * @return
@@ -143,11 +155,13 @@ public class CustomerServiceImpl implements CustomerService {
                 contactId[i] = contacts.get(i).getId();
             }
 
-            //根据联系人ids删除联系人备注信息
-            contactRemarkDao.deleteContactRemarkByContactIds(contactId);
+            if (contactId.length > 0) {
+                //根据联系人ids删除联系人备注信息
+                contactRemarkDao.deleteContactRemarkByContactIds(contactId);
 
-            //根据联系人ids删除联系人市场活动关联关系
-            contactActivityRelationDao.deleteContactWithActivityRelationByContactIds(contactId);
+                //根据联系人ids删除联系人市场活动关联关系
+                contactActivityRelationDao.deleteContactWithActivityRelationByContactIds(contactId);
+            }
 
             //根据客户ids删除联系人
             contactDao.deleteContactByCustomerIds(ids);

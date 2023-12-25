@@ -82,7 +82,7 @@ public class CustomerRemarkController {
     }
 
     //根据客户备注id删除客户备注信息
-    @PostMapping("deleteCustomerRemark.do")
+    @PostMapping("/deleteCustomerRemark.do")
     public Result deleteCustomerRemark(String id){
         System.out.println("进入到根据客户备注id删除客户备注操作");
 

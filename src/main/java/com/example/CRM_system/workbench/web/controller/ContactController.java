@@ -72,7 +72,7 @@ public class ContactController {
     }
 
     //添加或修改联系人
-    @PostMapping("saveContact.do")
+    @PostMapping("/saveContact.do")
     @ResponseBody
     public Result saveContact(Contact contact, String customerName, HttpSession session){
         System.out.println("进入添加或修改联系人操作");

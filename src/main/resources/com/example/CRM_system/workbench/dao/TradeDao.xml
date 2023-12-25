@@ -92,7 +92,7 @@
         ctt.name as contactId
 
         from c_trade t
-        join c_user u on t.owner = u.id
+        left join c_user u on t.owner = u.id
         left join c_customer ctr on t.customerId = ctr.id
         left join c_contact ctt on t.contactId = ctt.id
 
@@ -130,7 +130,7 @@
         select count(*)
 
         from c_trade t
-        join c_user u on t.owner = u.id
+        left join c_user u on t.owner = u.id
         left join c_customer ctr on t.customerId = ctr.id
         left join c_contact ctt on t.contactId = ctt.id
 
@@ -184,7 +184,7 @@
         ctt.name as contactId
 
         from c_trade t
-        join c_user u on t.owner = u.id
+        left join c_user u on t.owner = u.id
         left join c_customer ctr on t.customerId = ctr.id
         left join c_contact ctt on t.contactId = ctt.id
         left join c_activity a on t.activityId = a.id

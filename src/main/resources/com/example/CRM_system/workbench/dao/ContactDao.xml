@@ -133,7 +133,7 @@
 
         from c_contact ct
         left join c_customer cs on ct.customerId = cs.id
-        join c_user u on ct.owner = u.id
+        left join c_user u on ct.owner = u.id
 
         <where>
             <if test="name != null and name != ''">
@@ -168,7 +168,7 @@
 
         from c_contact ct
         left join c_customer cs on ct.customerId = cs.id
-        join c_user u on ct.owner = u.id
+        left join c_user u on ct.owner = u.id
 
         <where>
             <if test="name != null and name != ''">

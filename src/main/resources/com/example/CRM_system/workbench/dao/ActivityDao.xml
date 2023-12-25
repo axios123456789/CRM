@@ -63,7 +63,7 @@
         select count(*)
 
         from c_activity a
-        join c_user u
+        left join c_user u
         on a.owner = u.id
 
         <where>
@@ -95,7 +95,7 @@
         a.endDate
 
         from c_activity a
-        join c_user u
+        left join c_user u
         on a.owner = u.id
 
         <where>
@@ -152,7 +152,7 @@
         a.editBy
 
         from c_activity a
-        join c_user u
+        left join c_user u
         on a.owner = u.id
 
         where a.id = #{id}
@@ -169,7 +169,7 @@
         u.name as owner
 
         from c_activity a
-        join c_user u on a.owner = u.id
+        left join c_user u on a.owner = u.id
         join c_clue_activity_relation car on a.id = car.activityId
         join c_clue c on car.clueId = c.id
 
@@ -187,7 +187,7 @@
         u.name as owner
 
         from c_activity a
-        join c_user u on a.owner = u.id
+        left join c_user u on a.owner = u.id
 
         where a.id not in (
             select a.id
@@ -223,7 +223,7 @@
             u.name as owner
 
             from c_activity a
-            join c_user u on a.owner = u.id
+            left join c_user u on a.owner = u.id
 
             where a.id not in (
                 select a.id
@@ -251,7 +251,7 @@
                 u.name as owner
 
             from c_activity a
-                     join c_user u on a.owner = u.id
+                     left join c_user u on a.owner = u.id
                      join c_clue_activity_relation car on a.id = car.activityId
                      join c_clue c on car.clueId = c.id
 
@@ -274,7 +274,7 @@
 
         from c_activity a
         join c_contact_activity_relation car on a.id = car.activityId
-        join c_user u on a.owner = u.id
+        left join c_user u on a.owner = u.id
 
         where car.contactId = #{contactId}
     </select>
@@ -291,7 +291,7 @@
             u.name as owner
 
         from c_activity a
-        join c_user u on a.owner = u.id
+        left join c_user u on a.owner = u.id
 
         where a.id not in (
             select
@@ -322,7 +322,7 @@
                 u.name as owner
 
             from c_activity a
-            join c_user u on a.owner = u.id
+            left join c_user u on a.owner = u.id
 
             where a.id not in (
                 select
@@ -363,7 +363,7 @@
         select u.name as name, count(*) as `value`
 
         from c_activity a
-        join c_user u on a.owner = u.id
+        left join c_user u on a.owner = u.id
 
         group by a.owner;
     </select>

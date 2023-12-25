@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 @RequestMapping("/workbench/customer")
@@ -23,7 +24,7 @@ public class CustomerController {
     private CustomerService customerService;
 
     //条件查询客户列表
-    @GetMapping("getCustomerListByCondition.do")
+    @GetMapping("/getCustomerListByCondition.do")
     @ResponseBody
     public Result getCustomerListByCondition(CustomerReq customerReq){
         System.out.println("进入条件查询客户列表信息操作");
@@ -54,7 +55,7 @@ public class CustomerController {
     }
 
     //添加或修改客户
-    @PostMapping("saveCustomer.do")
+    @PostMapping("/saveCustomer.do")
     @ResponseBody
     public Result saveCustomer(Customer customer, HttpSession session){
         System.out.println("进入添加或修改客户操作");
@@ -94,6 +95,17 @@ public class CustomerController {
         }else {
             return Result.error("500", "删除失败，请联系工作人员");
         }
+    }
+
+    //根据地址查询客户列表
+    @GetMapping("/getCustomerByDetailAddress.do")
+    @ResponseBody
+    public Result getCustomerListByDetailAddress(String detailAddress){
+        System.out.println("进入根据名字模糊查询客户列表操作！");
+
+        List<Customer> customers = customerService.getCustomerByDetailAddress(detailAddress);
+
+        return Result.success(customers);
     }
 
     //根据客户id跳转到详细信息页
