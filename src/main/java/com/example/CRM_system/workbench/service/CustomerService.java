@@ -1,5 +1,6 @@
 package com.example.CRM_system.workbench.service;
 
+import com.example.CRM_system.vo.CustomerSaleOrderVo;
 import com.example.CRM_system.vo.PaginationVO;
 import com.example.CRM_system.vo.req.CustomerReq;
 import com.example.CRM_system.workbench.pojo.Customer;
@@ -20,4 +21,6 @@ public interface CustomerService {
     Customer getCustomerByName(String name); //根据名字查询客户信息
 
     List<Customer> getCustomerByDetailAddress(String detailAddress);    //根据地址模糊查询客户列表
+
+    List<CustomerSaleOrderVo> getCustomerSaleOrder();   //查询客户成交排名
 }

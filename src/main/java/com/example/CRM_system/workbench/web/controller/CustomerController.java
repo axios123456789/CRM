@@ -4,6 +4,7 @@ import com.example.CRM_system.commons.pojo.Result;
 import com.example.CRM_system.commons.utils.DateTimeUtil;
 import com.example.CRM_system.commons.utils.UUIDUtil;
 import com.example.CRM_system.settings.pojo.User;
+import com.example.CRM_system.vo.CustomerSaleOrderVo;
 import com.example.CRM_system.vo.PaginationVO;
 import com.example.CRM_system.vo.req.CustomerReq;
 import com.example.CRM_system.workbench.pojo.Clue;
@@ -106,6 +107,17 @@ public class CustomerController {
         List<Customer> customers = customerService.getCustomerByDetailAddress(detailAddress);
 
         return Result.success(customers);
+    }
+
+    //查询客户成交排名
+    @GetMapping("/getCustomerSaleOrder.do")
+    @ResponseBody
+    public Result getCustomerSaleOrder(){
+        System.out.println("进入查询客户成交排名操作！");
+
+        List<CustomerSaleOrderVo> customerSaleOrderVos = customerService.getCustomerSaleOrder();
+
+        return Result.success(customerSaleOrderVos);
     }
 
     //根据客户id跳转到详细信息页

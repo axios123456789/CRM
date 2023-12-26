@@ -1,5 +1,6 @@
 package com.example.CRM_system.workbench.dao;
 
+import com.example.CRM_system.vo.CustomerSaleOrderVo;
 import com.example.CRM_system.vo.req.CustomerReq;
 import com.example.CRM_system.workbench.pojo.Customer;
 import org.apache.ibatis.annotations.Select;
@@ -37,4 +38,7 @@ public interface CustomerDao {
     //根据地址模糊查询客户列表
     @Select("select id,name,detailAddress from c_customer where detailAddress like concat('%', #{detailAddress}, '%');")
     List<Customer> getCustomerByDetailAddress(String detailAddress);
+
+    //查询客户成交排名
+    List<CustomerSaleOrderVo> getCustomerSaleOrder();
 }

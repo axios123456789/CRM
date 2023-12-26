@@ -162,8 +162,20 @@
             </div>
 
             <%--     客户成交排名       --%>
-            <div style="width: 600px; height: 200px; float: left; background-color: #0a53be; margin-top: 20px">
+            <div style="width: 600px; float: left; margin-top: 20px">
                 <h3>客户成交排名</h3>
+                <br><br>
+                <table class="table" id="order-list">
+                    <thead>
+                    <tr>
+                        <th scope="col">客户名称</th>
+                        <th scope="col">成交数</th>
+                        <th scope="col">排名</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
             </div>
         </div>
 
@@ -175,7 +187,7 @@
             </div>
 
             <%--    行业分析       --%>
-            <div style="width: 679px; height: 200px; float:left; background-color: #0a53be;margin-left: 20px; margin-top: 20px">
+            <div style="width: 679px; float:left; margin-left: 20px; margin-top: 20px">
                 <h3>行情分析</h3>
             </div>
         </div>
@@ -214,6 +226,7 @@
 
         showTradeCharts();
         getCustomerList();
+        getCustomerOrder();
     })
 
     //显示图表
@@ -301,6 +314,28 @@
                 });
 
                 $("#customer-list tbody").html(html);
+            }
+        })
+    }
+
+    //查询客户排名
+    function getCustomerOrder(){
+        //发送Ajax请求，查询相关数据
+        $.ajax({
+            url: "workbench/customer/getCustomerSaleOrder.do",
+            data: {
+
+            },
+            type: "get",
+            dataType: "json",
+            success: function (data){
+                var html = "";
+
+                $.each(data.data, function (i,n){
+                   html += "<tr><td>"+n.name+"</td><td>"+n.amount+"</td><td>"+n.orderNo+"</td></tr>"
+                });
+
+                $("#order-list tbody").html(html);
             }
         })
     }

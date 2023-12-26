@@ -164,4 +164,17 @@
         from c_customer
         where name = #{customerName}
     </select>
+
+<!--    查询客户成交排名-->
+    <select id="getCustomerSaleOrder" resultType="com.example.CRM_system.vo.CustomerSaleOrderVo">
+        select cc.name, cc.amount,
+               rank() over (order by cc.amount desc) as orderNo
+        from (
+                 select c.name, count(*) as amount
+                 from c_customer c
+                 left join c_trade t on c.id = t.customerId
+                 where t.stage = '成交'
+                 group by c.name
+             ) cc;
+    </select>
 </mapper>

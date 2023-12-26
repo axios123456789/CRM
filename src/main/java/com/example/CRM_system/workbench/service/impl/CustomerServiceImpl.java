@@ -1,6 +1,7 @@
 package com.example.CRM_system.workbench.service.impl;
 
 import com.example.CRM_system.commons.utils.TransactionStatus;
+import com.example.CRM_system.vo.CustomerSaleOrderVo;
 import com.example.CRM_system.vo.PaginationVO;
 import com.example.CRM_system.vo.req.CustomerReq;
 import com.example.CRM_system.workbench.dao.*;
@@ -105,6 +106,17 @@ public class CustomerServiceImpl implements CustomerService {
         List<Customer> customers = customerDao.getCustomerByDetailAddress(detailAddress);
 
         return customers;
+    }
+
+    /**
+     * 查询客户成交排名
+     * @return
+     */
+    @Override
+    public List<CustomerSaleOrderVo> getCustomerSaleOrder() {
+        List<CustomerSaleOrderVo> customerSaleOrderVos = customerDao.getCustomerSaleOrder();
+
+        return customerSaleOrderVos;
     }
 
     /**
