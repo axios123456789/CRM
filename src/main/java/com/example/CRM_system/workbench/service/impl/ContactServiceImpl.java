@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -121,7 +120,6 @@ public class ContactServiceImpl implements ContactService {
      * @param customerName
      * @return
      */
-    @Transactional
     @Override
     public boolean saveContact(Contact contact, String customerName) {
         //开启一个新事务，并获取其状态
@@ -183,7 +181,6 @@ public class ContactServiceImpl implements ContactService {
      * @param ids
      * @return
      */
-    @Transactional
     @Override
     public boolean deleteContactByIds(String[] ids) {
         /*DefaultTransactionDefinition def = new DefaultTransactionDefinition();

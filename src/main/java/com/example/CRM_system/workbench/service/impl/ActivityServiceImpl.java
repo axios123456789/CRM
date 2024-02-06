@@ -11,7 +11,6 @@ import com.example.CRM_system.workbench.service.ActivityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -82,7 +81,6 @@ public class ActivityServiceImpl implements ActivityService {
      * @return
      */
     @Override
-    @Transactional
     public boolean delete(String[] ids) {
         org.springframework.transaction.TransactionStatus status = transactionManager.getTransaction(TransactionStatus.getTransactionStatus());
         try {

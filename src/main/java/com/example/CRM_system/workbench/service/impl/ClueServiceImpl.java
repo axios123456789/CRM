@@ -12,7 +12,6 @@ import com.example.CRM_system.workbench.service.ClueService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -100,7 +99,6 @@ public class ClueServiceImpl implements ClueService {
      * @param clueMap
      * @return
      */
-    @Transactional
     @Override
     public boolean clueChange(Map<String, String> clueMap) {
         org.springframework.transaction.TransactionStatus status = transactionManager.getTransaction(TransactionStatus.getTransactionStatus());
@@ -372,7 +370,6 @@ public class ClueServiceImpl implements ClueService {
      * @param ids
      * @return
      */
-    @Transactional
     @Override
     public boolean deleteClue(String[] ids) {
         org.springframework.transaction.TransactionStatus status = transactionManager.getTransaction(TransactionStatus.getTransactionStatus());

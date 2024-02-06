@@ -100,7 +100,6 @@ public class TradeServiceImpl implements TradeService {
      * @param ids
      * @return
      */
-    @Transactional
     @Override
     public boolean deleteTradeByIds(String[] ids) {
         org.springframework.transaction.TransactionStatus status = transactionManager.getTransaction(TransactionStatus.getTransactionStatus());
