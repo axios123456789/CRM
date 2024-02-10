@@ -52,6 +52,9 @@ public class ActivityController{
     @ResponseBody
     private Result save(Activity activity, HttpServletRequest req){
         System.out.println("执行市场活动添加操作");
+        if (activity.getName() == ""){
+            activity.setName(null);
+        }
 
         if (activity.getId() == null || activity.getId() == ""){//添加
             String createBy = ((User)req.getSession().getAttribute("user")).getName();
