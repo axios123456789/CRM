@@ -113,10 +113,10 @@
                 </div>
                 <div>
                     <img src="img/chevron-right.svg"/>
-                    <a href="companyLogin/menu/statistical_charts/tradeChart.jsp">交易活动统计图表</a>
+                    <a href="companyLogin/menu/statistical_charts/tradeChart.jsp">交易统计图表</a>
                 </div>
             </div>
-            <li>
+            <%--<li>
                 <img src="img/file-earmark-fill.svg"/>
                 <a href="companyLogin/menu/report.jsp">报表</a>
             </li>
@@ -135,12 +135,22 @@
             <li>
                 <img src="img/suit-club-fill.svg"/>
                 <a href="companyLogin/menu/product.jsp">产品</a>
-            </li>
+            </li>--%>
         </ul>
     </div>
 
     <div id="workplace">
-        售后回访
+        <div style="width: 1290px; float:left;">
+            <span style="font-family: 华文新魏; font-size: 40px; width: 1290px; float: left;text-align: center">客户售后回访记录</span>
+            <div id="customerSea" style="width: 1290px; float: left;">
+                <div style="width: 1290px; height: 600px; float:left; margin-left: 20px; margin-bottom: 20px; text-align: center">
+                    <img src="img/retween.png" style="width: 100%; height: 450px; float: left">
+                    <div style="text-align: left; font-size: 50px; font-family: 华文仿宋">
+                        &nbsp;&nbsp;暂无回访客户记录........
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </nav>
 <footer></footer>

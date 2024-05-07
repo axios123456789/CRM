@@ -117,10 +117,10 @@
                 </div>
                 <div>
                     <img src="img/chevron-right.svg"/>
-                    <a href="companyLogin/menu/statistical_charts/tradeChart.jsp">交易活动统计图表</a>
+                    <a href="companyLogin/menu/statistical_charts/tradeChart.jsp">交易统计图表</a>
                 </div>
             </div>
-            <li>
+            <%--<li>
                 <img src="img/file-earmark-fill.svg"/>
                 <a href="companyLogin/menu/report.jsp">报表</a>
             </li>
@@ -139,7 +139,7 @@
             <li>
                 <img src="img/suit-club-fill.svg"/>
                 <a href="companyLogin/menu/product.jsp">产品</a>
-            </li>
+            </li>--%>
         </ul>
     </div>
 

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.CRM_system.workbench.dao.DynamicDao">
+    <!--查询最近成交的客户记录-->
+    <select id="selectRecentlyCustomer" resultType="com.example.CRM_system.vo.RecentlyCustomerVo">
+        select
+            c.`name` as customerName,
+            c.companyWebsite,
+            c.companyExtension,
+            c.createTime as customerCreateTime,
+            c.detailAddress,
+            t.`name` as tradeName,
+            t.editTime as tradeEditTime
+        from c_trade t
+                 join c_customer c on t.customerId = c.id
+        where t.stage = '成交'
+        order by t.createTime desc
+            limit 3
+    </select>
+
+    <!-- 查询最近创建的交易记录   -->
+    <select id="selectRecentlyCreateTrade" resultType="com.example.CRM_system.workbench.pojo.Trade">
+        select
+        t.name,
+        t.stage,
+        t.createTime,
+        t.type,
+        t.source,
+        ctr.name as customerId,
+        ctt.name as contactId
+        from c_trade t
+        left join c_customer ctr on t.customerId = ctr.id
+        left join c_contact ctt on t.contactId = ctt.id
+        order by t.createTime desc
+        limit 3
+    </select>
+
+<!--    查询所有交易记录-->
+    <select id="getAllTrade" resultType="com.example.CRM_system.workbench.pojo.Trade">
+        select
+        t.id,
+        t.name,
+        t.expectedTradeDate,
+        t.stage,
+        t.type,
+        t.source,
+        u.name as owner,
+        ctr.name as customerId,
+        ctt.name as contactId,
+        a.name as activityId
+        from c_trade t
+        left join c_customer ctr on t.customerId = ctr.id
+        left join c_contact ctt on t.contactId = ctt.id
+        left join c_activity a on t.activityId = a.id
+        left join c_user u on t.owner = u.id
+    </select>
+
+<!--    查询所有线索-->
+    <select id="selectAllClue" resultType="com.example.CRM_system.workbench.pojo.Clue">
+        select
+        c.id,
+        c.company,
+        c.createTime,
+        c.clueSource,
+        c.companyExtension,
+        c.companyWebsite,
+        c.clueStatus,
+        c.detailAddress,
+        u.name as owner
+        from c_clue c
+        left join c_user u on c.owner = u.id
+        order by c.createTime desc
+        limit #{param1},#{param2}
+    </select>
+
+<!--    查询所有线索的数量-->
+    <select id="getClueCount" resultType="java.lang.Integer">
+        select count(*) from c_clue
+    </select>
+</mapper>

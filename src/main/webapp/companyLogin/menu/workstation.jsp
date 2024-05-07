@@ -115,10 +115,10 @@
                 </div>
                 <div>
                     <img src="img/chevron-right.svg"/>
-                    <a href="companyLogin/menu/statistical_charts/tradeChart.jsp">交易活动统计图表</a>
+                    <a href="companyLogin/menu/statistical_charts/tradeChart.jsp">交易统计图表</a>
                 </div>
             </div>
-            <li>
+            <%--<li>
                 <img src="img/file-earmark-fill.svg"/>
                 <a href="companyLogin/menu/report.jsp">报表</a>
             </li>
@@ -137,7 +137,7 @@
             <li>
                 <img src="img/suit-club-fill.svg"/>
                 <a href="companyLogin/menu/product.jsp">产品</a>
-            </li>
+            </li>--%>
         </ul>
     </div>
 
@@ -189,6 +189,11 @@
             <%--    行业分析       --%>
             <div style="width: 679px; float:left; margin-left: 20px; margin-top: 20px">
                 <h3>行情分析</h3>
+                <div style="width: 100%; margin-top: 50px;">
+                    <span style="color: #3e8f3e; font-size: 20px; font-family: 华文新魏">
+                        近年来，随着客户越来越多，企业与客户建立的交易也越来越多，现企业已与多家大公司合作，公司因该致力于维护好大公司的关系。
+                    </span>
+                </div>
             </div>
         </div>
 

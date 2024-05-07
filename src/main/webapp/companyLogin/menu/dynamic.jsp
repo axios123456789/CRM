@@ -113,10 +113,10 @@
                 </div>
                 <div>
                     <img src="img/chevron-right.svg"/>
-                    <a href="companyLogin/menu/statistical_charts/tradeChart.jsp">交易活动统计图表</a>
+                    <a href="companyLogin/menu/statistical_charts/tradeChart.jsp">交易统计图表</a>
                 </div>
             </div>
-            <li>
+            <%--<li>
                 <img src="img/file-earmark-fill.svg"/>
                 <a href="companyLogin/menu/report.jsp">报表</a>
             </li>
@@ -135,12 +135,32 @@
             <li>
                 <img src="img/suit-club-fill.svg"/>
                 <a href="companyLogin/menu/product.jsp">产品</a>
-            </li>
+            </li>--%>
         </ul>
     </div>
 
     <div id="workplace">
-        动态
+        <div style="width: 620px; float: left; text-align: center">
+            <span style="font-size: 40px; font-family: 华文新魏">最近成交的客户</span>
+            <div id="recentlyTradeCustomer" style="width: 100%; float: left; margin-top: 20px">
+                <%--<div style="width: 100%; height: 400px; float: left;">
+                    <span style="font-size: 30px; font-family: 华文新魏; color: rebeccapurple">百度</span>
+                    <img src="img/customer1.png" style="width: 100%; height: 250px">
+                    <div style="text-align: left; font-size: 20px; font-family: 华文仿宋">
+                         &nbsp; &nbsp; 百度最早在xxxx年与我们企业建立联系，该客户位于xxxx，百度的官网是
+                         <a>xxxx</a>，我们可以访问该网站查看百度的详细信息以及最新动态，如有疑问可以拨
+                         打xxxx解决疑惑。该客户最近与我们企业成交的交易是在xxxx年与我们完成
+                         了一笔叫做xxxx的交易。
+                    </div>
+                </div>--%>
+            </div>
+        </div>
+        <div style="width: 620px;float: left ;margin-left: 50px; text-align: center">
+            <span style="font-size: 40px; font-family: 华文新魏">最近创建的交易</span>
+            <div id="recentlyCreateTrade" style="width: 100%; float: left; margin-top: 20px">
+
+            </div>
+        </div>
     </div>
 </nav>
 <footer></footer>
@@ -172,6 +192,78 @@
                 $(".dropdown-menu").hide();
             }
         })
+
+        //显示最近客户
+        searchRecentlyCustomer();
+
+        //显示最近创建的交易
+        recentlyCreateTrade();
     })
+
+    //最近客户
+    function searchRecentlyCustomer(){
+        //发送ajax请求，拿到数据
+        $.ajax({
+            url: "workbench/dynamic/getRecentlyCustomer",
+            data: {
+
+            },
+            type: 'get',
+            dataType: 'json',
+            success: function (data){
+                var html = '';
+                var k = 0
+
+                $.each(data.data, function (i,n){
+                   k = k+1;
+                   html += ' <div style="width: 100%; height: 500px; float: left">'
+                   html += '     <span style="font-size: 30px; font-family: 华文新魏; color: rebeccapurple">'+n.customerName+'</span>'
+                   html += '     <img src="img/customer'+k+'.png" style="width: 100%; height: 250px">'
+                   html += '         <div style="text-align: left; font-size: 20px; font-family: 华文仿宋">'
+                   html += '             &nbsp; &nbsp; '+n.customerName+'最早在'+n.customerCreateTime+'与我们企业建立联系，该客户位于'+(n.detailAddress == null ? '全国各处':n.detailAddress)+'，'+n.customerName+'的官网是'
+                   html += '             <a>'+(n.companyWebsite == null ? 'https://baidu.com':n.companyWebsite)+'</a>，我们可以访问该网站查看'+n.customerName+'的详细信息以及最新动态，如有疑问可以拨'
+                   html += '             打'+(n.companyExtension == null ? '111-3232-1111':n.companyExtension)+'解决疑惑。该客户最近与我们企业成交的交易是在'+n.tradeEditTime+'与我们完成'
+                   html += '             了一笔叫做'+n.tradeName+'的交易。'
+                   html += '         </div>'
+                   html += ' </div>'
+                });
+
+                $("#recentlyTradeCustomer").html(html);
+            }
+        })
+    }
+
+    //最近创建的交易
+    function recentlyCreateTrade(){
+        //发送ajax请求，拿到数据
+        $.ajax({
+            url: "workbench/dynamic/getRecentlyCreateTrade",
+            data: {
+
+            },
+            type: 'get',
+            dataType: 'json',
+            success: function (data){
+                var html = '';
+                var k = 0;
+
+                $.each(data.data, function (i,n){
+                    k = k+1;
+                    html += ' <div style="width: 100%; height: 500px; float: left">'
+                    html += '     <span style="font-size: 30px; font-family: 华文新魏; color: rebeccapurple">'+n.name+'</span>'
+                    html += '     <img src="img/recentTrade'+k+'.png" style="width: 100%; height: 250px">'
+                    html += '         <div style="text-align: left; font-size: 20px; font-family: 华文仿宋">'
+                    html += '             &nbsp; &nbsp; 我们公司在'+n.createTime+'与'+n.customerId+'的企业人员'+n.contactId+''
+                    html += '             创建了一笔叫做'+n.name+'的类型为'+n.type+'的交易，'
+                    html += '             现该交易已近达到了'+n.stage+'阶段。'
+                    html += '             该交易来源于'+n.source+',我们企业往后要更多关注于'+n.source+'这方面的活动。'
+                    html += '         </div>'
+                    html += ' </div>'
+                });
+
+                $("#recentlyCreateTrade").html(html);
+            }
+        })
+    }
 </script>
 </html>

@@ -1,3 +1,4 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%--
   Created by IntelliJ IDEA.
   User: 20183
@@ -113,10 +114,10 @@
                 </div>
                 <div>
                     <img src="img/chevron-right.svg"/>
-                    <a href="companyLogin/menu/statistical_charts/tradeChart.jsp">交易活动统计图表</a>
+                    <a href="companyLogin/menu/statistical_charts/tradeChart.jsp">交易统计图表</a>
                 </div>
             </div>
-            <li>
+            <%--<li>
                 <img src="img/file-earmark-fill.svg"/>
                 <a href="companyLogin/menu/report.jsp">报表</a>
             </li>
@@ -135,12 +136,35 @@
             <li>
                 <img src="img/suit-club-fill.svg"/>
                 <a href="companyLogin/menu/product.jsp">产品</a>
-            </li>
+            </li>--%>
         </ul>
     </div>
 
     <div id="workplace">
-        审批
+        <h3 style="font-family: 华文行楷">各交易审批列表</h3>
+        <div style="width: 1290px; float: left">
+            <div style="width: 1290px; float: left; margin-top: 30px" id="approval-list">
+                <table class="table table-hover">
+                    <thead>
+                    <tr style="font-family: 华文仿宋">
+                        <th scope="col">交易名字</th>
+                        <th scope="col">预计成交时间</th>
+                        <th scope="col">阶段</th>
+                        <th scope="col">类型</th>
+                        <th scope="col">交易来源</th>
+                        <th scope="col">所有者</th>
+                        <th scope="col">所属客户</th>
+                        <th scope="col">所属联系人</th>
+                        <th scope="col">市场活动源</th>
+                        <th scope="col">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody style="font-family: 华文仿宋">
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </nav>
 <footer></footer>
@@ -173,6 +197,30 @@
             }
         })
 
+        //显示审批列表
+        approval();
     })
+
+    //审批的交易列表
+    function approval(){
+        //发送Ajax请求，查出所有交易
+        $.ajax({
+            url: "workbench/dynamic/getAllTrade",
+            data: {
+
+            },
+            type: "get",
+            dataType: 'json',
+            success: function (data){
+                var html = '';
+
+                $.each(data.data, function (i,n){
+                    html += "<tr> <td><a style='text-decoration: none; cursor: pointer' onclick='window.location.href=\"workbench/trade/detail.do?id=" + n.id + "\";'>" + n.name + "</a></td> <td>" + n.expectedTradeDate + "</td> <td>" + n.stage + "</td> <td>" + n.type + "</td> <td>" + n.source + "</td> <td>" + n.owner + "</td> <td>" + n.customerId + "</td> <td>" + n.contactId + "</td> <td>" + n.activityId + "</td> <td><button>送审</button></td> </tr>"
+                });
+
+                $("#approval-list tbody").html(html);
+            }
+        })
+    }
 </script>
 </html>
