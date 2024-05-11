@@ -6,6 +6,7 @@ import com.example.CRM_system.vo.TradeChartsVo;
 import com.example.CRM_system.workbench.dao.ActivityDao;
 import com.example.CRM_system.workbench.dao.ActivityRemarkDao;
 import com.example.CRM_system.workbench.dao.ClueActivityRelationDao;
+import com.example.CRM_system.workbench.dao.ContactActivityRelationDao;
 import com.example.CRM_system.workbench.pojo.Activity;
 import com.example.CRM_system.workbench.service.ActivityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,9 @@ public class ActivityServiceImpl implements ActivityService {
 
     @Autowired
     private ClueActivityRelationDao clueActivityRelationDao;
+
+    @Autowired
+    private ContactActivityRelationDao contactActivityRelationDao;
 
     @Autowired
     private PlatformTransactionManager transactionManager;
@@ -89,6 +93,9 @@ public class ActivityServiceImpl implements ActivityService {
 
             //根据市场活动id删除市场活动线索关联关系表中的记录
             clueActivityRelationDao.deleteClueAndActivityRelationByActivityIds(ids);
+
+            //根据市场活动id删除联系人市场活动关联关系
+            contactActivityRelationDao.deleteContactWithActivityRelationByActivityIds(ids);
 
             //删除市场活动
             activityDao.deleteActivityByIds(ids);
